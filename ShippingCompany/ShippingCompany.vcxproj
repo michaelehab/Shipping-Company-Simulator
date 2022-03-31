@@ -143,6 +143,7 @@
     <ClInclude Include="Cargo.h" />
     <ClInclude Include="Company.h" />
     <ClInclude Include="Event.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="PreparationEvent.h" />
     <ClInclude Include="PriorityQueue.h" />
