@@ -7,7 +7,6 @@ class PriorityQueue
 {
 private:
 
-	Node<T>* backPtr;
 	Node<T>* frontPtr;
 	int priority;
 public:
@@ -19,15 +18,13 @@ public:
 	void PrintPriorityQueue() const;  //only to test the PriorityQueue. To be moved later. 
 	~PriorityQueue();
 
-	//copy constructor
-	PriorityQueue(const PriorityQueue<T>& LQ);
 };
 
 
 template <typename T>
 PriorityQueue<T>::PriorityQueue()
 {
-	backPtr = nullptr;
+	
 	frontPtr = nullptr;
 
 }
@@ -50,6 +47,7 @@ bool PriorityQueue<T>::push(const T& newEntry, int p) //p stands for priority
 	if (!frontPtr)
 	{
 		frontPtr = temp;
+		frontPtr->setNext(nullptr);
 	}
 	else if (frontPtr->getPriority() < p)
 	{
@@ -87,8 +85,7 @@ bool PriorityQueue<T>::pop(T& frntEntry)
 	frntEntry = frontPtr->getItem();
 	frontPtr = frontPtr->getNext();
 	// Queue is not empty; remove front
-	if (nodeToDeletePtr == backPtr)	 // Special case: last node in the queue
-		backPtr = nullptr;
+	
 
 	// Free memory reserved for the dequeued node
 	delete nodeToDeletePtr;
@@ -117,30 +114,7 @@ PriorityQueue<T>::~PriorityQueue()
 	while (pop(temp));
 }
 
-template <typename T>
-PriorityQueue<T>::PriorityQueue(const PriorityQueue<T>& LQ)
-{
-	Node<T>* NodePtr = LQ.frontPtr;
-	if (!NodePtr) //LQ is empty
-	{
-		frontPtr = backPtr = nullptr;
-		return;
-	}
 
-	//insert the first node
-	Node<T>* ptr = new Node<T>(NodePtr->getItem());
-	frontPtr = backPtr = ptr;
-	NodePtr = NodePtr->getNext();
-
-	//insert remaining nodes
-	while (NodePtr)
-	{
-		Node<T>* ptr = new Node<T>(NodePtr->getItem());
-		backPtr->setNext(ptr);
-		backPtr = ptr;
-		NodePtr = NodePtr->getNext();
-	}
-}
 
 template <typename T>
 void PriorityQueue<T>::PrintPriorityQueue()	const

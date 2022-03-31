@@ -18,6 +18,15 @@ int main() {
 	q.peek(x);
 	cout <<"Front element is " << x << endl;
 	q.pop(x);
+	q.pop(x);
+	q.pop(x);
+	q.pop(x);
+	q.pop(x);
+	q.PrintPriorityQueue();
+	q.pop(x);
+	q.pop(x);
 	q.PrintPriorityQueue();*/
+
+
 	return 0;
 }
