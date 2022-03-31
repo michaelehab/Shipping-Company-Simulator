@@ -139,19 +139,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CancelEvent.h" />
     <ClInclude Include="Cargo.h" />
     <ClInclude Include="Company.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="LinkedList.h" />
+    <ClInclude Include="PreparationEvent.h" />
     <ClInclude Include="PriorityQueue.h" />
+    <ClInclude Include="PromoteEvent.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="Truck.h" />
     <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CancelEvent.cpp" />
     <ClCompile Include="Cargo.cpp" />
     <ClCompile Include="Company.cpp" />
     <ClCompile Include="Event.cpp" />
+    <ClCompile Include="PreparationEvent.cpp" />
+    <ClCompile Include="PromoteEvent.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="Truck.cpp" />
     <ClCompile Include="UI.cpp" />
