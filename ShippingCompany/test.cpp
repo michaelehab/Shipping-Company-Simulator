@@ -1,5 +1,6 @@
 #include <iostream>
 #include "PriorityQueue.h"
+#include "LinkedList.h"
 using namespace std;
 
 int main() {
@@ -27,6 +28,20 @@ int main() {
 	q.pop(x);
 	q.PrintPriorityQueue();*/
 
+	// Testing the LinkedList
+	/*LinkedList<int> tmp;
+	tmp.ReadList();
+	tmp.printList();
+	tmp.InsertBegin(5);
+	tmp.printList();
+	tmp.InsertEnd(10);
+	tmp.printList();
+	tmp.DeleteNode(5);
+	tmp.printList();
+	tmp.DeleteAll();
+	tmp.InsertBegin(11);
+	tmp.printList();
+	cout << tmp.Contains(11) << ' ' << tmp.Contains(10) << endl;*/
 
 	return 0;
 }
