@@ -128,7 +128,7 @@ T* LinkedList<T>::GetByposition(const T& pos){
 	if (Head){
 		Node<T>* ptr = Head;
 		while (ptr){
-			if (c == pos){
+			if (i == pos){
 				return ptr->getItem();
 			}
 			++i;

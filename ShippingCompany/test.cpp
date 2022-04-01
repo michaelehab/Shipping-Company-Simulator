@@ -1,6 +1,7 @@
 #include <iostream>
 #include "PriorityQueue.h"
 #include "LinkedList.h"
+#include "Truck.h"
 using namespace std;
 
 int main() {
@@ -28,7 +29,7 @@ int main() {
 	q.pop(x);
 	q.PrintPriorityQueue();*/
 
-	// Testing the LinkedList
+	// Testing LinkedList Class
 	/*LinkedList<int> tmp;
 	tmp.ReadList();
 	tmp.printList();
@@ -42,6 +43,8 @@ int main() {
 	tmp.InsertBegin(11);
 	tmp.printList();
 	cout << tmp.Contains(11) << ' ' << tmp.Contains(10) << endl;*/
-
+	// Testing Truck Class
+	/*Truck t('Z', 1, -2, 3, 4);
+	t.printTruck();*/
 	return 0;
 }
