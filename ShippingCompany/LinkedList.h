@@ -124,14 +124,15 @@ bool LinkedList<T>::Contains(const T& value){
 
 template <typename T>
 T* LinkedList<T>::GetByposition(const T& pos){
-	int c = 0;
+	int i = 0;
 	if (Head){
-		Node<T> t = Head;
-		while (!t){
-			c++;
+		Node<T>* ptr = Head;
+		while (ptr){
 			if (c == pos){
-				return t->getItem();
+				return ptr->getItem();
 			}
+			++i;
+			ptr = ptr->getNext();
 		}
 	}
 }
@@ -139,10 +140,10 @@ T* LinkedList<T>::GetByposition(const T& pos){
 template <typename T>
 T* LinkedList<T>::GetByValue(const T& data) {
 	if (Head) {
-		Node<T> t = Head;
-		while (!t) {
-			if (t->getItem() == data) {
-				return t->getItem();
+		Node<T>* ptr = Head;
+		while (ptr) {
+			if (ptr->getItem() == data) {
+				return ptr->getItem();
 			}
 		}
 	}
