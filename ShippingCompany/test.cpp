@@ -41,6 +41,10 @@ int main() {
 	tmp.printList();
 	tmp.DeleteNode(5);
 	tmp.printList();
+	tmp.DeleteNode(10);
+	tmp.printList();
+	tmp.InsertEnd(99);
+	tmp.printList();
 	tmp.DeleteAll();
 	tmp.InsertBegin(11);
 	tmp.printList();

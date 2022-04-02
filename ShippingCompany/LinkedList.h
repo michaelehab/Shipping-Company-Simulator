@@ -7,7 +7,7 @@ template <typename T>
 class LinkedList {
 private:
 	Node<T>* Head;
-
+	Node<T>* Tail;
 public:
 	LinkedList(); // Constructor
 	void printList() const; // prints the LinkedList
@@ -57,15 +57,14 @@ void LinkedList<T>::ReadList(){
 // O(n)
 template <typename T>
 void LinkedList<T>::InsertEnd(const T& data){
-	Node<T>* R = new Node<T>(data);
-	if (!Head){
-		Head = R;
+	Node<T>* ptr = new Node<T>(data);
+	if (!Head) {
+		Head = ptr;
+		Tail = ptr;
 	}
-	else{
-		Node<T>* p = Head;
-		while (p->getNext())
-			p = p->getNext();
-		p->setNext(R);
+	else {
+		Tail->setNext(ptr);
+		Tail = ptr;
 	}
 }
 
@@ -108,6 +107,7 @@ bool LinkedList<T>::DeleteNode(const T& value){
 		ptr = ptr->getNext();
 	}
 	if (ptr == NULL) return false;
+	if (ptr == Tail) Tail = prev;
 	prev->setNext(ptr->getNext());
 	delete ptr;
 	return true;
