@@ -2,6 +2,8 @@
 #include "PriorityQueue.h"
 #include "LinkedList.h"
 #include "Truck.h"
+#include "Event.h"
+#include "Cargo.h"
 using namespace std;
 
 int main() {
@@ -46,5 +48,6 @@ int main() {
 	// Testing Truck Class
 	/*Truck t('Z', 1, -2, 3, 4);
 	t.printTruck();*/
+	
 	return 0;
 }

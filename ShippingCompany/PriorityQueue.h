@@ -71,8 +71,9 @@ bool PriorityQueue<T>::push(const T& newEntry, int p) //p stands for priority
 		// or at required position
 		temp->setNext( start->getNext());
 		start->setNext(temp);
-		return true;
+		
 	}
+	return true;
 }
 
 template <typename T>

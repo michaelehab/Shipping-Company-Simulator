@@ -1,46 +1,79 @@
 #include "Cargo.h"
 #include<iostream>
 using namespace std;
-Time::Time(int h=0, int d=0)
+Cargo::Cargo()
 {
-	set_time( h, d);
+
 }
 
-void Time::set_H(int h)
+
+void Cargo::set_H(int h)
 {
 	if (h > 0)
 		hour = h;
 	else cout << "Please enter positive number" << endl;
 }
 
-void Time::set_D(int d)
+void Cargo::set_D(int d)
 {
 	if (d > 0)
 		day = d;
 	else cout << "Please enter positive number" << endl;
 }
 
-void Time::set_time(int h, int d)
-{
-	set_D(d);
-	set_H(h);
-}
 
-int Time::get_d()
+int Cargo::get_d()
 {
 	return day;
 }
 
-int Time::get_h()
+int Cargo::get_h()
 {
 	return hour;
 }
 
-void Time::print_time()
-{
-	cout << "the Time is ( " << get_d() << " : " << get_h() << " )" << endl;
-}
+
 int Cargo::get_id()
 {
 	return ID;
+}
+void Cargo::SetCargoT(char T)
+{
+	
+}
+void Cargo::set_cost(double c)
+{
+
+}
+void Cargo::set_LoadTime(int LT)
+{
+
+}
+void Cargo::setDel_dis(double dis)
+{
+
+}
+void Cargo::set_prepTime()
+{
+
+}
+void Cargo::set_id(int id)
+{
+
+}
+char Cargo::getCargoT()
+{
+	return cargo_type;
+}
+double Cargo::get_cost()
+{
+	return Cost;
+}
+int  Cargo::get_LoadTime()
+{
+	return Load_Time;
+}
+double Cargo::getDel_dis()
+{
+	return Del_dis;
 }

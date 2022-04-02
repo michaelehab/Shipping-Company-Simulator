@@ -7,8 +7,8 @@ using namespace std;
 template <class T>
 class LinkedQueue {
 	
-	Node* Fptr;
-	Node* Bptr;
+	Node<T>* Fptr;
+	Node<T>* Bptr;
 
 public:
 	LinkedQueue()
@@ -68,10 +68,10 @@ bool LinkedQueue<T>::deQueue(T& Fdata)
 template <typename T>
 bool LinkedQueue<T>::peek(T& Fdata) const
 {
-	if (isEmpty())
+	if (IsEmpty())
 		return false;
 
-	frntEntry = frontPtr->getItem();
+	Fdata = Fptr->getItem();
 	return true;
 
 }
@@ -88,7 +88,7 @@ LinkedQueue<T>::LinkedQueue(const LinkedQueue<T>& LQ)
 	Node<T>* NodePtr = LQ.frontPtr;
 	if (!NodePtr) //LQ is empty
 	{
-		frontPtr = backPtr = nullptr;
+		Fptr = Bptr = nullptr;
 		return;
 	}
 
@@ -101,8 +101,8 @@ LinkedQueue<T>::LinkedQueue(const LinkedQueue<T>& LQ)
 	while (NodePtr)
 	{
 		Node<T>* ptr = new Node<T>(NodePtr->getItem());
-		backPtr->setNext(ptr);
-		backPtr = ptr;
+		Bptr->setNext(ptr);
+		Bptr = ptr;
 		NodePtr = NodePtr->getNext();
 	}
 }
