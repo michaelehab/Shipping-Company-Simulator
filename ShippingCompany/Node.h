@@ -14,7 +14,7 @@ public:
 	void setPriority(int pr);
 	void setItem(const T& r_Item);
 	void setNext(Node<T>* nextNodePtr);
-	T getItem() const;
+	T& getItem();
 	Node<T>* getNext() const;
 	int getPriority() const;
 }; // end Node
@@ -60,7 +60,7 @@ void Node<T>::setPriority(int pr)
 }
 
 template < typename T>
-T Node<T>::getItem() const
+T& Node<T>::getItem()
 {
 	return item;
 }

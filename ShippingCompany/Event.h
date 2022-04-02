@@ -17,7 +17,7 @@ class Event
 	double Em;   //extra money for promotion
 public:
 
-	virtual void Execute() = 0;   //executes the event in the derived classes
+	virtual bool Execute() {};   //executes the event in the derived classes
 
 	//Setters
 	bool setEt(int d, int h);     //sets the event time

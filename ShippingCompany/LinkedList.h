@@ -1,5 +1,6 @@
 #pragma once
 #include "Node.h"
+#include <iostream>
 using namespace std;
 
 template <typename T>
@@ -14,10 +15,12 @@ public:
 	void InsertEnd(const T&); // Inserts an element at the end of the LinkedList
 	void InsertBegin(const T&); // Inserts an element at the beginning of the LinkedList
 	void DeleteAll(); // Deletes all the LinkedList Nodes
-	bool DeleteNode(const T&); // Deletes a specific Node
+	bool DeleteNode(const T&); // Searches for a node then Deletes it
+	bool DeleteNodeOfPtr(Node<T>*, Node<T>*); //Deletes the Node of poiner ptr
 	bool Contains(const T&); // Checks whether the LinkedList contains a specific element
 	T* GetByposition(const T&); // Gets the element by its position (index)
 	T* GetByValue(const T&); // Gets the element by its value
+	Node<T>* GetHeadptr() const;
 	~LinkedList(); // Destructor
 };
 
@@ -147,4 +150,25 @@ T* LinkedList<T>::GetByValue(const T& data) {
 			}
 		}
 	}
+}
+template <typename T>
+Node<T>* LinkedList<T>::GetHeadptr() const
+{
+	return Head;
+}
+template <typename T>
+bool LinkedList<T>::DeleteNodeOfPtr(Node<T>* prev, Node<T>*ptr)
+{
+	if (prev==NULL && ptr != NULL ) {
+		Head = ptr->getNext();
+		delete ptr;
+		return true;
+	}
+	else if(prev !=NULL && ptr != NULL)
+	{
+		prev->setNext(ptr->getNext());
+		delete ptr;
+		return true;
+	}
+	return false;
 }

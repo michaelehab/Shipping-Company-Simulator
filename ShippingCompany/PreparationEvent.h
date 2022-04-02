@@ -4,6 +4,6 @@ class PreparationEvent :
     public Event
 {
 public:
-    void Execute();
+    bool Execute();
 };
 

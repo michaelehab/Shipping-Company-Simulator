@@ -38,5 +38,9 @@ int Time::get_h()
 
 void Time::print_time()
 {
-	cout << "the Time is ( " << get_d() << " : " << get_h << " )" << endl;
+	cout << "the Time is ( " << get_d() << " : " << get_h() << " )" << endl;
+}
+int Cargo::get_id()
+{
+	return ID;
 }
