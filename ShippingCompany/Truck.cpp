@@ -3,12 +3,11 @@
 
 using namespace std;
 
-Truck::Truck(char t, int tc, int checktime, int s, int di) {
+Truck::Truck(char t, int tc, int checktime, int s) {
 	setType(t);
 	setTC(tc);
 	setCheckupTime(checktime);
 	setSpeed(s);
-	setDI(di);
 }
 
 // Getters

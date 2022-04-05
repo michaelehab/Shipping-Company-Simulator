@@ -1,17 +1,17 @@
 #pragma once
 // Done by EA
-#include<iostream>
-#include"Node.h"
+#include <iostream>
+#include "Node.h"
 using namespace std;
 
 template <class T>
-class LinkedQueue {
+class Queue {
 	
 	Node<T>* Fptr;
 	Node<T>* Bptr;
 
 public:
-	LinkedQueue()
+	Queue()
 	{
 		Fptr = nullptr;
 		Bptr = nullptr;
@@ -22,15 +22,15 @@ public:
 			return true;
 		else return false;
 	}
-	bool enQueue(const T& nData);
-	bool deQueue(T& Fdata);
+	bool enqueue(const T& nData);
+	bool dequeue(T& Fdata);
 	bool peek(T& Fdata) const;
-	LinkedQueue(const LinkedQueue<T>& LQ);
-	~LinkedQueue();
+	Queue(const Queue<T>& LQ);
+	~Queue();
 
 };
 template<class T>
-bool LinkedQueue<T>:: enQueue(const T& nData)
+bool Queue<T>:: enqueue(const T& nData)
 {
 	Node<T>* newNode = new Node<T>;
 	if (IsEmpty())
@@ -47,7 +47,7 @@ bool LinkedQueue<T>:: enQueue(const T& nData)
 	return true;
 }
 template<class T>
-bool LinkedQueue<T>::deQueue(T& Fdata)
+bool Queue<T>::dequeue(T& Fdata)
 {
 	Node<T>* currPtr;
 	if (IsEmpty())
@@ -66,7 +66,7 @@ bool LinkedQueue<T>::deQueue(T& Fdata)
 }
 
 template <typename T>
-bool LinkedQueue<T>::peek(T& Fdata) const
+bool Queue<T>::peek(T& Fdata) const
 {
 	if (IsEmpty())
 		return false;
@@ -76,14 +76,14 @@ bool LinkedQueue<T>::peek(T& Fdata) const
 
 }
 template <class T>
-LinkedQueue<T>::~LinkedQueue()
+Queue<T>::~Queue()
 {
 	T temp;
 	while (deQueue(temp));
 }
 
 template <typename T>
-LinkedQueue<T>::LinkedQueue(const LinkedQueue<T>& LQ)
+Queue<T>::Queue(const Queue<T>& LQ)
 {
 	Node<T>* NodePtr = LQ.frontPtr;
 	if (!NodePtr) //LQ is empty

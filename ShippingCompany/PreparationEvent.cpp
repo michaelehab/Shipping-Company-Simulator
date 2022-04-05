@@ -6,9 +6,9 @@ bool PreparationEvent::Execute(Event& e, LinkedList<Cargo>& list)
 	return true;
 	
 }
-bool PreparationEvent::Execute(Event& e, LinkedQueue<Cargo>& queue)
+bool PreparationEvent::Execute(Event& e, Queue<Cargo>& queue)
 {
-  queue.enQueue(CI_Cargo(e));
+  queue.enqueue(CI_Cargo(e));
  return true;
 }
 bool PreparationEvent::Execute(Event& e, PriorityQueue<Cargo>& PQ,int p)

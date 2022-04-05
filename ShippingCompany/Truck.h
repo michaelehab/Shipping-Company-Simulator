@@ -8,7 +8,7 @@ class Truck{
 	int speed; // The truck speed
 	int DI; // Delivery Interval
 public:
-	Truck(char, int, int, int, int); // Constructor
+	Truck(char, int, int, int); // Constructor
 	void printTruck() const; // Prints the truck details
 	char getType() const; // Returns the truck type
 	void setType(char&); // Sets the truck type
