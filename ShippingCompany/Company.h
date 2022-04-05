@@ -52,5 +52,10 @@ class Company
 	has been waiting for MaxW hours(or more), such cargo should be immediately
 	loaded and moved to its destination.*/
 	int maxW;
+
+	int numOfEvents;
+
+public:
+	void loadFile();
 };
 
