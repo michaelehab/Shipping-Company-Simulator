@@ -1,33 +1,33 @@
 #include "PreparationEvent.h"
-bool PreparationEvent::Execute(Event& e, LinkedList<Cargo>& list)
+bool PreparationEvent::Execute(Event* e, LinkedList<Cargo*>* list)
 {
 	
-	list.InsertEnd(CI_Cargo(e));
+	list->InsertEnd(CI_Cargo(e));
 	return true;
 	
 }
-bool PreparationEvent::Execute(Event& e, Queue<Cargo>& queue)
+bool PreparationEvent::Execute(Event* e, Queue<Cargo*>* queue)
 {
-  queue.enqueue(CI_Cargo(e));
+  queue->enqueue(CI_Cargo(e));
  return true;
 }
-bool PreparationEvent::Execute(Event& e, PriorityQueue<Cargo>& PQ,int p)
+bool PreparationEvent::Execute(Event* e, PriorityQueue<Cargo*>* PQ,int p)
 {
-	PQ.push(CI_Cargo(e),p);
+	PQ->push(CI_Cargo(e),p);
 	return true;
 }
-Cargo& PreparationEvent::CI_Cargo(Event& e)
+Cargo* PreparationEvent::CI_Cargo(Event* e)
 {
 	Cargo* ptr = new Cargo();
-	ptr->set_id(e.getId());
-	ptr->SetCargoT(e.getCtype());
-	ptr->setDel_dis(e.getdist());
-	ptr->set_cost(e.getcost());
+	ptr->set_id(e->getId());
+	ptr->SetCargoT(e->getCtype());
+	ptr->setDel_dis(e->getdist());
+	ptr->set_cost(e->getcost());
 	int d, h;
-	e.getEt(d, h);
+	e->getEt(d, h);
 	ptr->set_D(d);
 	ptr->set_H(h);
-	ptr->set_LoadTime(e.getLd());
-	return *ptr;
+	ptr->set_LoadTime(e->getLd());
+	return ptr;
 
 }
