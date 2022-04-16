@@ -6,6 +6,6 @@ class CancelEvent :
     public Event
 {
 public:
-    bool Execute(int id,LinkedList<Cargo>& list);
+    bool Execute(int id,LinkedList<Cargo*>* list);
 };
 

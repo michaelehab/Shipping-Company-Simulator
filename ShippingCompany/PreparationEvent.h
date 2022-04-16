@@ -8,9 +8,9 @@ class PreparationEvent :
     public Event
 {
 public:
-    bool Execute(Event& e,LinkedList<Cargo>& list);
-    bool Execute(Event& e, Queue<Cargo>& queue);
-    bool Execute(Event& e, PriorityQueue<Cargo>& PQ, int p);
-    Cargo& CI_Cargo(Event& e);
+    bool Execute(Event* e,LinkedList<Cargo*>* list);
+    bool Execute(Event* e, Queue<Cargo*>* queue);
+    bool Execute(Event* e, PriorityQueue<Cargo*>* PQ, int p);
+    Cargo* CI_Cargo(Event* e);
 };
 
