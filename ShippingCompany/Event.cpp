@@ -17,7 +17,7 @@ bool Event::setEtype(char e)		  //sets the event type
 	}
 	return 0;
 }
-bool Event::setId(int i)			// sets the cargo id
+bool Event::setID(int i)			// sets the cargo id
 {
 	if (id > 0)
 	{
@@ -77,7 +77,7 @@ char Event::getEtype() const      //gets the event type
 {
 	return Etype;
 }
-int Event::getId() const			//gets the cargo id
+int Event::getID() const			//gets the cargo id
 {
 	return id;
 }

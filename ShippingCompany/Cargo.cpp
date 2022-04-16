@@ -33,46 +33,56 @@ int Cargo::get_h()
 }
 
 
-int Cargo::get_id()
+int Cargo::getID()
 {
 	return ID;
 }
+
 void Cargo::SetCargoT(char T)
 {
 	
 }
+
 void Cargo::set_cost(double c)
 {
 
 }
+
 void Cargo::set_LoadTime(int LT)
 {
 
 }
+
 void Cargo::setDel_dis(double dis)
 {
 
 }
+
 void Cargo::set_prepTime()
 {
 
 }
-void Cargo::set_id(int id)
+
+void Cargo::setID(int id)
 {
 
 }
+
 char Cargo::getCargoT()
 {
 	return cargo_type;
 }
+
 double Cargo::get_cost()
 {
 	return Cost;
 }
+
 int  Cargo::get_LoadTime()
 {
 	return Load_Time;
 }
+
 double Cargo::getDel_dis()
 {
 	return Del_dis;

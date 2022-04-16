@@ -5,7 +5,7 @@ bool CancelEvent::Execute(int id, LinkedList<Cargo*>* list)
 	Node<Cargo*>* ptr = list->GetHeadptr();
 	while (ptr)
 	{
-		if ((ptr->getItem())->get_id() == id)
+		if ((ptr->getItem())->getID() == id)
 			return list->DeleteNodeOfPtr(prev, ptr);
 		prev = ptr;
 		ptr = ptr->getNext();

@@ -19,7 +19,7 @@ bool PreparationEvent::Execute(Event* e, PriorityQueue<Cargo*>* PQ,int p)
 Cargo* PreparationEvent::CI_Cargo(Event* e)
 {
 	Cargo* ptr = new Cargo();
-	ptr->set_id(e->getId());
+	ptr->setID(e->getID());
 	ptr->SetCargoT(e->getCtype());
 	ptr->setDel_dis(e->getdist());
 	ptr->set_cost(e->getcost());

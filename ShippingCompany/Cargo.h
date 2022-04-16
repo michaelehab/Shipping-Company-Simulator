@@ -23,8 +23,8 @@ public:
 	double get_cost();
 	int  get_LoadTime();
 	double getDel_dis();
-	void set_id(int id);
-	int get_id();
+	void setID(int id);
+	int getID();
 	int get_d();
 	int get_h();
 };

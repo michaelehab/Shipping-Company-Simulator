@@ -22,7 +22,7 @@ public:
 	//Setters
 	bool setEt(int d, int h);     //sets the event time
 	bool setEtype(char e);		  //sets the event type
-	bool setId(int i);			// sets the cargo id
+	bool setID(int i);			// sets the cargo id
 	bool setCtype(char c);		//sets the cargo type
 	bool setdist(double d);		//sets the cargo distance
 	bool setLd(int l);			//sets the loading/unloading time of the cargo
@@ -32,7 +32,7 @@ public:
 	//Getters
 	void getEt(int& d, int& h) const; //gets the event time
 	char getEtype() const;      //gets the event type
-	int getId() const;			//gets the cargo id
+	int getID() const;			//gets the cargo id
 	char getCtype() const;      //gets the cargo type
 	double getdist() const;     //gets the cargo distance
 	int getLd() const;			//gets the loading/unloading time of the cargo
