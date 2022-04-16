@@ -1,14 +1,15 @@
 #pragma once
 
 class Truck{
-
+	int ID;
 	char type; // Indicates the truck type
 	int TC; // Truck Capacity
 	int checkupTime; // The truck maintenance (checkup) time
 	int speed; // The truck speed
 	int DI; // Delivery Interval
+
 public:
-	Truck(char, int, int, int); // Constructor
+	Truck(int, char, int, int, int); // Constructor
 	void printTruck() const; // Prints the truck details
 	char getType() const; // Returns the truck type
 	void setType(char&); // Sets the truck type
@@ -21,6 +22,8 @@ public:
 	void setSpeed(int&); // Sets the truck speed
 	int getDI() const; // Returns the delivery interval
 	void setDI(int&); // Sets the delivery interval
+	void setID(int&); // Sets the truck ID
+	int getID() const; // Returns the truck ID
 	//~Truck(); No dynamic allocation so we'll use default destructor
 };
 

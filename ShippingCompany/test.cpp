@@ -50,8 +50,8 @@ int main() {
 	tmp.printList();
 	cout << tmp.Contains(11) << ' ' << tmp.Contains(10) << endl;*/
 	// Testing Truck Class
-	/*Truck t('Z', 1, -2, 3, 4);
-	t.printTruck();*/
+	Truck t(2, 'Z', 1, -2, 4);
+	t.printTruck();
 	
 	return 0;
 }

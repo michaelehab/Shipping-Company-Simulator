@@ -3,7 +3,8 @@
 
 using namespace std;
 
-Truck::Truck(char t, int tc, int checktime, int s) {
+Truck::Truck(int id, char t, int tc, int checktime, int s) {
+	setID(id);
 	setType(t);
 	setTC(tc);
 	setCheckupTime(checktime);
@@ -30,6 +31,10 @@ int Truck::getSpeed() const {
 
 int Truck::getDI() const {
 	return DI;
+}
+
+int Truck::getID() const {
+	return ID;
 }
 
 // Setters
@@ -59,6 +64,10 @@ void Truck::setDI(int& n) {
 	DI = (n >= 0) ? n : 0;
 }
 
+void Truck::setID(int& id) {
+	ID = id;
+}
+
 // Utility 
 
 bool Truck::belongsTo(char& c) {
@@ -67,6 +76,7 @@ bool Truck::belongsTo(char& c) {
 
 void Truck::printTruck() const {
 	cout << "Truck :\n";
+	cout << "ID : " << getID() << '\n';
 	cout << "Type : " << getType() << '\n';
 	cout << "TC : " << getTC() << '\n';
 	cout << "Checkup Time : " << getCheckupTime() << '\n';
