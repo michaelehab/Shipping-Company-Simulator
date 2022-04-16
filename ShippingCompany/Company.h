@@ -20,8 +20,7 @@
 
 using namespace std;
 
-class Company
-{
+class Company{
 	Queue<Event*>* Events;
 
 	PriorityQueue<Cargo*>* VIPCargos;
@@ -42,9 +41,13 @@ class Company
 	Queue<Truck*>* NormalTrucks;
 	Queue<Truck*>* InCheckupNormalTrucks;
 
+	Queue<Truck*>* LoadingTrucks;
+	Queue<Truck*>* MovingTrucks;
+
 	int numOfNormalTrucks, numOfSpecialTrucks, numOfVIPTrucks;
 	int speedOfNormalTrucks, speedOfSpecialTrucks, speedOfVIPTrucks;
 	int capOfNormalTrucks, capOfSpecialTrucks, capOfVIPTrucks;
+
 	// The number of journeys the truck completes before performing a checkup
 	int J;
 
@@ -54,9 +57,9 @@ class Company
 	// is automatically promoted to a VIP cargo.
 	int autoP;
 
-	/*If there is an available truck that is suitable for a cargo that
-	has been waiting for MaxW hours(or more), such cargo should be immediately
-	loaded and moved to its destination.*/
+	// If there is an available truck that is suitable for a cargo that
+	// has been waiting for MaxW hours(or more), such cargo should be immediately
+	// loaded and moved to its destination.
 	int maxW;
 
 	int numOfEvents;
