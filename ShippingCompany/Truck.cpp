@@ -83,3 +83,9 @@ void Truck::printTruck() const {
 	cout << "Speed : " << getSpeed() << '\n';
 	cout << "DI : " << getDI() << '\n';
 }
+
+Cargo* Truck::unloadCargo() {
+	Cargo* tmp;
+	if(loadedCargos.dequeue(tmp)) return tmp;
+	return 0;
+}

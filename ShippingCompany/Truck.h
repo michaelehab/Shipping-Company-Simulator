@@ -1,4 +1,6 @@
 #pragma once
+#include "Queue.h"
+#include "Cargo.h"
 
 class Truck{
 	int ID;
@@ -6,8 +8,8 @@ class Truck{
 	int TC; // Truck Capacity
 	int checkupTime; // The truck maintenance (checkup) time
 	int speed; // The truck speed
-	int DI; // Delivery Interval
-
+	int DI = 0; // Delivery Interval
+	Queue<Cargo*> loadedCargos; // Queue contains pointers to the loaded cargos
 public:
 	Truck(int, char, int, int, int); // Constructor
 	void printTruck() const; // Prints the truck details
@@ -24,6 +26,7 @@ public:
 	void setDI(int&); // Sets the delivery interval
 	void setID(int&); // Sets the truck ID
 	int getID() const; // Returns the truck ID
+	Cargo* unloadCargo(); // Dequeues the first cargo and returns a ptr to it
 	//~Truck(); No dynamic allocation so we'll use default destructor
 };
 

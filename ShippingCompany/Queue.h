@@ -52,7 +52,6 @@ bool Queue<T>::dequeue(T& Fdata)
 	Node<T>* currPtr;
 	if (IsEmpty())
 	{
-		cout << "Queue is empty" << endl;
 		return false;
 	}
 	else
@@ -79,7 +78,7 @@ template <class T>
 Queue<T>::~Queue()
 {
 	T temp;
-	while (deQueue(temp));
+	while (dequeue(temp));
 }
 
 template <typename T>
