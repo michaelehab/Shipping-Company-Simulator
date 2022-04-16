@@ -23,9 +23,15 @@ using namespace std;
 class Company
 {
 	Queue<Event*>* Events;
+
 	PriorityQueue<Cargo*>* VIPCargos;
+	Queue<Cargo*>* DeliveredVIPCargos;
+
 	Queue<Cargo*>* SpecialCargos;
+	Queue<Cargo*>* DeliveredSpecialCargos;
+
 	LinkedList<Cargo*>* NormalCargos;
+	Queue<Cargo*>* DeliveredNormalCargos;
 
 	Queue<Truck*>* VIPTrucks;
 	Queue<Truck*>* InCheckupVIPTrucks;
