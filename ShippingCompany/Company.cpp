@@ -37,6 +37,31 @@ void Company::loadFile() {
 	inputFile >> autoP;
 	inputFile >> maxW;
 
-	inputFile >> numOfEvents;
-	// TODO : Loading each event type
+	/*inputFile >> numOfEvents;
+	for (int i = 0; i < numOfEvents; i++) {
+		char eventType;
+		inputFile >> eventType;
+		if (eventType == 'R') {
+			char type;
+			double dist, cost;
+			int lt, id;
+			string ET, d, h;
+			inputFile >> type >> ET >> id >> dist >> lt >> cost;
+
+			int j = 0;
+			while (ET[j] != ':') {
+				d += ET[j];
+			}
+
+			j++;
+			while (j < ET.length()) {
+				h += ET[j];
+			}
+
+			int day = stoi(d), hour = stoi(h);
+
+			Event* tmp = new PreparationEvent();
+
+		}
+	}*/
 }
