@@ -48,6 +48,8 @@ void Company::loadFile() {
 			string ET, d, h;
 			inputFile >> type >> ET >> id >> dist >> lt >> cost;
 
+			// Converting the Day:Hour string to two separated int variables
+
 			int j = 0;
 			while (ET[j] != ':') {
 				d += ET[j];
@@ -60,8 +62,49 @@ void Company::loadFile() {
 
 			int day = stoi(d), hour = stoi(h);
 
-			Event* tmp = new PreparationEvent();
+			Event* tmp = new PreparationEvent(i + 1, day, hour, eventType, type, dist, lt, cost);
+			Events->enqueue(tmp);
+		}
+		else if (eventType == 'X') {
+			int id;
+			string ET, d, h;
 
+			inputFile >> ET >> id;
+
+			int j = 0;
+			while (ET[j] != ':') {
+				d += ET[j];
+			}
+
+			j++;
+			while (j < ET.length()) {
+				h += ET[j];
+			}
+
+			int day = stoi(d), hour = stoi(h);
+			Event* tmp = new CancelEvent(id, day, hour, eventType);
+			Events->enqueue(tmp);
+		}
+		else if (eventType == 'P') {
+			int id;
+			double extramoney;
+			string ET, d, h;
+
+			inputFile >> ET >> id >> extramoney;
+
+			int j = 0;
+			while (ET[j] != ':') {
+				d += ET[j];
+			}
+
+			j++;
+			while (j < ET.length()) {
+				h += ET[j];
+			}
+
+			int day = stoi(d), hour = stoi(h);
+			Event* tmp = new PromoteEvent(id, day, hour, eventType, extramoney);
+			Events->enqueue(tmp);
 		}
 	}*/
 }
