@@ -78,6 +78,9 @@ int main() {
 	car.enqueue(10);
 	car.dequeue(x);
 	car.enqueue(10);
+	car.enqueue(10);
+	car.enqueue(10);
+	car.enqueue(10);
 	car.print();
 	return 0;
 }

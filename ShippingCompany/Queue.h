@@ -18,13 +18,14 @@ public:
 	}
 	bool IsEmpty()  const
 	{
-		if (Fptr == nullptr && Bptr == nullptr)
+		if (Fptr == nullptr )
 			return true;
 		else return false;
 	}
 	bool enqueue(const T& nData);
 	bool dequeue(T& Fdata);
 	bool peek(T& Fdata) const;
+	void print();
 	Queue(const Queue<T>& LQ);
 	~Queue();
 
@@ -33,6 +34,7 @@ template<class T>
 bool Queue<T>:: enqueue(const T& nData)
 {
 	Node<T>* newNode = new Node<T>;
+	newNode->setItem(nData);
 	if (IsEmpty())
 	{
 		Fptr = newNode;
@@ -49,18 +51,17 @@ bool Queue<T>:: enqueue(const T& nData)
 template<class T>
 bool Queue<T>::dequeue(T& Fdata)
 {
-	Node<T>* currPtr;
+	
 	if (IsEmpty())
 	{
 		return false;
 	}
-	else
-	{
-		currPtr = Fptr;
-		Fdata = currPtr->getItem();
+		Node<T>* oldHead = Fptr;
+		T oldData = oldHead->getItem();
 		Fptr = Fptr->getNext();
-		delete currPtr;
-	}
+		
+		delete oldHead;
+	
 	return true;
 }
 
@@ -80,11 +81,29 @@ Queue<T>::~Queue()
 	T temp;
 	while (dequeue(temp));
 }
+template <class T>
+void Queue<T>::print()
+{
+	Node<T>* temp = Fptr;
+	if (IsEmpty())
+	{
+		cout << "IS empty" << endl;
+		return;
+	}
+	cout << "( "<< temp->getItem();
+	temp = temp->getNext();
+	while (temp)
+	{
+		cout << " , " << temp->getItem() ;
 
+		temp = temp->getNext();
+	}
+	cout << ")";
+}
 template <typename T>
 Queue<T>::Queue(const Queue<T>& LQ)
 {
-	Node<T>* NodePtr = LQ.frontPtr;
+	Node<T>* NodePtr = LQ.Fptr;
 	if (!NodePtr) //LQ is empty
 	{
 		Fptr = Bptr = nullptr;
