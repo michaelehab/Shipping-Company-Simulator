@@ -1,9 +1,11 @@
 #include "CancelEvent.h"
+
 CancelEvent::CancelEvent()
 {
 
 }
-CancelEvent::CancelEvent(int id, int day, int hour, char Etype):Event(id,day,hour,Etype)
+CancelEvent::CancelEvent(int id, int day, int hour, char Etype, Company* ptr)
+	:Event(id,day,hour,Etype,ptr)
 {
 
 }

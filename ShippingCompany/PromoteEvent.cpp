@@ -1,10 +1,13 @@
 #include "PromoteEvent.h"
+
 PromoteEvent::PromoteEvent()
 {
 
 }
-PromoteEvent::PromoteEvent(int id, int day, int hour, char Etype, double Em):Event(id,day,hour,Etype)
+PromoteEvent::PromoteEvent(int id, int day, int hour, char Etype, double Em, Company* ptr)
+	:Event(id,day,hour,Etype,ptr)
 {
+	
 	setEm(Em);
 }
 bool PromoteEvent::setEm(double e)		//sets the extra money for promotion
@@ -19,4 +22,8 @@ bool PromoteEvent::setEm(double e)		//sets the extra money for promotion
 double PromoteEvent::getEm() const		//gets the extra money for promotion
 {
 	return Em;
+}
+bool PromoteEvent::Execute()
+{
+	return 1;
 }

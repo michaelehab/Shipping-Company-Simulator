@@ -10,17 +10,17 @@
 #include "Queue.h"
 #include "LinkedList.h"
 
-#include "Event.h"
-#include "PreparationEvent.h"
-#include "CancelEvent.h"
-#include "PromoteEvent.h"
+
 
 #include "Cargo.h"
 #include "Truck.h"
-
+class Event;
+class PreparationEvent;
+class CancelEvent;
+class PromoteEvent;
 using namespace std;
 
-class Company{
+class Company {
 	Queue<Event*>* Events;
 
 	PriorityQueue<Cargo*>* VIPCargos;
@@ -65,6 +65,7 @@ class Company{
 	int numOfEvents;
 
 public:
+	Company();
 	void loadFile();
 };
 

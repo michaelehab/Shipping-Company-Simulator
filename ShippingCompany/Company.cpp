@@ -1,4 +1,12 @@
 #include "Company.h"
+#include "Event.h"
+#include "PreparationEvent.h"
+#include "CancelEvent.h"
+#include "PromoteEvent.h"
+Company::Company()
+{
+
+}
 
 void Company::loadFile() {
 	ifstream inputFile("Input.txt", ios::in);
@@ -18,7 +26,8 @@ void Company::loadFile() {
 	inputFile >> normalCheckupDuration;
 	inputFile >> specialCheckupDuration;
 	inputFile >> VIPCheckupDuration;
-
+	
+	
 	for (int i = 0; i < numOfNormalTrucks; i++) {
 		Truck* loadedTruck = new Truck(i + 1, 'N', capOfNormalTrucks, normalCheckupDuration, speedOfNormalTrucks);
 		NormalTrucks->enqueue(loadedTruck);

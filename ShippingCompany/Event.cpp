@@ -1,13 +1,15 @@
 #include "Event.h"
+
 Event::Event()
 {
 
 }
-Event::Event(int id, int day, int hour, char Etype)
+Event::Event(int id, int day, int hour, char Etype,Company* ptr)
 {
 	setID(id);
 	setEtype(Etype);
 	setEt(day, hour);
+	setCompanyptr(ptr);
 }
 bool Event::setEt(int d, int h)    //sets the event time
 {
@@ -35,6 +37,11 @@ bool Event::setID(int i)			// sets the cargo id
 	}
 	return 0;
 }
+void Event::setCompanyptr(Company* ptr)    //sets the company pointer
+{
+	c = ptr;
+}
+
 
 
 //Getters

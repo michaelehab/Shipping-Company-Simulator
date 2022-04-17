@@ -1,9 +1,6 @@
 #pragma once
 #include "Event.h"
-#include "LinkedList.h"
-#include "PriorityQueue.h"
-#include "Queue.h"
-#include "Cargo.h"
+
 class PreparationEvent :
     public Event
 {
@@ -14,12 +11,12 @@ class PreparationEvent :
     double cost;  //cargo cost
 public:
     PreparationEvent();
-    PreparationEvent(int id, int day, int hour, char Etype, char ctype, int dist, int ld, double cost);
+    PreparationEvent(int id, int day, int hour, char Etype, char ctype, int dist, int ld, double cost,Company * ptr);
 
-    bool Execute(PreparationEvent* e,LinkedList<Cargo*>* list);
-    bool Execute(PreparationEvent* e, Queue<Cargo*>* queue);
-    bool Execute(PreparationEvent* e, PriorityQueue<Cargo*>* PQ, int p);
-    Cargo* CI_Cargo(PreparationEvent* e);
+    bool Execute(LinkedList<Cargo*>* list);
+    bool Execute(Queue<Cargo*>* queue);
+    bool Execute(PriorityQueue<Cargo*>* PQ, int p);
+    Cargo* CI_Cargo();
 
     bool setCtype(char c);		//sets the cargo type
     bool setdist(double d);		//sets the cargo distance

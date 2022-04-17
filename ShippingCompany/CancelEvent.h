@@ -1,13 +1,12 @@
 #pragma once
 #include "Event.h"
-#include "LinkedList.h"
-#include "Cargo.h"
+
 class CancelEvent :
     public Event
 {
 public:
     CancelEvent();
-    CancelEvent(int id, int day, int hour, char Etype);
+    CancelEvent(int id, int day, int hour, char Etype, Company* ptr);
     bool Execute(int id,LinkedList<Cargo*>* list);
 };
 

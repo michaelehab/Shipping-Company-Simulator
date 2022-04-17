@@ -1,45 +1,47 @@
 #include "PreparationEvent.h"
+
+
 PreparationEvent::PreparationEvent()
 {
 
 }
-PreparationEvent::PreparationEvent(int id, int day, int hour, char Etype, char ctype, int dist, int ld, double cost)
-	:Event(id,day,hour,Etype)
+PreparationEvent::PreparationEvent(int id, int day, int hour, char Etype, char ctype, int dist,
+	int ld,double cost, Company* ptr):Event(id,day,hour,Etype,ptr)
 {
 	setCtype(ctype);
 	setdist(dist);
 	setcost(cost);
 	setLd(ld);
 }
-bool PreparationEvent::Execute(PreparationEvent* e, LinkedList<Cargo*>* list)
+bool PreparationEvent::Execute(LinkedList<Cargo*>* list)
 {
 	
-	list->InsertEnd(CI_Cargo(e));
+	list->InsertEnd(CI_Cargo());
 	return true;
 	
 }
-bool PreparationEvent::Execute(PreparationEvent* e, Queue<Cargo*>* queue)
+bool PreparationEvent::Execute(Queue<Cargo*>* queue)
 {
-  queue->enqueue(CI_Cargo(e));
+  queue->enqueue(CI_Cargo());
  return true;
 }
-bool PreparationEvent::Execute(PreparationEvent* e, PriorityQueue<Cargo*>* PQ,int p)
+bool PreparationEvent::Execute(PriorityQueue<Cargo*>* PQ,int p)
 {
-	PQ->push(CI_Cargo(e),p);
+	PQ->push(CI_Cargo(),p);
 	return true;
 }
-Cargo* PreparationEvent::CI_Cargo(PreparationEvent* e)
+Cargo* PreparationEvent::CI_Cargo()
 {
 	Cargo* ptr = new Cargo();
-	ptr->setID(e->getID());
-	ptr->SetCargoT(e->getCtype());
-	ptr->setDel_dis(e->getdist());
-	ptr->set_cost(e->getcost());
+	ptr->setID(this->getID());
+	ptr->SetCargoT(this->getCtype());
+	ptr->setDel_dis(this->getdist());
+	ptr->set_cost(this->getcost());
 	int d, h;
-	e->getEt(d, h);
+	this->getEt(d, h);
 	ptr->set_D(d);
 	ptr->set_H(h);
-	ptr->set_LoadTime(e->getLd());
+	ptr->set_LoadTime(this->getLd());
 	return ptr;
 
 }
