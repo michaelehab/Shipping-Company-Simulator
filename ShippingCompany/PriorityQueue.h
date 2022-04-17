@@ -15,7 +15,7 @@ public:
 	bool push(const T& entry, int p);
 	bool pop(T& frntEntry);
 	bool peek(T& frntEntry)  const;
-	void PrintPriorityQueue() const;  //only to test the PriorityQueue. To be moved later. 
+	void PrintPQ() const;  //only to test the PriorityQueue. To be moved later. 
 	~PriorityQueue();
 
 };
@@ -118,7 +118,7 @@ PriorityQueue<T>::~PriorityQueue()
 
 
 template <typename T>
-void PriorityQueue<T>::PrintPriorityQueue()	const
+void PriorityQueue<T>::PrintPQ()	const
 {
 	Node<T>* p = frontPtr;
 
