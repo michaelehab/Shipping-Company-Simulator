@@ -21,6 +21,7 @@ public:
 	T* GetByposition(const T&); // Gets the element by its position (index)
 	T* GetByValue(const T&); // Gets the element by its value
 	Node<T>* GetHeadptr() const;
+	void PrintLL() const; // Prints the ID of the values in the LinkedList
 	~LinkedList(); // Destructor
 };
 
@@ -171,4 +172,15 @@ bool LinkedList<T>::DeleteNodeOfPtr(Node<T>* prev, Node<T>*ptr)
 		return true;
 	}
 	return false;
+}
+
+template<typename T>
+void LinkedList<T>::PrintLL() const {
+	Node<T>* ptr = Head;
+
+	while (ptr){
+		cout << ptr->getItem()->getID();
+		if (ptr->getNext()) cout << " , ";
+		ptr = ptr->getNext();
+	}
 }
