@@ -1,4 +1,14 @@
 #include "Event.h"
+Event::Event()
+{
+
+}
+Event::Event(int id, int day, int hour, char Etype)
+{
+	setID(id);
+	setEtype(Etype);
+	setEt(day, hour);
+}
 bool Event::setEt(int d, int h)    //sets the event time
 {
 	if (d > 0 && h > 4 && h < 24)

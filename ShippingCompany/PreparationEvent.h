@@ -13,6 +13,9 @@ class PreparationEvent :
     int Ld;      //time in hours to load/unload the cargo
     double cost;  //cargo cost
 public:
+    PreparationEvent();
+    PreparationEvent(int id, int day, int hour, char Etype, char ctype, int dist, int ld, double cost);
+
     bool Execute(PreparationEvent* e,LinkedList<Cargo*>* list);
     bool Execute(PreparationEvent* e, Queue<Cargo*>* queue);
     bool Execute(PreparationEvent* e, PriorityQueue<Cargo*>* PQ, int p);

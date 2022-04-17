@@ -1,4 +1,16 @@
 #include "PreparationEvent.h"
+PreparationEvent::PreparationEvent()
+{
+
+}
+PreparationEvent::PreparationEvent(int id, int day, int hour, char Etype, char ctype, int dist, int ld, double cost)
+	:Event(id,day,hour,Etype)
+{
+	setCtype(ctype);
+	setdist(dist);
+	setcost(cost);
+	setLd(ld);
+}
 bool PreparationEvent::Execute(PreparationEvent* e, LinkedList<Cargo*>* list)
 {
 	

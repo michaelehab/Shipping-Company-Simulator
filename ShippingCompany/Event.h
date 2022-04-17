@@ -8,6 +8,8 @@ class Event
 	int id;      // cargo id
 	
 public:
+	Event();
+	Event(int id, int day, int hour, char Etype);
 
 	virtual bool Execute() =0;   //executes the event in the derived classes
 

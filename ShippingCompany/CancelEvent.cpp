@@ -1,4 +1,12 @@
 #include "CancelEvent.h"
+CancelEvent::CancelEvent()
+{
+
+}
+CancelEvent::CancelEvent(int id, int day, int hour, char Etype):Event(id,day,hour,Etype)
+{
+
+}
 bool CancelEvent::Execute(int id, LinkedList<Cargo*>* list)
 {
 	Node<Cargo*>* prev = NULL;
