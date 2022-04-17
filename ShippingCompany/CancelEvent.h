@@ -7,6 +7,6 @@ class CancelEvent :
 public:
     CancelEvent();
     CancelEvent(int id, int day, int hour, char Etype, Company* ptr);
-    bool Execute(int id,LinkedList<Cargo*>* list);
+    bool Execute();
 };
 

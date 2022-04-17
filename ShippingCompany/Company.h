@@ -4,7 +4,6 @@
 #include <fstream>
 #include <string>
 
-#include "UI.h"
 
 #include "PriorityQueue.h"
 #include "Queue.h"
@@ -14,6 +13,7 @@
 
 #include "Cargo.h"
 #include "Truck.h"
+class UI;
 class Event;
 class PreparationEvent;
 class CancelEvent;

@@ -7,13 +7,14 @@ class Event
 	int hour;
 	char Etype;  //event type
 	int id;      // cargo id
-	Company* c; // a pointer to class company
 	
+protected:
+	Company* c; // a pointer to class company
 public:
 	Event();
 	Event(int id, int day, int hour, char Etype,Company* ptr);
 
-	virtual bool Execute() { return 1; };   //executes the event in the derived classes
+	virtual bool Execute()=0;   //executes the event in the derived classes
 
 	//Setters
 	bool setEt(int d, int h);     //sets the event time
