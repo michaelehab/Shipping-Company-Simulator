@@ -67,5 +67,27 @@ class Company {
 public:
 	Company();
 	void loadFile();
+	Queue<Event*>* getEvents() const;
+
+	PriorityQueue<Cargo*>* getVIPCargos() const;
+	Queue<Cargo*>* getDeliveredVIPCargos() const;
+
+	Queue<Cargo*>* getSpecialCargos() const;
+	Queue<Cargo*>* getDeliveredSpecialCargos() const;
+
+	LinkedList<Cargo*>* getNormalCargos() const;
+	Queue<Cargo*>* getDeliveredNormalCargos() const;
+
+	Queue<Truck*>* getNormalTrucks() const;
+	Queue<Truck*>* getInCheckupNormalTrucks() const;
+
+	Queue<Truck*>* getSpecialTrucks() const;
+	Queue<Truck*>* getInCheckupSpecialTrucks() const;
+
+	Queue<Truck*>* getVIPTrucks() const;
+	Queue<Truck*>* getInCheckupVIPTrucks() const;
+
+	Queue<Truck*>* getLoadingTrucks() const;
+	Queue<Truck*>* getMovingTrucks() const;
 };
 

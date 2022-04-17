@@ -117,3 +117,56 @@ void Company::loadFile() {
 		}
 	}*/
 }
+
+Queue<Event*>* Company::getEvents() const {
+	return Events;
+}
+
+PriorityQueue<Cargo*>* Company::getVIPCargos() const {
+	return VIPCargos;
+}
+Queue<Cargo*>* Company::getDeliveredVIPCargos() const {
+	return DeliveredVIPCargos;
+}
+
+Queue<Cargo*>* Company::getSpecialCargos() const {
+	return SpecialCargos;
+}
+Queue<Cargo*>* Company::getDeliveredSpecialCargos() const {
+	return DeliveredSpecialCargos;
+}
+
+LinkedList<Cargo*>* Company::getNormalCargos() const {
+	return NormalCargos;
+}
+Queue<Cargo*>* Company::getDeliveredNormalCargos() const {
+	return DeliveredNormalCargos;
+}
+
+Queue<Truck*>* Company::getNormalTrucks() const {
+	return NormalTrucks;
+}
+Queue<Truck*>* Company::getInCheckupNormalTrucks() const {
+	return InCheckupNormalTrucks;
+}
+
+Queue<Truck*>* Company::getSpecialTrucks() const {
+	return SpecialTrucks;
+}
+Queue<Truck*>* Company::getInCheckupSpecialTrucks() const {
+	return InCheckupSpecialTrucks;
+}
+
+Queue<Truck*>* Company::getVIPTrucks() const {
+	return VIPTrucks;
+}
+Queue<Truck*>* Company::getInCheckupVIPTrucks() const {
+	return InCheckupVIPTrucks;
+}
+
+Queue<Truck*>* Company::getLoadingTrucks() const {
+	return LoadingTrucks;
+}
+Queue<Truck*>* Company::getMovingTrucks() const {
+	return MovingTrucks;
+}
