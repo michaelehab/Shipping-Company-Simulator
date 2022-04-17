@@ -51,9 +51,9 @@ int main() {
 	cout << tmp.Contains(11) << ' ' << tmp.Contains(10) << endl;*/
 
 	// Testing Truck Class and Print function of Data Structures
-	Truck *t=new Truck(2, 'Z', 1, -2, 4);
+	Truck* t = new Truck(2, 'Z', 1, -2, 4);
 	Truck* k = new Truck(8, 'Z', 1, -2, 4);
-	t->printTruck();
+	//t->printTruck();
 	//Testing PrintPriorityQueue function on Truck object
 	//PriorityQueue<Truck*> p;
 	//p.push(t,5);
@@ -65,6 +65,12 @@ int main() {
 	//p.PrintPQ();
 	//cout << endl;
 	//m->printTruck();
+
+	// Testing PrintLL Function on Trucks (Until Cargo class is fully ready)
+	LinkedList <Truck*> ll;
+	ll.InsertBegin(t);
+	ll.InsertEnd(k);
+	ll.PrintLL();
 	
 	return 0;
 }
