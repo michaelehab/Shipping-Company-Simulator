@@ -120,14 +120,13 @@ PriorityQueue<T>::~PriorityQueue()
 template <typename T>
 void PriorityQueue<T>::PrintPriorityQueue()	const
 {
-	cout << "\nPrinting PriorityQueue contents:\n\n";
 	Node<T>* p = frontPtr;
 
 	while (p)
 	{
-		cout << "[ " << p->getItem() <<", of p= "<< p->getPriority() << " ]";
-		cout << "--->";
+		cout <<  p->getItem()->getID();
+		if (p->getNext()) cout << " , ";
 		p = p->getNext();
 	}
-	cout << "NULL\n";
+	
 }
