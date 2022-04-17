@@ -3,6 +3,8 @@
 #include "PreparationEvent.h"
 #include "CancelEvent.h"
 #include "PromoteEvent.h"
+#include "UI.h"
+
 Company::Company()
 {
 
@@ -46,7 +48,7 @@ void Company::loadFile() {
 	inputFile >> autoP;
 	inputFile >> maxW;
 
-	/*inputFile >> numOfEvents;
+	inputFile >> numOfEvents;
 	for (int i = 0; i < numOfEvents; i++) {
 		char eventType;
 		inputFile >> eventType;
@@ -71,7 +73,7 @@ void Company::loadFile() {
 
 			int day = stoi(d), hour = stoi(h);
 
-			Event* tmp = new PreparationEvent(i + 1, day, hour, eventType, type, dist, lt, cost);
+			Event* tmp = new PreparationEvent(i + 1, day, hour, eventType, type, dist, lt, cost,this);
 			Events->enqueue(tmp);
 		}
 		else if (eventType == 'X') {
@@ -91,7 +93,7 @@ void Company::loadFile() {
 			}
 
 			int day = stoi(d), hour = stoi(h);
-			Event* tmp = new CancelEvent(id, day, hour, eventType);
+			Event* tmp = new CancelEvent(id, day, hour, eventType,this);
 			Events->enqueue(tmp);
 		}
 		else if (eventType == 'P') {
@@ -112,8 +114,61 @@ void Company::loadFile() {
 			}
 
 			int day = stoi(d), hour = stoi(h);
-			Event* tmp = new PromoteEvent(id, day, hour, eventType, extramoney);
+			Event* tmp = new PromoteEvent(id, day, hour, eventType, extramoney,this);
 			Events->enqueue(tmp);
 		}
-	}*/
+	}
+}
+
+Queue<Event*>* Company::getEvents() const {
+	return Events;
+}
+
+PriorityQueue<Cargo*>* Company::getVIPCargos() const {
+	return VIPCargos;
+}
+Queue<Cargo*>* Company::getDeliveredVIPCargos() const {
+	return DeliveredVIPCargos;
+}
+
+Queue<Cargo*>* Company::getSpecialCargos() const {
+	return SpecialCargos;
+}
+Queue<Cargo*>* Company::getDeliveredSpecialCargos() const {
+	return DeliveredSpecialCargos;
+}
+
+LinkedList<Cargo*>* Company::getNormalCargos() const {
+	return NormalCargos;
+}
+Queue<Cargo*>* Company::getDeliveredNormalCargos() const {
+	return DeliveredNormalCargos;
+}
+
+Queue<Truck*>* Company::getNormalTrucks() const {
+	return NormalTrucks;
+}
+Queue<Truck*>* Company::getInCheckupNormalTrucks() const {
+	return InCheckupNormalTrucks;
+}
+
+Queue<Truck*>* Company::getSpecialTrucks() const {
+	return SpecialTrucks;
+}
+Queue<Truck*>* Company::getInCheckupSpecialTrucks() const {
+	return InCheckupSpecialTrucks;
+}
+
+Queue<Truck*>* Company::getVIPTrucks() const {
+	return VIPTrucks;
+}
+Queue<Truck*>* Company::getInCheckupVIPTrucks() const {
+	return InCheckupVIPTrucks;
+}
+
+Queue<Truck*>* Company::getLoadingTrucks() const {
+	return LoadingTrucks;
+}
+Queue<Truck*>* Company::getMovingTrucks() const {
+	return MovingTrucks;
 }

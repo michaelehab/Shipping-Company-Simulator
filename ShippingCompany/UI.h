@@ -4,10 +4,13 @@
 #include "Queue.h"
 #include "Cargo.h"
 #include "Truck.h"
+#include "Company.h"
 class UI
 {
+	Company* c;
 public:
-	void printWaitingCargos(LinkedList<Cargo*> *n,Queue<Cargo*> *s,PriorityQueue<Cargo*>* vip);
-	void printCheckUpTrucks(Queue<Truck*>* n, Queue<Truck*>* s, Queue<Truck*>* vip);
+	UI(Company* comp);
+	void printWaitingCargos();
+	void printCheckUpTrucks();
 };
 

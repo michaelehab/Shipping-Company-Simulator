@@ -13,24 +13,7 @@ PreparationEvent::PreparationEvent(int id, int day, int hour, char Etype, char c
 	setcost(cost);
 	setLd(ld);
 }
-bool PreparationEvent::Execute(LinkedList<Cargo*>* list)
-{
-	
-	list->InsertEnd(CI_Cargo());
-	return true;
-	
-}
-bool PreparationEvent::Execute(Queue<Cargo*>* queue)
-{
-  queue->enqueue(CI_Cargo());
- return true;
-}
-bool PreparationEvent::Execute(PriorityQueue<Cargo*>* PQ,int p)
-{
-	PQ->push(CI_Cargo(),p);
-	return true;
-}
-Cargo* PreparationEvent::CI_Cargo()
+bool PreparationEvent::Execute()
 {
 	Cargo* ptr = new Cargo();
 	ptr->setID(this->getID());
@@ -42,9 +25,29 @@ Cargo* PreparationEvent::CI_Cargo()
 	ptr->set_D(d);
 	ptr->set_H(h);
 	ptr->set_LoadTime(this->getLd());
-	return ptr;
 
+	char k = this->getCtype(); //k is the cargo type
+	if (k == 'N')
+	{
+		c->getNormalCargos()->InsertEnd(ptr);
+		return 1;
+	}
+	else if (k == 'S')
+	{
+		c->getSpecialCargos()->enqueue(ptr);
+		return 1;
+	}
+	else if (k == 'V')
+	{
+		int p=0; //priority of the vip cargo depending on the equation mentioned in the document
+		//to be edited later
+		c->getVIPCargos()->push(ptr, p);
+		return 1;
+	}
+	else return 0;
+	
 }
+
 bool PreparationEvent::setCtype(char c)		//sets the cargo type
 {
 	if (c == 'N' || c == 'S' || c == 'V')

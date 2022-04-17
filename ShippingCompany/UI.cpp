@@ -1,24 +1,28 @@
 #include "UI.h"
-void UI::printWaitingCargos(LinkedList<Cargo*>* n, Queue<Cargo*>* s, PriorityQueue<Cargo*>* vip)
+UI::UI(Company* comp)
+{
+	c = comp;
+}
+void UI::printWaitingCargos()
 {
 	cout << "Waiting Cargos: [";
-	n->printList();
+	c->getNormalCargos()->printList();
 	cout << "] (";
-	//s->printqueue();
+	/*c->getSpecialCargos()->printqueue();*/
 	cout << ") {" ;
-	vip->PrintPQ();
+	c->getVIPCargos()->PrintPQ();
 	cout << "} " << endl;
 	for (int i = 0; i < 50; i++)
 		cout << "-";
 }
-void UI::printCheckUpTrucks(Queue<Truck*>* n, Queue<Truck*>* s, Queue<Truck*>* vip)
+void UI::printCheckUpTrucks()
 {
 	cout << "In-Checkup Trucks: [";
-	/*n->printqueue();
+	/*c->getInCheckupNormalTrucks()->printqueue();
 	cout << "] (";
-	s->printqueue();
+	c->getInCheckupSpecialTrucks()->printqueue();
 	cout << ") {";
-	vip->printqueue();
+	c->getInCheckupVIPTrucks()->printqueue();
 	cout << "} " << endl;
 	for (int i = 0; i < 50; i++)
 		cout << "-";*/

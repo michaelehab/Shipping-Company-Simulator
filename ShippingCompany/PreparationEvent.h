@@ -13,11 +13,8 @@ public:
     PreparationEvent();
     PreparationEvent(int id, int day, int hour, char Etype, char ctype, int dist, int ld, double cost,Company * ptr);
 
-    bool Execute(LinkedList<Cargo*>* list);
-    bool Execute(Queue<Cargo*>* queue);
-    bool Execute(PriorityQueue<Cargo*>* PQ, int p);
-    Cargo* CI_Cargo();
-
+    bool Execute();
+  
     bool setCtype(char c);		//sets the cargo type
     bool setdist(double d);		//sets the cargo distance
     bool setLd(int l);			//sets the loading/unloading time of the cargo
