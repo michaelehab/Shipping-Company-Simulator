@@ -67,10 +67,10 @@ int main() {
 	//m->printTruck();
 
 	// Testing PrintLL Function on Trucks (Until Cargo class is fully ready)
-	/*LinkedList <Truck*> ll;
+	LinkedList <Truck*> ll;
 	ll.InsertBegin(t);
-	ll.InsertBegin(k);
-	ll.PrintLL();*/
+	ll.InsertEnd(k);
+	ll.PrintLL();
 	
 	return 0;
 }

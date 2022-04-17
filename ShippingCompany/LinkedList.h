@@ -75,6 +75,7 @@ void LinkedList<T>::InsertBegin(const T& data){
 	Node<T>* ptr = new Node<T>(data);
 	if (!Head){
 		Head = ptr;
+		Tail = ptr;
 		return;
 	}
 	else{
