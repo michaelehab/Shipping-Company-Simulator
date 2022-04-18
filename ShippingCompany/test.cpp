@@ -4,6 +4,7 @@
 #include "Truck.h"
 #include "Event.h"
 #include "Cargo.h"
+#include "Company.h"
 using namespace std;
 
 int main() {
@@ -73,7 +74,7 @@ int main() {
 	//ll.InsertEnd(k);
 	//ll.PrintLL();
 	//
-	int x;
+	/*int x;
 	Queue <int >car;
 	car.enqueue(10);
 	car.dequeue(x);
@@ -81,6 +82,7 @@ int main() {
 	car.enqueue(10);
 	car.enqueue(10);
 	car.enqueue(10);
-	car.print();
+	car.print();*/
+	Company c;
 	return 0;
 }

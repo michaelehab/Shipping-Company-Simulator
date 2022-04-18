@@ -1,4 +1,15 @@
 #include "Company.h"
+#include <iostream>
+using namespace std;
+#include <fstream>
+#include <string>
+#include "PriorityQueue.h"
+#include "Queue.h"
+#include "LinkedList.h"
+
+#include "Cargo.h"
+#include "Truck.h"
+
 #include "Event.h"
 #include "PreparationEvent.h"
 #include "CancelEvent.h"
@@ -7,11 +18,57 @@
 
 Company::Company()
 {
+	/*numOfNormalTrucks = 0;
+	numOfSpecialTrucks = 0;
+	numOfVIPTrucks = 0;
+	speedOfNormalTrucks = 0;
+	speedOfSpecialTrucks = 0;
+	speedOfVIPTrucks = 0;
+	capOfNormalTrucks = 0;
+	capOfSpecialTrucks = 0;
+	capOfVIPTrucks = 0;
+	J = 0;
 
+	normalCheckupDuration = 0;
+	specialCheckupDuration = 0;
+	VIPCheckupDuration = 0;
+	autoP = 0;
+
+	maxW = 0;
+
+	numOfEvents = 0;*/
+
+	Events = new Queue<Event*>();
+
+	VIPCargos = new PriorityQueue<Cargo*>();
+	DeliveredVIPCargos = new Queue<Cargo*>();
+
+	SpecialCargos = new Queue<Cargo*>();
+	DeliveredSpecialCargos = new Queue<Cargo*>();
+
+	NormalCargos = new LinkedList<Cargo*>();
+	DeliveredNormalCargos = new Queue<Cargo*>();
+
+	VIPTrucks = new Queue<Truck*>();
+	InCheckupVIPTrucks = new Queue<Truck*>();
+
+	SpecialTrucks = new Queue<Truck*>();
+	InCheckupSpecialTrucks = new Queue<Truck*>();
+
+	NormalTrucks = new Queue<Truck*>();
+	InCheckupNormalTrucks = new Queue<Truck*>();
+
+	LoadingTrucks = new Queue<Truck*>();
+	MovingTrucks = new Queue<Truck*>();
+	
+	loadFile();
+	ui = new UI(this);
+	ui->printWaitingCargos();
 }
 
 void Company::loadFile() {
-	ifstream inputFile("Input.txt", ios::in);
+	ifstream inputFile("input.txt");
+	if (!inputFile) numOfNormalTrucks = -1;
 	inputFile >> numOfNormalTrucks;
 	inputFile >> numOfSpecialTrucks;
 	inputFile >> numOfVIPTrucks;
@@ -63,12 +120,12 @@ void Company::loadFile() {
 
 			int j = 0;
 			while (ET[j] != ':') {
-				d += ET[j];
+				d += ET[j++];
 			}
 
 			j++;
 			while (j < ET.length()) {
-				h += ET[j];
+				h += ET[j++];
 			}
 
 			int day = stoi(d), hour = stoi(h);
@@ -84,12 +141,12 @@ void Company::loadFile() {
 
 			int j = 0;
 			while (ET[j] != ':') {
-				d += ET[j];
+				d += ET[j++];
 			}
 
 			j++;
 			while (j < ET.length()) {
-				h += ET[j];
+				h += ET[j++];
 			}
 
 			int day = stoi(d), hour = stoi(h);
@@ -105,12 +162,12 @@ void Company::loadFile() {
 
 			int j = 0;
 			while (ET[j] != ':') {
-				d += ET[j];
+				d += ET[j++];
 			}
 
 			j++;
 			while (j < ET.length()) {
-				h += ET[j];
+				h += ET[j++];
 			}
 
 			int day = stoi(d), hour = stoi(h);

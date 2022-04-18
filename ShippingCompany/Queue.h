@@ -18,8 +18,7 @@ public:
 	}
 	bool IsEmpty()  const
 	{
-		if (Fptr == nullptr )
-			return true;
+		if (!this->Fptr) return true;
 		else return false;
 	}
 	bool enqueue(const T& nData);
@@ -33,8 +32,7 @@ public:
 template<class T>
 bool Queue<T>:: enqueue(const T& nData)
 {
-	Node<T>* newNode = new Node<T>;
-	newNode->setItem(nData);
+	Node<T>* newNode = new Node<T>(nData);
 	if (IsEmpty())
 	{
 		Fptr = newNode;
