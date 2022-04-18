@@ -27,6 +27,7 @@ public:
 	void setID(int&); // Sets the truck ID
 	int getID() const; // Returns the truck ID
 	Cargo* unloadCargo(); // Dequeues the first cargo and returns a ptr to it
+	bool operator ==(const int&);
 	//~Truck(); No dynamic allocation so we'll use default destructor
 };
 
