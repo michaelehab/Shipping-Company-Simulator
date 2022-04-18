@@ -40,3 +40,14 @@ void UI::printEmptyTrucks() {
 	for (int i = 0; i < 50; i++)
 		cout << "-";*/
 }
+
+int UI::readMode()
+{
+	cout << "Please select the program mode:" << endl;
+	cout << "1. Interactive Mode" << endl; 
+	cout << "2. Step-By-Step Mode" << endl;
+	cout << "3. Silent Mode" << endl;
+	cout << "Selected Mode : ";
+	cin >> mode;
+	return mode;
+}

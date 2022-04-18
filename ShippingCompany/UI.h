@@ -8,8 +8,10 @@
 class UI
 {
 	Company* c;
+	int mode;
 public:
 	UI(Company* comp);
+	int readMode();
 	void printWaitingCargos();
 	void printCheckUpTrucks();
 	void printEmptyTrucks();
