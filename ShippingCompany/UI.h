@@ -12,5 +12,6 @@ public:
 	UI(Company* comp);
 	void printWaitingCargos();
 	void printCheckUpTrucks();
+	void printEmptyTrucks();
 };
 

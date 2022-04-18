@@ -28,3 +28,15 @@ void UI::printCheckUpTrucks()
 		cout << "-";*/
 
 }
+
+void UI::printEmptyTrucks() {
+	cout << "Empty Trucks: [";
+	/*c->getNormalTrucks()->printqueue();
+	cout << "] (";
+	c->getSpecialTrucks()->printqueue();
+	cout << ") {";
+	c->getVIPTrucks()->printqueue();
+	cout << "} " << endl;
+	for (int i = 0; i < 50; i++)
+		cout << "-";*/
+}
