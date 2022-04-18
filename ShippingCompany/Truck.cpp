@@ -10,10 +10,16 @@ Truck::Truck(int id, char t, int tc, int checktime, int s) {
 	setCheckupTime(checktime);
 	setSpeed(s);
 }
+
 bool Truck::operator ==(const int& a) {
 	return ID == a;
 }
 
+ostream& operator << (ostream& out, const Truck& c)
+{
+	out << c.ID;
+	return out;
+}
 
 // Getters
 

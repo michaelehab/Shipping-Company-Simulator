@@ -53,8 +53,8 @@ int main() {
 	//cout << tmp.Contains(11) << ' ' << tmp.Contains(10) << endl;*/
 
 	//// Testing Truck Class and Print function of Data Structures
-	/*Truck t(2, 'Z', 1, -2, 4);
-	cout << (t == 3);*/
+	Truck t(2, 'Z', 1, -2, 4);
+	cout << t;
 	//Truck* k = new Truck(8, 'Z', 1, -2, 4);
 	////t->printTruck();
 	////Testing PrintPriorityQueue function on Truck object

@@ -1,4 +1,6 @@
 #pragma once
+#include <iostream>
+using namespace std;
 #include "Queue.h"
 #include "Cargo.h"
 
@@ -28,6 +30,8 @@ public:
 	int getID() const; // Returns the truck ID
 	Cargo* unloadCargo(); // Dequeues the first cargo and returns a ptr to it
 	bool operator ==(const int&);
+	friend ostream& operator << (ostream& out, const Truck& c);
 	//~Truck(); No dynamic allocation so we'll use default destructor
 };
+
 
