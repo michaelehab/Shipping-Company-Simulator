@@ -14,6 +14,17 @@ Cargo::Cargo(int id,int prep,int LT,double dis,char carg_T, double cos, int h, i
 	
 
 }
+
+bool Cargo::operator ==(const int& a) {
+	return ID == a;
+}
+
+ostream& operator << (ostream& out, const Cargo& c)
+{
+	out << c.ID;
+	return out;
+}
+
 Cargo::Cargo()
 {
 
