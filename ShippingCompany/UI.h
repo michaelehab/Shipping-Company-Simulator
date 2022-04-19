@@ -16,5 +16,6 @@ public:
 	void printCheckUpTrucks() const;
 	void printEmptyTrucks()const;
 	void StepByStepMode() const;
+	void silentMode() const;
 };
 

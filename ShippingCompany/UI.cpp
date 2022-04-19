@@ -75,3 +75,16 @@ void UI::StepByStepMode() const
 	else cout << "An Error happened, Please Try again!";
 	*/
 }
+
+void UI::silentMode() const
+{
+	cout << "Silent Mode" << endl;
+	cout << "Simulation Starts..." << endl;
+	cout << "Simulation ends, Output file created" << endl;
+
+	/*
+	// Generates the output file 
+	if (c->writeFile()) cout << "Simulation ends, Output file created";
+	else cout << "An Error happened, Please Try again!";
+	*/
+}
