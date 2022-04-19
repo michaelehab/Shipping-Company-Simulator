@@ -21,6 +21,12 @@ ostream& operator << (ostream& out, const Truck& c)
 	return out;
 }
 
+ostream& operator << (ostream& out, const Truck* c)
+{
+	out << c->getID();
+	return out;
+}
+
 // Getters
 
 char Truck::getType() const {
