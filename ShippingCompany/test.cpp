@@ -53,10 +53,10 @@ int main() {
 	//cout << tmp.Contains(11) << ' ' << tmp.Contains(10) << endl;*/
 
 	//// Testing Truck Class and Print function of Data Structures
-	Truck t(2, 'Z', 1, -2, 4);
+	/*Truck t(2, 'Z', 1, -2, 4);
 	cout << t;
 	Truck* k = new Truck(8, 'Z', 1, -2, 4);
-	cout << k;
+	cout << k;*/
 	////Testing PrintPriorityQueue function on Truck object
 	////PriorityQueue<Truck*> p;
 	////p.push(t,5);
@@ -85,5 +85,17 @@ int main() {
 	car.enqueue(10);
 	car.print();*/
 	//Company c;
+	// Testing LL Remove function
+	/*Cargo* a = new Cargo(1, 1, 1, 1, 'N', 1, 1, 1);
+	Cargo* b = new Cargo(2, 2, 2, 2, 'N', 2, 2, 2);
+	Cargo* c = new Cargo(3, 3, 3, 3, 'N', 3, 3, 3);
+	cout << b << endl;
+	LinkedList<Cargo*>* ll = new LinkedList<Cargo*>;
+	ll->InsertBegin(a);
+	ll->InsertBegin(b);
+	ll->InsertBegin(c);
+	ll->PrintLL();
+	cout << endl << ll->Remove(2)->getCargoT() << endl;
+	ll->PrintLL();*/
 	return 0;
 }

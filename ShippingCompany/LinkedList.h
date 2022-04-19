@@ -16,7 +16,8 @@ public:
 	void InsertBegin(const T&); // Inserts an element at the beginning of the LinkedList
 	void DeleteAll(); // Deletes all the LinkedList Nodes
 	bool DeleteNode(const T&); // Searches for a node then Deletes it
-	bool DeleteNodeOfPtr(Node<T>*, Node<T>*); //Deletes the Node of poiner ptr
+	bool DeleteNodeOfPtr(Node<T>* prev, Node<T>* ptr);
+	T Remove(const int&); // Removes a specific element and returns it;
 	bool Contains(const T&); // Checks whether the LinkedList contains a specific element
 	T* GetByposition(const T&); // Gets the element by its position (index)
 	T* GetByValue(const T&); // Gets the element by its value
@@ -113,6 +114,25 @@ bool LinkedList<T>::DeleteNode(const T& value){
 	prev->setNext(ptr->getNext());
 	delete ptr;
 	return true;
+}
+
+template <typename T>
+T LinkedList<T>::Remove(const int& value) {
+	Node<T>* ptr = Head;
+	Node<T>* prev = NULL;
+	if (ptr != NULL && *(ptr->getItem()) == value) {
+		Head = ptr->getNext();
+		return ptr->getItem();
+	}
+	while (ptr != NULL && !(*(ptr->getItem()) == value))
+	{
+		prev = ptr;
+		ptr = ptr->getNext();
+	}
+	if (ptr == NULL) return 0;
+	if (ptr == Tail) Tail = prev;
+	prev->setNext(ptr->getNext());
+	return ptr->getItem();
 }
 
 template <typename T>
