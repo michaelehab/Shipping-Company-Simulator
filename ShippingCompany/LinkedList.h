@@ -200,7 +200,7 @@ void LinkedList<T>::PrintLL() const {
 	Node<T>* ptr = Head;
 
 	while (ptr){
-		cout << ptr->getItem()->getID();
+		cout << *(ptr->getItem());
 		if (ptr->getNext()) cout << " , ";
 		ptr = ptr->getNext();
 	}
