@@ -105,4 +105,22 @@ void UI::InteractiveMode() const
 	else cout << "An Error happened, Please Try again!";
 	*/
 }
+void UI::printDeliveredCargos()  const
+{// {} [] ()         D---->Delivered
+	cout << "{";
+	c->getDeliveredVIPCargos()->print();         // print VIP D cargos between {}
+	cout << "} ";
+	cout << "[";
+	c->getDeliveredSpecialCargos()->print();     // print special D cargos between []
+	cout << "] ";
+	cout << "(";
+	c->getDeliveredNormalCargos()->print();      // print normal D cargos between ()
+	cout << ")"<<"\n";
+}
 
+void UI::printMovingCargos()   const
+{
+	c->getMovingTrucks()
+ 	
+
+}
