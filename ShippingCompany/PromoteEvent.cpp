@@ -25,5 +25,14 @@ double PromoteEvent::getEm() const		//gets the extra money for promotion
 }
 bool PromoteEvent::Execute()
 {
-	return 1;
+	LinkedList<Cargo*>* list = c->getNormalCargos();
+	Cargo* car= list->Remove(this->getID());
+	if (car)
+	{
+		int p=0;				 //priority equation (to be edited later when available)
+		c->getVIPCargos()->push(car,p);
+		return 1;
+	}
+	return 0;
+	
 }

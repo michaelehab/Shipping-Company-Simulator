@@ -64,6 +64,7 @@ Company::Company()
 	loadFile();
 	ui = new UI(this);
 	ui->readMode();
+	
 }
 
 void Company::loadFile() {
