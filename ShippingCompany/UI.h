@@ -12,8 +12,9 @@ class UI
 public:
 	UI(Company* comp);
 	int readMode();
-	void printWaitingCargos();
-	void printCheckUpTrucks();
-	void printEmptyTrucks();
+	void printWaitingCargos() const;
+	void printCheckUpTrucks() const;
+	void printEmptyTrucks()const;
+	void StepByStepMode() const;
 };
 

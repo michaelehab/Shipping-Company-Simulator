@@ -38,28 +38,28 @@ Company::Company()
 
 	numOfEvents = 0;*/
 
-	Events = new Queue<Event*>();
+	Events = new Queue<Event*>;
 
-	VIPCargos = new PriorityQueue<Cargo*>();
-	DeliveredVIPCargos = new Queue<Cargo*>();
+	VIPCargos = new PriorityQueue<Cargo*>;
+	DeliveredVIPCargos = new Queue<Cargo*>;
 
-	SpecialCargos = new Queue<Cargo*>();
-	DeliveredSpecialCargos = new Queue<Cargo*>();
+	SpecialCargos = new Queue<Cargo*>;
+	DeliveredSpecialCargos = new Queue<Cargo*>;
 
-	NormalCargos = new LinkedList<Cargo*>();
-	DeliveredNormalCargos = new Queue<Cargo*>();
+	NormalCargos = new LinkedList<Cargo*>;
+	DeliveredNormalCargos = new Queue<Cargo*>;
 
-	VIPTrucks = new Queue<Truck*>();
-	InCheckupVIPTrucks = new Queue<Truck*>();
+	VIPTrucks = new Queue<Truck*>;
+	InCheckupVIPTrucks = new Queue<Truck*>;
 
-	SpecialTrucks = new Queue<Truck*>();
-	InCheckupSpecialTrucks = new Queue<Truck*>();
+	SpecialTrucks = new Queue<Truck*>;
+	InCheckupSpecialTrucks = new Queue<Truck*>;
 
-	NormalTrucks = new Queue<Truck*>();
-	InCheckupNormalTrucks = new Queue<Truck*>();
+	NormalTrucks = new Queue<Truck*>;
+	InCheckupNormalTrucks = new Queue<Truck*>;
 
-	LoadingTrucks = new Queue<Truck*>();
-	MovingTrucks = new Queue<Truck*>();
+	LoadingTrucks = new Queue<Truck*>;
+	MovingTrucks = new Queue<Truck*>;
 	
 	loadFile();
 	ui = new UI(this);
@@ -111,14 +111,14 @@ void Company::loadFile() {
 		inputFile >> eventType;
 		if (eventType == 'R') {
 			char type;
-			double dist, cost;
-			int lt, id;
+			double cost;
+			int lt, id, dist;
 			string ET, d, h;
 			inputFile >> type >> ET >> id >> dist >> lt >> cost;
 
 			// Converting the Day:Hour string to two separated int variables
 
-			int j = 0;
+			size_t j = 0;
 			while (ET[j] != ':') {
 				d += ET[j++];
 			}
@@ -139,7 +139,7 @@ void Company::loadFile() {
 
 			inputFile >> ET >> id;
 
-			int j = 0;
+			size_t j = 0;
 			while (ET[j] != ':') {
 				d += ET[j++];
 			}
@@ -160,7 +160,7 @@ void Company::loadFile() {
 
 			inputFile >> ET >> id >> extramoney;
 
-			int j = 0;
+			size_t j = 0;
 			while (ET[j] != ':') {
 				d += ET[j++];
 			}

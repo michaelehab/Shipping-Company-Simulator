@@ -84,9 +84,9 @@ int main() {
 	car.enqueue(10);
 	car.enqueue(10);
 	car.print();*/
-	//Company c;
+	Company c;
 	// Testing LL Remove function
-	Cargo* a = new Cargo(1, 1, 1, 1, 'N', 1, 1, 1);
+	/*Cargo* a = new Cargo(1, 1, 1, 1, 'N', 1, 1, 1);
 	Cargo* b = new Cargo(2, 2, 2, 2, 'N', 2, 2, 2);
 	Cargo* c = new Cargo(3, 3, 3, 3, 'N', 3, 3, 3);
 	cout << b << endl;
@@ -96,6 +96,6 @@ int main() {
 	ll->InsertBegin(c);
 	ll->PrintLL();
 	cout << endl << ll->Remove(2)->getCargoT() << endl;
-	ll->PrintLL();
+	ll->PrintLL();*/
 	return 0;
 }

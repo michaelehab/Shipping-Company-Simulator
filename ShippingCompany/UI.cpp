@@ -1,9 +1,15 @@
 #include "UI.h"
+#ifdef _WIN32
+#include <Windows.h>
+#else
+#include <unistd.h>
+#endif
+
 UI::UI(Company* comp)
 {
 	c = comp;
 }
-void UI::printWaitingCargos()
+void UI::printWaitingCargos() const
 {
 	cout << "Waiting Cargos: [";
 	c->getNormalCargos()->printList();
@@ -15,7 +21,7 @@ void UI::printWaitingCargos()
 	for (int i = 0; i < 50; i++)
 		cout << "-";
 }
-void UI::printCheckUpTrucks()
+void UI::printCheckUpTrucks() const
 {
 	cout << "In-Checkup Trucks: [";
 	/*c->getInCheckupNormalTrucks()->printqueue();
@@ -29,7 +35,8 @@ void UI::printCheckUpTrucks()
 
 }
 
-void UI::printEmptyTrucks() {
+void UI::printEmptyTrucks() const
+{
 	cout << "Empty Trucks: [";
 	/*c->getNormalTrucks()->printqueue();
 	cout << "] (";
@@ -50,4 +57,21 @@ int UI::readMode()
 	cout << "Selected Mode : ";
 	cin >> mode;
 	return mode;
+}
+
+void UI::StepByStepMode() const
+{
+
+	cout << "Step by step Mode:" << endl;
+	/*
+	while (!c->isLastDay())
+	{
+		p_station->simulate_day(); // Simulates a whole day
+		PrintDay(); // Prints the day after being simulated
+		Sleep(1000); // Waits for a second
+	}
+	// Generates the output file 
+	if (c->writeFile()) cout << "Simulation ends, Output file created";
+	else cout << "An Error happened, Please Try again!";
+	*/
 }
