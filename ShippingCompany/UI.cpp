@@ -14,7 +14,7 @@ void UI::printWaitingCargos() const
 	cout << "Waiting Cargos: [";
 	c->getNormalCargos()->printList();
 	cout << "] (";
-	/*c->getSpecialCargos()->printqueue();*/
+	c->getSpecialCargos()->print();
 	cout << ") {" ;
 	c->getVIPCargos()->PrintPQ();
 	cout << "} " << endl;
@@ -24,28 +24,28 @@ void UI::printWaitingCargos() const
 void UI::printCheckUpTrucks() const
 {
 	cout << "In-Checkup Trucks: [";
-	/*c->getInCheckupNormalTrucks()->printqueue();
+	c->getInCheckupNormalTrucks()->print();
 	cout << "] (";
-	c->getInCheckupSpecialTrucks()->printqueue();
+	c->getInCheckupSpecialTrucks()->print();
 	cout << ") {";
-	c->getInCheckupVIPTrucks()->printqueue();
+	c->getInCheckupVIPTrucks()->print();
 	cout << "} " << endl;
 	for (int i = 0; i < 50; i++)
-		cout << "-";*/
+		cout << "-";
 
 }
 
 void UI::printEmptyTrucks() const
 {
 	cout << "Empty Trucks: [";
-	/*c->getNormalTrucks()->printqueue();
+	c->getNormalTrucks()->print();
 	cout << "] (";
-	c->getSpecialTrucks()->printqueue();
+	c->getSpecialTrucks()->print();
 	cout << ") {";
-	c->getVIPTrucks()->printqueue();
+	c->getVIPTrucks()->print();
 	cout << "} " << endl;
 	for (int i = 0; i < 50; i++)
-		cout << "-";*/
+		cout << "-";
 }
 
 int UI::readMode()
@@ -87,4 +87,40 @@ void UI::silentMode() const
 	if (c->writeFile()) cout << "Simulation ends, Output file created";
 	else cout << "An Error happened, Please Try again!";
 	*/
+}
+void UI::InteractiveMode() const
+{
+	cout << "Interactive Mode: " << endl;
+	//while (!c->isLastDay() && cin.get()=='\n')
+	//{
+	//	c->simulate_day(); // Simulates a whole day
+	//	PrintDay(); // Prints the day after being simulated
+	// cin.ignore();
+	// cout<<"\nPress Enter to continue"<<endl;
+	//}
+
+	/*
+	// Generates the output file
+	if (c->writeFile()) cout << "Simulation ends, Output file created";
+	else cout << "An Error happened, Please Try again!";
+	*/
+}
+void UI::printDeliveredCargos()  const
+{// {} [] ()         D---->Delivered
+	cout << "{";
+	c->getDeliveredVIPCargos()->print();         // print VIP D cargos between {}
+	cout << "} ";
+	cout << "[";
+	c->getDeliveredSpecialCargos()->print();     // print special D cargos between []
+	cout << "] ";
+	cout << "(";
+	c->getDeliveredNormalCargos()->print();      // print normal D cargos between ()
+	cout << ")"<<"\n";
+}
+
+void UI::printMovingCargos()   const
+{
+	c->getMovingTrucks()
+ 	
+
 }

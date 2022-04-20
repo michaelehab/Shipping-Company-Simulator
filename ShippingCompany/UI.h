@@ -9,6 +9,7 @@ class UI
 {
 	Company* c;
 	int mode;
+	
 public:
 	UI(Company* comp);
 	int readMode();
@@ -17,5 +18,8 @@ public:
 	void printEmptyTrucks()const;
 	void StepByStepMode() const;
 	void silentMode() const;
+	void InteractiveMode() const;
+	void printDeliveredCargos() const;
+	void printMovingCargos()   const;
 };
 

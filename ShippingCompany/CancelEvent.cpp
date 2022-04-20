@@ -12,14 +12,11 @@ CancelEvent::CancelEvent(int id, int day, int hour, char Etype, Company* ptr)
 bool CancelEvent::Execute()
 {
 	LinkedList<Cargo*>* list = c->getNormalCargos();
-	Node<Cargo*>* prev = NULL;
-	Node<Cargo*>* ptr = list->GetHeadptr();
-	while (ptr)
+	Cargo* car= list->Remove(this->getID());
+	if (car) 
 	{
-		if ((ptr->getItem())->getID() == this->getID())
-			return list->DeleteNodeOfPtr(prev, ptr);
-		prev = ptr;
-		ptr = ptr->getNext();
+		delete car;	
+		return 1;
 	}
 	return 0;
 }

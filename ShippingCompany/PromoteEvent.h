@@ -11,6 +11,6 @@ public:
     PromoteEvent(int id, int day, int hour, char Etype, double Em,Company* ptr);
     bool setEm(double e);		//sets the extra money for promotion
     double getEm() const;		//gets the extra money for promotion
-    bool Execute();
+    bool Execute();                    
 };
 
