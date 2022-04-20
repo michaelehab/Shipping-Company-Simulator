@@ -91,17 +91,30 @@ bool Truck::belongsTo(char& c) {
 }
 
 void Truck::printTruck() const {
-	cout << "Truck :\n";
-	cout << "ID : " << getID() << '\n';
-	cout << "Type : " << getType() << '\n';
-	cout << "TC : " << getTC() << '\n';
-	cout << "Checkup Time : " << getCheckupTime() << '\n';
-	cout << "Speed : " << getSpeed() << '\n';
-	cout << "DI : " << getDI() << '\n';
+	cout << getID();
+	if (type == 'N') {
+		cout << '[';
+		loadedCargos.print();
+		cout << ']';
+	}
+	else if (type == 'V') {
+		cout << '{';
+		loadedCargos.print();
+		cout << '}';
+	}
+	else if (type == 'S') {
+		cout << '(';
+		loadedCargos.print();
+		cout << ')';
+	}
 }
 
 Cargo* Truck::unloadCargo() {
 	Cargo* tmp;
 	if(loadedCargos.dequeue(tmp)) return tmp;
 	return 0;
+}
+
+void Truck::loadCargo(Cargo * c) {
+	loadedCargos.enqueue(c);
 }

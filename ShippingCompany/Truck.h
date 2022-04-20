@@ -29,6 +29,7 @@ public:
 	void setID(int&); // Sets the truck ID
 	int getID() const; // Returns the truck ID
 	Cargo* unloadCargo(); // Dequeues the first cargo and returns a ptr to it
+	void loadCargo(Cargo*); // Loads a cargo to the truck
 	bool operator ==(const int&);
 	friend ostream& operator << (ostream& out, const Truck& c);
 	friend ostream& operator << (ostream& out, const Truck* c);

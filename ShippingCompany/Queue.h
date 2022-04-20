@@ -24,7 +24,7 @@ public:
 	bool enqueue(const T& nData);
 	bool dequeue(T& Fdata);
 	bool peek(T& Fdata) const;
-	void print();
+	void print() const;
 	Queue(const Queue<T>& LQ);
 	~Queue();
 
@@ -80,7 +80,7 @@ Queue<T>::~Queue()
 	while (dequeue(temp));
 }
 template <class T>
-void Queue<T>::print()
+void Queue<T>::print() const
 {
 	Node<T>* temp = Fptr;
 	if (IsEmpty())
@@ -88,15 +88,14 @@ void Queue<T>::print()
 		cout << "IS empty" << endl;
 		return;
 	}
-	cout << "( "<< temp->getItem();
+	cout << *(temp->getItem());
 	temp = temp->getNext();
 	while (temp)
 	{
-		cout << " , " << temp->getItem() ;
+		cout << " , " << *(temp->getItem());
 
 		temp = temp->getNext();
 	}
-	cout << ")";
 }
 template <typename T>
 Queue<T>::Queue(const Queue<T>& LQ)
