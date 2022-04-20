@@ -5,7 +5,6 @@
 #include "Event.h"
 #include "Cargo.h"
 #include "Company.h"
-#include"UI.h"
 using namespace std;
 
 int main() {
@@ -75,8 +74,8 @@ int main() {
 	//ll.InsertBegin(t);
 	//ll.InsertEnd(k);
 	//ll.PrintLL();
-	////
-	int x;
+	//
+	/*int x;
 	Queue <int >car;
 	car.enqueue(10);
 	car.dequeue(x);
@@ -87,14 +86,14 @@ int main() {
 	car.print();*/
 	//Company c;
 	// Testing Truck Load and print functions
-	/*Cargo* a = new Cargo(1, 1, 1, 1, 'N', 1, 1, 1);
+	Cargo* a = new Cargo(1, 1, 1, 1, 'N', 1, 1, 1);
 	Cargo* b = new Cargo(2, 2, 2, 2, 'N', 2, 2, 2);
 	Cargo* c = new Cargo(3, 3, 3, 3, 'N', 3, 3, 3);
 	Truck* k = new Truck(8, 'S', 1, -2, 4);
 	k->loadCargo(a);
 	k->loadCargo(b);
 	k->loadCargo(c);
-	k->printTruck();*/
+	k->printTruck();
 	// Testing LL Remove function
 	/*cout << b << endl;
 	LinkedList<Cargo*>* ll = new LinkedList<Cargo*>;
@@ -104,7 +103,5 @@ int main() {
 	ll->PrintLL();
 	cout << endl << ll->Remove(2)->getCargoT() << endl;
 	ll->PrintLL();*/
-	
-	
 	return 0;
 }

@@ -94,9 +94,6 @@ void Queue<T>::print() const
 	{
 		cout << " , " << *(temp->getItem());
 
-	while (temp) {
-		cout << (temp->getItem());
-		if (temp->getNext()) cout << " , ";
 		temp = temp->getNext();
 	}
 }
