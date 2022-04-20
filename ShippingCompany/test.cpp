@@ -90,10 +90,7 @@ int main() {
 	Cargo* b = new Cargo(2, 2, 2, 2, 'N', 2, 2, 2);
 	Cargo* c = new Cargo(3, 3, 3, 3, 'N', 3, 3, 3);
 	Truck* k = new Truck(8, 'S', 1, -2, 4);
-	k->loadCargo(a);
-	k->loadCargo(b);
-	k->loadCargo(c);
-	k->printTruck();
+	cout << k;
 	// Testing LL Remove function
 	/*cout << b << endl;
 	LinkedList<Cargo*>* ll = new LinkedList<Cargo*>;

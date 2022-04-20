@@ -18,12 +18,14 @@ bool Truck::operator ==(const int& a) {
 ostream& operator << (ostream& out, const Truck& c)
 {
 	out << c.ID;
+	c.printLoadedCargos();
 	return out;
 }
 
 ostream& operator << (ostream& out, const Truck* c)
 {
 	out << c->getID();
+	c->printLoadedCargos();
 	return out;
 }
 
@@ -90,8 +92,8 @@ bool Truck::belongsTo(char& c) {
 	return type == c;
 }
 
-void Truck::printTruck() const {
-	cout << getID();
+void Truck::printLoadedCargos() const {
+	if (loadedCargos.IsEmpty()) return;
 	if (type == 'N') {
 		cout << '[';
 		loadedCargos.print();

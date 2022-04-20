@@ -14,7 +14,7 @@ class Truck{
 	Queue<Cargo*> loadedCargos; // Queue contains pointers to the loaded cargos
 public:
 	Truck(int, char, int, int, int); // Constructor
-	void printTruck() const; // Prints the truck details
+	void printLoadedCargos() const; // Prints the loaded cargos
 	char getType() const; // Returns the truck type
 	void setType(char&); // Sets the truck type
 	bool belongsTo(char&); // Checks if the truck belongs to a specific type
