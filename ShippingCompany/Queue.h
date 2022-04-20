@@ -88,14 +88,14 @@ void Queue<T>::print() const
 		cout << "IS empty" << endl;
 		return;
 	}
-	cout << *(temp->getItem());
-	temp = temp->getNext();
+
 	while (temp)
 	{
-		cout << " , " << *(temp->getItem());
-
+		cout << (temp->getItem());
+		if (temp->getNext()) cout << " , ";
 		temp = temp->getNext();
 	}
+
 }
 template <typename T>
 Queue<T>::Queue(const Queue<T>& LQ)

@@ -106,3 +106,26 @@ void UI::InteractiveMode() const
 	*/
 }
 
+void UI::printDeliveredCargos() const
+{   
+	cout << "{ ";
+	c->getDeliveredVIPCargos()->print();
+	cout << " } ";
+	cout << "[ ";
+	c->getDeliveredNormalCargos()->print();
+	cout << " ] ";
+	cout << "( ";
+	c->getDeliveredSpecialCargos()->print();
+	cout << " ) ";
+}
+
+void UI::printMovingCargos() const
+{
+	c->getMovingTrucks()->print();
+}
+
+void UI::printLoadingCargos() const
+{
+	c->getLoadingTrucks()->print();
+}
+

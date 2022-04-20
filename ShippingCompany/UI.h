@@ -19,5 +19,8 @@ public:
 	void StepByStepMode() const;
 	void silentMode() const;
 	void InteractiveMode() const;
+	void printDeliveredCargos() const;
+	void printMovingCargos() const;
+	void printLoadingCargos() const;
 };
 
