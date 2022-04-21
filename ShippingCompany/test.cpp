@@ -86,14 +86,18 @@ int main() {
 	car.print();*/
 
 	// Testing Truck Load and print functions
-	/*Cargo* a = new Cargo(1, 1, 1, 1, 'N', 1, 1, 1);
+	Cargo* a = new Cargo(1, 1, 1, 1, 'N', 1, 1, 1);
 	Cargo* b = new Cargo(2, 2, 2, 2, 'N', 2, 2, 2);
 
 	Cargo* c = new Cargo(3, 3, 3, 3, 'N', 3, 3, 3);
 	Truck* k = new Truck(8, 'S', 1, -2, 4);
+	k->loadCargo(a);
+	k->loadCargo(b);
+	k->loadCargo(c);
+
 	cout << k;
-	*/
-	Company c;
+	
+	//Company c;
 	// Testing LL Remove function
 	/*cout << b << endl;
 	LinkedList<Cargo*>* ll = new LinkedList<Cargo*>;
@@ -103,14 +107,10 @@ int main() {
 	ll->PrintLL();
 	cout << endl << ll->Remove(2)->getCargoT() << endl;
 	ll->PrintLL();*/
-	Queue<int> x;
+	/*Queue<int> x;
 	x.enqueue(3);
 	x.enqueue(3);
 	x.enqueue(3);
-	x.print();
-
-	
-	
-
+	x.print();*/
 	return 0;
 }
