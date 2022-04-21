@@ -230,3 +230,47 @@ Queue<Truck*>* Company::getLoadingTrucks() const {
 Queue<Truck*>* Company::getMovingTrucks() const {
 	return MovingTrucks;
 }
+void Company:: simulate_day()
+{
+	loadFile();
+	int day = 1;   //current day
+	Event* e;
+	int d, h;		// day and hour of the event
+	int countts = 0;  //count the time steps to move the cargos from waiting cargos to delivered after 5 timesteps
+	while (1)
+	{
+		for (int i = 0; i < 25; i++)
+		{
+			if (i > 4 && i < 24)
+			{
+				Events->peek(e);
+				e->getEt(d, h);
+				while (d==day && i==h)
+				{
+					Events->dequeue(e);
+					e->Execute();
+					Events->peek(e);
+					e->getEt(d, h);
+				}
+				if (countts == 5)
+				{
+					
+					Cargo* car;
+					SpecialCargos->dequeue(car);
+					DeliveredSpecialCargos->enqueue(car);
+
+					VIPCargos->pop(car);
+					DeliveredVIPCargos->enqueue(car);
+					//still missing the normal cargo movement to delivered normal cargo
+
+					countts = -1;
+				}
+				countts++;
+				
+				
+
+			}
+		}
+		day++;
+	}
+}

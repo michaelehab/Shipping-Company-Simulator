@@ -22,5 +22,6 @@ public:
 	void printDeliveredCargos() const;
 	void printMovingCargos() const;
 	void printLoadingCargos() const;
+	void printday() const;
 };
 

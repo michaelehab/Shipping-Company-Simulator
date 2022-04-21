@@ -67,6 +67,7 @@ class Company {
 public:
 	Company();
 	void loadFile();
+	void simulate_day();
 	Queue<Event*>* getEvents() const;
 
 	PriorityQueue<Cargo*>* getVIPCargos() const;

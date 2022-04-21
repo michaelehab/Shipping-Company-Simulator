@@ -129,3 +129,12 @@ void UI::printLoadingCargos() const
 	c->getLoadingTrucks()->print();
 }
 
+void UI::printday() const
+{
+	printWaitingCargos();
+	printLoadingCargos();
+	printEmptyTrucks();
+	printMovingCargos();
+	printCheckUpTrucks();
+	printDeliveredCargos();
+}
