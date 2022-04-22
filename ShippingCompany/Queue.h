@@ -6,7 +6,7 @@ using namespace std;
 
 template <class T>
 class Queue {
-	
+
 	Node<T>* Fptr;
 	Node<T>* Bptr;
 
@@ -30,7 +30,7 @@ public:
 
 };
 template<class T>
-bool Queue<T>:: enqueue(const T& nData)
+bool Queue<T>::enqueue(const T& nData)
 {
 	Node<T>* newNode = new Node<T>(nData);
 	if (IsEmpty())
@@ -49,17 +49,17 @@ bool Queue<T>:: enqueue(const T& nData)
 template<class T>
 bool Queue<T>::dequeue(T& Fdata)
 {
-	
+
 	if (IsEmpty())
 	{
 		return false;
 	}
-		Node<T>* oldHead = Fptr;
-		T oldData = oldHead->getItem();
-		Fptr = Fptr->getNext();
-		
-		delete oldHead;
-	
+	Node<T>* oldHead = Fptr;
+	Fdata = oldHead->getItem();
+	Fptr = Fptr->getNext();
+
+	delete oldHead;
+
 	return true;
 }
 

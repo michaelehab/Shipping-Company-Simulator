@@ -16,13 +16,13 @@ public:
 	void InsertBegin(const T&); // Inserts an element at the beginning of the LinkedList
 	void DeleteAll(); // Deletes all the LinkedList Nodes
 	bool DeleteNode(const T&); // Searches for a node then Deletes it
-	bool DeleteNodeOfPtr(Node<T>* prev, Node<T>* ptr);
+	bool pop(T&);
 	T Remove(const int&); // Removes a specific element and returns it;
 	bool Contains(const T&); // Checks whether the LinkedList contains a specific element
 	T* GetByposition(const T&); // Gets the element by its position (index)
 	T* GetByValue(const T&); // Gets the element by its value
-	Node<T>* GetHeadptr() const;
 	void PrintLL() const; // Prints the ID of the values in the LinkedList
+	bool isEmpty() const;
 	~LinkedList(); // Destructor
 };
 
@@ -173,27 +173,6 @@ T* LinkedList<T>::GetByValue(const T& data) {
 		}
 	}
 }
-template <typename T>
-Node<T>* LinkedList<T>::GetHeadptr() const
-{
-	return Head;
-}
-template <typename T>
-bool LinkedList<T>::DeleteNodeOfPtr(Node<T>* prev, Node<T>*ptr)
-{
-	if (prev==NULL && ptr != NULL ) {
-		Head = ptr->getNext();
-		delete ptr;
-		return true;
-	}
-	else if(prev !=NULL && ptr != NULL)
-	{
-		prev->setNext(ptr->getNext());
-		delete ptr;
-		return true;
-	}
-	return false;
-}
 
 template<typename T>
 void LinkedList<T>::PrintLL() const {
@@ -204,4 +183,27 @@ void LinkedList<T>::PrintLL() const {
 		if (ptr->getNext()) cout << " , ";
 		ptr = ptr->getNext();
 	}
+}
+
+template<typename T>
+bool LinkedList<T>::pop(T& frntEntry)
+{
+
+	if (isEmpty())
+		return false;
+
+	Node<T>* nodeToDeletePtr = Head;
+	frntEntry = Head->getItem();
+	Head = Head->getNext();
+	if (!Head)
+		Tail = NULL;
+	// Free memory reserved for the dequeued node
+	delete nodeToDeletePtr;
+
+	return true;
+}
+template <typename T>
+bool  LinkedList<T>::isEmpty() const
+{
+	return (Head == nullptr);
 }

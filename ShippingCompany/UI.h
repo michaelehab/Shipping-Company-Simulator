@@ -18,13 +18,13 @@ public:
 	void printWaitingCargos() ;
 	void printCheckUpTrucks() ;
 	void printEmptyTrucks();
-	void StepByStepMode() ;
+	void StepByStepMode(int day, int hour) ;
 	void silentMode() const;
-	void InteractiveMode() ;
+	void InteractiveMode(int day, int hour) ;
 	void printDeliveredCargos() ;
 	void printMovingCargos() ;
 	void printLoadingCargos() ;
 	void printday() ;
-	void printbyMode() ;
+	void printbyMode(int day, int hour) ;
 };
 

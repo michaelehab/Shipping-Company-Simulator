@@ -69,10 +69,11 @@ int UI::readMode()
 	return mode;
 }
 
-void UI::StepByStepMode() 
+void UI::StepByStepMode(int day, int hour)
 {
 	if (c->getsimMode())
 	{
+		cout << "Current Time (Day:Hour): " << day << ":" << hour << endl;
 		printday(); // Prints the day after being simulated
 		Sleep(1000); // Waits for a second
 	}
@@ -97,14 +98,14 @@ void UI::silentMode() const
 	else cout << "An Error happened, Please Try again!";
 	*/
 }
-void UI::InteractiveMode() 
+void UI::InteractiveMode(int day, int hour)
 {
 	if (c->getsimMode())
 	{
 		if (interactiveModeflag && cin.get() == '\n')
 		{
+			cout << "Current Time (Day:Hour): " << day << ":" << hour << endl;
 			printday(); // Prints the day after being simulated
-			cin.ignore();
 			cout << "\nPress Enter to continue, else press any key." << endl;
 		}
 		else
@@ -153,12 +154,13 @@ void UI::printday()
 	printCheckUpTrucks();
 	printDeliveredCargos();
 }
-void UI::printbyMode() 
+void UI::printbyMode(int day,int hour) 
 {
+	
 	if (mode == 1)
-		InteractiveMode();
+		InteractiveMode(day,hour);
 	else if (mode == 2)
-		StepByStepMode();
+		StepByStepMode(day,hour);
 	else if (mode == 3)
 		silentMode();
 

@@ -31,7 +31,7 @@ bool Event::setEtype(char e)		  //sets the event type
 }
 bool Event::setID(int i)			// sets the cargo id
 {
-	if (id > 0)
+	if (i > 0)
 	{
 		id = i; return 1;
 	}

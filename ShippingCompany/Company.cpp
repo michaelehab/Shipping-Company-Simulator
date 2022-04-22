@@ -60,12 +60,12 @@ Company::Company()
 
 	LoadingTrucks = new Queue<Truck*>;
 	MovingTrucks = new Queue<Truck*>;
-	
+
 	simMode = 1;
 	loadFile();
 	ui = new UI(this);
 	ui->readMode();
-	
+
 }
 
 void Company::loadFile() {
@@ -87,8 +87,8 @@ void Company::loadFile() {
 	inputFile >> normalCheckupDuration;
 	inputFile >> specialCheckupDuration;
 	inputFile >> VIPCheckupDuration;
-	
-	
+
+
 	for (int i = 0; i < numOfNormalTrucks; i++) {
 		Truck* loadedTruck = new Truck(i + 1, 'N', capOfNormalTrucks, normalCheckupDuration, speedOfNormalTrucks);
 		NormalTrucks->enqueue(loadedTruck);
@@ -132,7 +132,7 @@ void Company::loadFile() {
 
 			int day = stoi(d), hour = stoi(h);
 
-			Event* tmp = new PreparationEvent(i + 1, day, hour, eventType, type, dist, lt, cost,this);
+			Event* tmp = new PreparationEvent(id, day, hour, eventType, type, dist, lt, cost, this);
 			Events->enqueue(tmp);
 		}
 		else if (eventType == 'X') {
@@ -152,7 +152,7 @@ void Company::loadFile() {
 			}
 
 			int day = stoi(d), hour = stoi(h);
-			Event* tmp = new CancelEvent(id, day, hour, eventType,this);
+			Event* tmp = new CancelEvent(id, day, hour, eventType, this);
 			Events->enqueue(tmp);
 		}
 		else if (eventType == 'P') {
@@ -173,7 +173,7 @@ void Company::loadFile() {
 			}
 
 			int day = stoi(d), hour = stoi(h);
-			Event* tmp = new PromoteEvent(id, day, hour, eventType, extramoney,this);
+			Event* tmp = new PromoteEvent(id, day, hour, eventType, extramoney, this);
 			Events->enqueue(tmp);
 		}
 	}
@@ -236,7 +236,7 @@ bool Company::getsimMode() const
 	return simMode;
 }
 
-void Company:: simulate_day()
+void Company::simulate_day()
 {
 	int day = 1;   //current day
 	Event* e;
@@ -250,8 +250,9 @@ void Company:: simulate_day()
 			{
 				Events->peek(e);
 				e->getEt(d, h);
-				while (d<=day && h<=i)
+				while (!(Events->IsEmpty())&& d <= day && h <= i)
 				{
+
 					Events->dequeue(e);
 					e->Execute();
 					Events->peek(e);
@@ -259,28 +260,31 @@ void Company:: simulate_day()
 				}
 				if (countts == 5)
 				{
-					
-					Cargo* car;
-					SpecialCargos->dequeue(car);
-					DeliveredSpecialCargos->enqueue(car);
 
-					VIPCargos->pop(car);
-					DeliveredVIPCargos->enqueue(car);
-					//still missing the normal cargo movement to delivered normal cargo
-
+					Cargo* car=NULL;
+					if (NormalCargos->pop(car))
+						DeliveredNormalCargos->enqueue(car);
+					car = NULL;
+					if (SpecialCargos->dequeue(car))
+						DeliveredSpecialCargos->enqueue(car);
+					car = NULL;
+					if (VIPCargos->pop(car))
+						DeliveredVIPCargos->enqueue(car);
+					car = NULL;
 					countts = -1;
 				}
 				countts++;
-				ui->printbyMode();
+				ui->printbyMode(day,i);
 				//this if statement is missing the function that checks whether normal cargo list is
 				//empty or not(to be edited when the function is ready)
-				if (Events->IsEmpty() &&SpecialCargos->IsEmpty() &&VIPCargos->isEmpty())
+
+				if (Events->IsEmpty() && SpecialCargos->IsEmpty() && VIPCargos->isEmpty() && NormalCargos->isEmpty())
 				{
 					simMode = 0;  // the simulation ended
-					ui->printbyMode(); //to activate the silentmode function if it was chosen
+					ui->printbyMode(day,i); //to activate the silentmode function if it was chosen
 					break;
 				}
-				
+
 
 			}
 		}
