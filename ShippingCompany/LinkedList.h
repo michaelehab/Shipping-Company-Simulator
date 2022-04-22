@@ -40,10 +40,10 @@ template <typename T>
 void LinkedList<T>::printList() const{
 	Node<T>* p = Head;
 	while (p){
-		cout << p->getItem() << " ";
+		cout << *(p->getItem()) << " ";
 		p = p->getNext();
 	}
-	cout << endl;
+	
 }
 
 template <typename T>

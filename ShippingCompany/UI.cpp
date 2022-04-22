@@ -8,20 +8,22 @@
 UI::UI(Company* comp)
 {
 	c = comp;
+	interactiveModeflag = 1;
 }
-void UI::printWaitingCargos() const
+void UI::printWaitingCargos() 
 {
 	cout << "Waiting Cargos: [";
 	c->getNormalCargos()->printList();
 	cout << "] (";
 	c->getSpecialCargos()->print();
-	cout << ") {" ;
+	cout << ") {";
 	c->getVIPCargos()->PrintPQ();
 	cout << "} " << endl;
 	for (int i = 0; i < 50; i++)
 		cout << "-";
+	cout << endl;
 }
-void UI::printCheckUpTrucks() const
+void UI::printCheckUpTrucks() 
 {
 	cout << "In-Checkup Trucks: [";
 	c->getInCheckupNormalTrucks()->print();
@@ -32,10 +34,11 @@ void UI::printCheckUpTrucks() const
 	cout << "} " << endl;
 	for (int i = 0; i < 50; i++)
 		cout << "-";
+	cout << endl;
 
 }
 
-void UI::printEmptyTrucks() const
+void UI::printEmptyTrucks() 
 {
 	cout << "Empty Trucks: [";
 	c->getNormalTrucks()->print();
@@ -46,58 +49,67 @@ void UI::printEmptyTrucks() const
 	cout << "} " << endl;
 	for (int i = 0; i < 50; i++)
 		cout << "-";
+	cout << endl;
 }
 
 int UI::readMode()
 {
 	cout << "Please select the program mode:" << endl;
-	cout << "1. Interactive Mode" << endl; 
+	cout << "1. Interactive Mode" << endl;
 	cout << "2. Step-By-Step Mode" << endl;
 	cout << "3. Silent Mode" << endl;
 	cout << "Selected Mode : ";
 	cin >> mode;
+	if (mode == 1)
+		cout << "Interactive Mode: " << endl;
+	else if (mode == 2)
+		cout << "Step by step Mode:" << endl;
+	else if (mode == 3)
+		cout << "Silent Mode" << endl;
 	return mode;
 }
 
-void UI::StepByStepMode() const
+void UI::StepByStepMode() 
 {
-
-	cout << "Step by step Mode:" << endl;
-	/*
-	while (!c->isLastDay())
+	if (c->getsimMode())
 	{
-		p_station->simulate_day(); // Simulates a whole day
-		PrintDay(); // Prints the day after being simulated
+		printday(); // Prints the day after being simulated
 		Sleep(1000); // Waits for a second
 	}
-	// Generates the output file 
-	if (c->writeFile()) cout << "Simulation ends, Output file created";
-	else cout << "An Error happened, Please Try again!";
-	*/
+/*
+// Generates the output file
+if (c->writeFile()) cout << "Simulation ends, Output file created";
+else cout << "An Error happened, Please Try again!";
+*/
 }
 
 void UI::silentMode() const
 {
-	cout << "Silent Mode" << endl;
-	cout << "Simulation Starts..." << endl;
-	cout << "Simulation ends, Output file created" << endl;
+	if (!(c->getsimMode()))
+	{
+		cout << "Simulation Starts..." << endl;
+		cout << "Simulation ends, Output file created" << endl;
+	}
 
 	/*
-	// Generates the output file 
+	// Generates the output file
 	if (c->writeFile()) cout << "Simulation ends, Output file created";
 	else cout << "An Error happened, Please Try again!";
 	*/
 }
-void UI::InteractiveMode() const
+void UI::InteractiveMode() 
 {
-	cout << "Interactive Mode: " << endl;
-	//while (!c->isLastDay() && cin.get()=='\n')
-	//{
-	//	c->simulate_day(); // Simulates a whole day
-	//	PrintDay(); // Prints the day after being simulated
-	// cin.ignore();
-	// cout<<"\nPress Enter to continue"<<endl;
-	//}
+	if (c->getsimMode())
+	{
+		if (interactiveModeflag && cin.get() == '\n')
+		{
+			printday(); // Prints the day after being simulated
+			cin.ignore();
+			cout << "\nPress Enter to continue, else press any key." << endl;
+		}
+		else
+			interactiveModeflag = 0;
+	}
 
 	/*
 	// Generates the output file
@@ -106,9 +118,9 @@ void UI::InteractiveMode() const
 	*/
 }
 
-void UI::printDeliveredCargos() const
-{   
-	cout << "{ ";
+void UI::printDeliveredCargos() 
+{
+	cout << "Delivered Cargos: { ";
 	c->getDeliveredVIPCargos()->print();
 	cout << " } ";
 	cout << "[ ";
@@ -116,20 +128,23 @@ void UI::printDeliveredCargos() const
 	cout << " ] ";
 	cout << "( ";
 	c->getDeliveredSpecialCargos()->print();
-	cout << " ) ";
+	cout << " ) \n";
+	for (int i = 0; i < 50; i++)
+		cout << "-";
+	cout << endl;
 }
 
-void UI::printMovingCargos() const
+void UI::printMovingCargos() 
 {
 	c->getMovingTrucks()->print();
 }
 
-void UI::printLoadingCargos() const
+void UI::printLoadingCargos() 
 {
 	c->getLoadingTrucks()->print();
 }
 
-void UI::printday() const
+void UI::printday() 
 {
 	printWaitingCargos();
 	printLoadingCargos();
@@ -137,4 +152,15 @@ void UI::printday() const
 	printMovingCargos();
 	printCheckUpTrucks();
 	printDeliveredCargos();
+}
+void UI::printbyMode() 
+{
+	if (mode == 1)
+		InteractiveMode();
+	else if (mode == 2)
+		StepByStepMode();
+	else if (mode == 3)
+		silentMode();
+
+
 }

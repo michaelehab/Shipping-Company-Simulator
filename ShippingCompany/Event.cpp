@@ -13,7 +13,7 @@ Event::Event(int id, int day, int hour, char Etype,Company* ptr)
 }
 bool Event::setEt(int d, int h)    //sets the event time
 {
-	if (d > 0 && h > 4 && h < 24)
+	if (d > 0 && h > 0 && h < 25)
 	{
 		day = d;
 		hour = h;

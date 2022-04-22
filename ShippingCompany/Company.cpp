@@ -61,6 +61,7 @@ Company::Company()
 	LoadingTrucks = new Queue<Truck*>;
 	MovingTrucks = new Queue<Truck*>;
 	
+	simMode = 1;
 	loadFile();
 	ui = new UI(this);
 	ui->readMode();
@@ -230,14 +231,18 @@ Queue<Truck*>* Company::getLoadingTrucks() const {
 Queue<Truck*>* Company::getMovingTrucks() const {
 	return MovingTrucks;
 }
+bool Company::getsimMode() const
+{
+	return simMode;
+}
+
 void Company:: simulate_day()
 {
-	loadFile();
 	int day = 1;   //current day
 	Event* e;
 	int d, h;		// day and hour of the event
 	int countts = 0;  //count the time steps to move the cargos from waiting cargos to delivered after 5 timesteps
-	while (1)
+	while (simMode)
 	{
 		for (int i = 0; i < 25; i++)
 		{
@@ -245,7 +250,7 @@ void Company:: simulate_day()
 			{
 				Events->peek(e);
 				e->getEt(d, h);
-				while (d==day && i==h)
+				while (d<=day && h<=i)
 				{
 					Events->dequeue(e);
 					e->Execute();
@@ -266,7 +271,15 @@ void Company:: simulate_day()
 					countts = -1;
 				}
 				countts++;
-				
+				ui->printbyMode();
+				//this if statement is missing the function that checks whether normal cargo list is
+				//empty or not(to be edited when the function is ready)
+				if (Events->IsEmpty() &&SpecialCargos->IsEmpty() &&VIPCargos->isEmpty())
+				{
+					simMode = 0;  // the simulation ended
+					ui->printbyMode(); //to activate the silentmode function if it was chosen
+					break;
+				}
 				
 
 			}

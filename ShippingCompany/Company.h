@@ -64,6 +64,9 @@ class Company {
 
 	int numOfEvents;
 
+	bool simMode;		
+	//The simulation mode, if simMode=1 the simulation is working, else the simulation has ended
+	//it will be used by the silent mode to determine when to print its output
 public:
 	Company();
 	void loadFile();
@@ -90,5 +93,7 @@ public:
 
 	Queue<Truck*>* getLoadingTrucks() const;
 	Queue<Truck*>* getMovingTrucks() const;
+
+	bool getsimMode() const;
 };
 

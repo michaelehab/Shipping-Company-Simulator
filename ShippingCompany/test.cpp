@@ -84,18 +84,19 @@ int main() {
 	car.enqueue(10);
 	car.enqueue(10);
 	car.print();*/
-
+	Company ca;
+	ca.simulate_day();
 	// Testing Truck Load and print functions
-	Cargo* a = new Cargo(1, 1, 1, 1, 'N', 1, 1, 1);
-	Cargo* b = new Cargo(2, 2, 2, 2, 'N', 2, 2, 2);
+	//Cargo* a = new Cargo(1, 1, 1, 1, 'N', 1, 1, 1);
+	//Cargo* b = new Cargo(2, 2, 2, 2, 'N', 2, 2, 2);
 
-	Cargo* c = new Cargo(3, 3, 3, 3, 'N', 3, 3, 3);
-	Truck* k = new Truck(8, 'S', 1, -2, 4);
-	k->loadCargo(a);
-	k->loadCargo(b);
-	k->loadCargo(c);
+	//Cargo* c = new Cargo(3, 3, 3, 3, 'N', 3, 3, 3);
+	//Truck* k = new Truck(8, 'S', 1, -2, 4);
+	//k->loadCargo(a);
+	//k->loadCargo(b);
+	//k->loadCargo(c);
 
-	cout << k;
+	//cout << k;
 	
 	//Company c;
 	// Testing LL Remove function

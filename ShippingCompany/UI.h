@@ -9,19 +9,22 @@ class UI
 {
 	Company* c;
 	int mode;
-	
+	bool interactiveModeflag ;
+	//interactive mode flag to indicate whether the interactive mode will work in the next
+	//iterations or not
 public:
 	UI(Company* comp);
 	int readMode();
-	void printWaitingCargos() const;
-	void printCheckUpTrucks() const;
-	void printEmptyTrucks()const;
-	void StepByStepMode() const;
+	void printWaitingCargos() ;
+	void printCheckUpTrucks() ;
+	void printEmptyTrucks();
+	void StepByStepMode() ;
 	void silentMode() const;
-	void InteractiveMode() const;
-	void printDeliveredCargos() const;
-	void printMovingCargos() const;
-	void printLoadingCargos() const;
-	void printday() const;
+	void InteractiveMode() ;
+	void printDeliveredCargos() ;
+	void printMovingCargos() ;
+	void printLoadingCargos() ;
+	void printday() ;
+	void printbyMode() ;
 };
 
