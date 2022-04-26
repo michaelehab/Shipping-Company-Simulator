@@ -231,7 +231,7 @@ Queue<Truck*>* Company::getLoadingTrucks() const {
 Queue<Truck*>* Company::getMovingTrucks() const {
 	return MovingTrucks;
 }
-bool Company::getsimMode() const
+bool Company::getSimulationStatus() const
 {
 	return simMode;
 }
@@ -271,7 +271,7 @@ void Company::simulate_day()
 					if (VIPCargos->pop(car))
 						DeliveredVIPCargos->enqueue(car);
 					car = NULL;
-					countts = -1;
+					countts = 0;
 				}
 				countts++;
 				ui->printbyMode(day,i);

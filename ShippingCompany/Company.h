@@ -94,6 +94,6 @@ public:
 	Queue<Truck*>* getLoadingTrucks() const;
 	Queue<Truck*>* getMovingTrucks() const;
 
-	bool getsimMode() const;
+	bool getSimulationStatus() const;
 };
 

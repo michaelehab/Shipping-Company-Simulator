@@ -71,52 +71,50 @@ int UI::readMode()
 
 void UI::StepByStepMode(int day, int hour)
 {
-	if (c->getsimMode())
+	if (c->getSimulationStatus())
 	{
 		cout << "Current Time (Day:Hour): " << day << ":" << hour << endl;
 		printday(); // Prints the day after being simulated
 		Sleep(1000); // Waits for a second
 	}
-/*
-// Generates the output file
-if (c->writeFile()) cout << "Simulation ends, Output file created";
-else cout << "An Error happened, Please Try again!";
-*/
+	else
+	{
+		cout << "Simulation ends, Output file created" << endl;
+		cout << "An Error happened, Please Try again!";
+	}
 }
 
 void UI::silentMode() const
 {
-	if (!(c->getsimMode()))
+	if (!(c->getSimulationStatus()))
 	{
 		cout << "Simulation Starts..." << endl;
 		cout << "Simulation ends, Output file created" << endl;
 	}
-
-	/*
-	// Generates the output file
-	if (c->writeFile()) cout << "Simulation ends, Output file created";
-	else cout << "An Error happened, Please Try again!";
-	*/
+	else
+	{
+		cout << "Simulation ends, Output file created" << endl;
+		cout << "An Error happened, Please Try again!";
+	}
 }
 void UI::InteractiveMode(int day, int hour)
 {
-	if (c->getsimMode())
+	if (c->getSimulationStatus())
 	{
+		cout << "Press Enter to continue, else press any key." << endl;
 		if (interactiveModeflag && cin.get() == '\n')
 		{
 			cout << "Current Time (Day:Hour): " << day << ":" << hour << endl;
 			printday(); // Prints the day after being simulated
-			cout << "\nPress Enter to continue, else press any key." << endl;
 		}
 		else
 			interactiveModeflag = 0;
 	}
-
-	/*
-	// Generates the output file
-	if (c->writeFile()) cout << "Simulation ends, Output file created";
-	else cout << "An Error happened, Please Try again!";
-	*/
+	else 
+	{
+		cout << "Simulation ends, Output file created" << endl;
+		cout << "An Error happened, Please Try again!";
+	}
 }
 
 void UI::printDeliveredCargos() 
