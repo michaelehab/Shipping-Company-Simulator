@@ -23,7 +23,7 @@ public:
 	void InteractiveMode(int day, int hour) ;
 	void printDeliveredCargos() ;
 	void printMovingCargos() ;
-	void printLoadingCargos() ;
+	void printLoadingTrucks() ;
 	void printday() ;
 	void printbyMode(int day, int hour) ;
 };

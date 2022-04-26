@@ -88,19 +88,19 @@ void Company::loadFile() {
 	inputFile >> specialCheckupDuration;
 	inputFile >> VIPCheckupDuration;
 
-
+	int j = 1;
 	for (int i = 0; i < numOfNormalTrucks; i++) {
-		Truck* loadedTruck = new Truck(i + 1, 'N', capOfNormalTrucks, normalCheckupDuration, speedOfNormalTrucks);
+		Truck* loadedTruck = new Truck(j++, 'N', capOfNormalTrucks, normalCheckupDuration, speedOfNormalTrucks);
 		NormalTrucks->enqueue(loadedTruck);
 	}
 
 	for (int i = 0; i < numOfSpecialTrucks; i++) {
-		Truck* loadedTruck = new Truck(i + 1, 'S', capOfSpecialTrucks, specialCheckupDuration, speedOfSpecialTrucks);
+		Truck* loadedTruck = new Truck(j++, 'S', capOfSpecialTrucks, specialCheckupDuration, speedOfSpecialTrucks);
 		SpecialTrucks->enqueue(loadedTruck);
 	}
 
 	for (int i = 0; i < numOfVIPTrucks; i++) {
-		Truck* loadedTruck = new Truck(i + 1, 'V', capOfVIPTrucks, VIPCheckupDuration, speedOfVIPTrucks);
+		Truck* loadedTruck = new Truck(j++, 'V', capOfVIPTrucks, VIPCheckupDuration, speedOfVIPTrucks);
 		VIPTrucks->enqueue(loadedTruck);
 	}
 

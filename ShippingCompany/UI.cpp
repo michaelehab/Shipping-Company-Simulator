@@ -128,18 +128,28 @@ void UI::printDeliveredCargos()
 
 void UI::printMovingCargos() 
 {
+	cout << "Moving Cargos: ";
 	c->getMovingTrucks()->print();
+	cout << endl;
+	for (int i = 0; i < 50; i++)
+		cout << "-";
+	cout << endl;
 }
 
-void UI::printLoadingCargos() 
+void UI::printLoadingTrucks() 
 {
-	c->getLoadingTrucks()->print();
+	cout << "Loading Trucks: ";
+	c->getLoadingTrucks()->print(); 
+	cout << endl;
+	for (int i = 0; i < 50; i++)
+		cout << "-";
+	cout << endl;
 }
 
 void UI::printday() 
 {
 	printWaitingCargos();
-	printLoadingCargos();
+	printLoadingTrucks();
 	printEmptyTrucks();
 	printMovingCargos();
 	printCheckUpTrucks();
