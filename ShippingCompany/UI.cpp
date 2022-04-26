@@ -13,7 +13,7 @@ UI::UI(Company* comp)
 void UI::printWaitingCargos() 
 {
 	cout << "Waiting Cargos: [";
-	c->getNormalCargos()->printList();
+	c->getNormalCargos()->PrintLL();
 	cout << "] (";
 	c->getSpecialCargos()->print();
 	cout << ") {";

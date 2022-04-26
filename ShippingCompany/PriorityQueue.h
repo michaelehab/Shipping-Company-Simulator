@@ -125,7 +125,7 @@ void PriorityQueue<T>::PrintPQ()	const
 	while (p)
 	{
 		cout <<  *(p->getItem());
-		if (p->getNext()) cout << " , ";
+		if (p->getNext()) cout << ", ";
 		p = p->getNext();
 	}
 	

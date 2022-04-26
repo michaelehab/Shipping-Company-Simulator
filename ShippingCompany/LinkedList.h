@@ -180,7 +180,7 @@ void LinkedList<T>::PrintLL() const {
 
 	while (ptr){
 		cout << *(ptr->getItem());
-		if (ptr->getNext()) cout << " , ";
+		if (ptr->getNext()) cout << ", ";
 		ptr = ptr->getNext();
 	}
 }
