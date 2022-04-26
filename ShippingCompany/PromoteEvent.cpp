@@ -29,7 +29,7 @@ bool PromoteEvent::Execute()
 	Cargo* car= list->Remove(this->getID());
 	if (car)
 	{
-		int p=0;				 //priority equation (to be edited later when available)
+		int p = car->getID() + car->get_cost()/ car->getDel_dis(); // to be changed later
 		c->getVIPCargos()->push(car,p);
 		return 1;
 	}

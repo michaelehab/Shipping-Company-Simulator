@@ -49,7 +49,7 @@ bool PriorityQueue<T>::push(const T& newEntry, int p) //p stands for priority
 		frontPtr = temp;
 		frontPtr->setNext(nullptr);
 	}
-	else if (frontPtr->getPriority() < p)
+	else if (frontPtr->getPriority() <= p)
 	{
 
 		// Insert New Node before head
