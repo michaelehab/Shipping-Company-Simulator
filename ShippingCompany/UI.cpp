@@ -80,7 +80,6 @@ void UI::StepByStepMode(int day, int hour)
 	else
 	{
 		cout << "Simulation ends, Output file created" << endl;
-		cout << "An Error happened, Please Try again!";
 	}
 }
 
@@ -90,11 +89,6 @@ void UI::silentMode() const
 	{
 		cout << "Simulation Starts..." << endl;
 		cout << "Simulation ends, Output file created" << endl;
-	}
-	else
-	{
-		cout << "Simulation ends, Output file created" << endl;
-		cout << "An Error happened, Please Try again!";
 	}
 }
 void UI::InteractiveMode(int day, int hour)
@@ -113,21 +107,20 @@ void UI::InteractiveMode(int day, int hour)
 	else 
 	{
 		cout << "Simulation ends, Output file created" << endl;
-		cout << "An Error happened, Please Try again!";
 	}
 }
 
 void UI::printDeliveredCargos() 
 {
-	cout << "Delivered Cargos: { ";
+	cout << "Delivered Cargos: {";
 	c->getDeliveredVIPCargos()->print();
-	cout << " } ";
-	cout << "[ ";
+	cout << "} ";
+	cout << "[";
 	c->getDeliveredNormalCargos()->print();
-	cout << " ] ";
-	cout << "( ";
+	cout << "] ";
+	cout << "(";
 	c->getDeliveredSpecialCargos()->print();
-	cout << " ) \n";
+	cout << ") \n";
 	for (int i = 0; i < 50; i++)
 		cout << "-";
 	cout << endl;

@@ -69,7 +69,7 @@ Company::Company()
 }
 
 void Company::loadFile() {
-	ifstream inputFile("input.txt");
+	ifstream inputFile("input2.txt");
 	if (!inputFile) numOfNormalTrucks = -1;
 	inputFile >> numOfNormalTrucks;
 	inputFile >> numOfSpecialTrucks;
@@ -250,9 +250,8 @@ void Company::simulate_day()
 			{
 				Events->peek(e);
 				e->getEt(d, h);
-				while (!(Events->IsEmpty())&& d <= day && h <= i)
+				while (!(Events->IsEmpty()) && d == day && h == i)
 				{
-
 					Events->dequeue(e);
 					e->Execute();
 					Events->peek(e);
