@@ -30,6 +30,7 @@ public:
 	int getID();
 	int get_d();
 	int get_h();
+	int getPriority() const;
 	bool operator ==(const int&);
 	friend ostream& operator << (ostream& out, const Cargo& c);
 };

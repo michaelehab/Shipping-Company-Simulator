@@ -39,8 +39,7 @@ bool PreparationEvent::Execute()
 	}
 	else if (k == 'V')
 	{
-		int p=0; //priority of the vip cargo depending on the equation mentioned in the document
-		//to be edited later
+		int p = ptr->getPriority();
 		c->getVIPCargos()->push(ptr, p);
 		return 1;
 	}

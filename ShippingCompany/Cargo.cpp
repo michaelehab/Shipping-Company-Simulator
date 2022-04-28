@@ -8,11 +8,9 @@ Cargo::Cargo(int id,int prep,int LT,double dis,char carg_T, double cos, int h, i
 	set_LoadTime( LT);
 	setDel_dis( dis);
 	set_prepTime( prep);
-	 set_H(h);
-	 set_D(d);
-	 setID(id);
-	
-
+	set_H(h);
+	set_D(d);
+	setID(id);
 }
 
 bool Cargo::operator ==(const int& a) {
@@ -109,4 +107,11 @@ int  Cargo::get_LoadTime()
 double Cargo::getDel_dis()
 {
 	return Del_dis;
+}
+
+int Cargo::getPriority() const {
+	// Cargos with higher cost have the highest priority
+	// Cargos with far delivery distance have less priority
+	// Cargos with far preparation time have the least priority
+	return 20 * Cost + 10 * Del_dis + 2 * day;
 }
