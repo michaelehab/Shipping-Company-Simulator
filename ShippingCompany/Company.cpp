@@ -18,7 +18,7 @@ using namespace std;
 
 Company::Company()
 {
-	/*numOfNormalTrucks = 0;
+	numOfNormalTrucks = 0;
 	numOfSpecialTrucks = 0;
 	numOfVIPTrucks = 0;
 	speedOfNormalTrucks = 0;
@@ -36,7 +36,7 @@ Company::Company()
 
 	maxW = 0;
 
-	numOfEvents = 0;*/
+	numOfEvents = 0;
 
 	Events = new Queue<Event*>;
 
@@ -70,7 +70,9 @@ Company::Company()
 
 void Company::loadFile() {
 	ifstream inputFile("input2.txt");
-	if (!inputFile) numOfNormalTrucks = -1;
+	if (!inputFile) {
+		return;
+	}
 	inputFile >> numOfNormalTrucks;
 	inputFile >> numOfSpecialTrucks;
 	inputFile >> numOfVIPTrucks;
@@ -259,7 +261,6 @@ void Company::simulate_day()
 				}
 				if (countts == 5)
 				{
-
 					Cargo* car=NULL;
 					if (NormalCargos->pop(car))
 						DeliveredNormalCargos->enqueue(car);
@@ -274,8 +275,6 @@ void Company::simulate_day()
 				}
 				countts++;
 				ui->printbyMode(day,i);
-				//this if statement is missing the function that checks whether normal cargo list is
-				//empty or not(to be edited when the function is ready)
 
 				if (Events->IsEmpty() && SpecialCargos->IsEmpty() && VIPCargos->isEmpty() && NormalCargos->isEmpty())
 				{
