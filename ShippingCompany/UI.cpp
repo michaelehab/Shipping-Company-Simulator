@@ -140,7 +140,7 @@ void UI::InteractiveMode(int day, int hour)
 {
 	if (c->getSimulationStatus())
 	{
-		cout << "Press Enter to continue, else press any key." << endl;
+		cout << "Press Enter to continue." << endl;
 		if (interactiveModeflag && cin.get() == '\n')
 		{
 			cout << "Current Time (Day:Hour): " << day << ":" << hour << endl;
