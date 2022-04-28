@@ -16,6 +16,7 @@ bool CancelEvent::Execute()
 	Cargo* car= list->Remove(this->getID());
 	if (car) 
 	{
+		// Deletes the cargo if found
 		delete car;	
 		return true;
 	}
