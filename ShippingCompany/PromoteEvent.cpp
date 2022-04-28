@@ -29,10 +29,11 @@ bool PromoteEvent::Execute()
 	Cargo* car= list->Remove(this->getID());
 	if (car)
 	{
-		int p = car->getID() + car->get_cost()/ car->getDel_dis(); // to be changed later
+		int p = car->getPriority();
+		car->SetCargoT('V');
 		c->getVIPCargos()->push(car,p);
-		return 1;
+		return true;
 	}
-	return 0;
+	return false;
 	
 }

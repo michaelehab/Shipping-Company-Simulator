@@ -9,12 +9,14 @@ class Queue {
 
 	Node<T>* Fptr;
 	Node<T>* Bptr;
+	int count;
 
 public:
 	Queue()
 	{
 		Fptr = nullptr;
 		Bptr = nullptr;
+		count = 0;
 	}
 	bool IsEmpty()  const
 	{
@@ -25,6 +27,7 @@ public:
 	bool dequeue(T& Fdata);
 	bool peek(T& Fdata) const;
 	void print() const;
+	int getSize() const;
 	Queue(const Queue<T>& LQ);
 	~Queue();
 
@@ -44,6 +47,7 @@ bool Queue<T>::enqueue(const T& nData)
 		newNode->setNext(nullptr);
 		Bptr = newNode;
 	}
+	count++;
 	return true;
 }
 template<class T>
@@ -59,7 +63,7 @@ bool Queue<T>::dequeue(T& Fdata)
 	Fptr = Fptr->getNext();
 
 	delete oldHead;
-
+	count--;
 	return true;
 }
 
@@ -79,6 +83,13 @@ Queue<T>::~Queue()
 	T temp;
 	while (dequeue(temp));
 }
+
+template <class T>
+int Queue<T>::getSize()const
+{
+	return count;
+}
+
 template <class T>
 void Queue<T>::print() const
 {

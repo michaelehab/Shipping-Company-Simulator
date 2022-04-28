@@ -9,6 +9,7 @@ private:
 
 	Node<T>* frontPtr;
 	int priority;
+	int count;
 public:
 	PriorityQueue();
 	bool isEmpty() const;
@@ -16,6 +17,7 @@ public:
 	bool pop(T& frntEntry);
 	bool peek(T& frntEntry)  const;
 	void PrintPQ() const;  //only to test the PriorityQueue. To be moved later. 
+	int getSize() const;
 	~PriorityQueue();
 
 };
@@ -24,9 +26,8 @@ public:
 template <typename T>
 PriorityQueue<T>::PriorityQueue()
 {
-	
 	frontPtr = nullptr;
-
+	count = 0;
 }
 
 template <typename T>
@@ -73,6 +74,7 @@ bool PriorityQueue<T>::push(const T& newEntry, int p) //p stands for priority
 		start->setNext(temp);
 		
 	}
+	count++;
 	return true;
 }
 
@@ -90,7 +92,7 @@ bool PriorityQueue<T>::pop(T& frntEntry)
 
 	// Free memory reserved for the dequeued node
 	delete nodeToDeletePtr;
-
+	count--;
 	return true;
 
 }
@@ -129,4 +131,9 @@ void PriorityQueue<T>::PrintPQ()	const
 		p = p->getNext();
 	}
 	
+}
+
+template<typename T>
+int PriorityQueue<T>::getSize() const {
+	return count;
 }

@@ -8,6 +8,7 @@ class LinkedList {
 private:
 	Node<T>* Head;
 	Node<T>* Tail;
+	int count;
 public:
 	LinkedList(); // Constructor
 	void printList() const; // prints the LinkedList
@@ -23,12 +24,15 @@ public:
 	T* GetByValue(const T&); // Gets the element by its value
 	void PrintLL() const; // Prints the ID of the values in the LinkedList
 	bool isEmpty() const;
+	int getSize() const;
 	~LinkedList(); // Destructor
 };
 
 template <typename T>
 LinkedList<T>::LinkedList(){
 	Head = nullptr;
+	Tail = nullptr;
+	count = 0;
 }
 
 template <typename T>
@@ -68,6 +72,7 @@ void LinkedList<T>::InsertEnd(const T& data){
 		Tail->setNext(ptr);
 		Tail = ptr;
 	}
+	count++;
 }
 
 // O(1)
@@ -83,6 +88,7 @@ void LinkedList<T>::InsertBegin(const T& data){
 		ptr->setNext(Head);
 		Head = ptr;
 	}
+	count++;
 }
 
 template <typename T>
@@ -93,6 +99,7 @@ void LinkedList<T>::DeleteAll(){
 		Head = Head->getNext();
 		delete ptr;
 	}
+	count = 0;
 }
 
 template <typename T>
@@ -113,6 +120,7 @@ bool LinkedList<T>::DeleteNode(const T& value){
 	if (ptr == Tail) Tail = prev;
 	prev->setNext(ptr->getNext());
 	delete ptr;
+	count--;
 	return true;
 }
 
@@ -132,6 +140,7 @@ T LinkedList<T>::Remove(const int& value) {
 	if (ptr == NULL) return 0;
 	if (ptr == Tail) Tail = prev;
 	prev->setNext(ptr->getNext());
+	count--;
 	return ptr->getItem();
 }
 
@@ -199,11 +208,16 @@ bool LinkedList<T>::pop(T& frntEntry)
 		Tail = NULL;
 	// Free memory reserved for the dequeued node
 	delete nodeToDeletePtr;
-
+	count--;
 	return true;
 }
 template <typename T>
 bool  LinkedList<T>::isEmpty() const
 {
 	return (Head == nullptr);
+}
+
+template <typename T>
+int LinkedList<T>::getSize() const {
+	return count;
 }

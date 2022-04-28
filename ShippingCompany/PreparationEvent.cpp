@@ -41,9 +41,9 @@ bool PreparationEvent::Execute()
 	{
 		int p = ptr->getPriority();
 		c->getVIPCargos()->push(ptr, p);
-		return 1;
+		return true;
 	}
-	else return 0;
+	else return false;
 	
 }
 
@@ -51,7 +51,8 @@ bool PreparationEvent::setCtype(char c)		//sets the cargo type
 {
 	if (c == 'N' || c == 'S' || c == 'V')
 	{
-		Ctype = c; return 1;
+		Ctype = c; 
+		return 1;
 	}
 	return 0;
 }

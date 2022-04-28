@@ -12,26 +12,56 @@ UI::UI(Company* comp)
 }
 void UI::printWaitingCargos() 
 {
-	cout << "Waiting Cargos: [";
-	c->getNormalCargos()->PrintLL();
-	cout << "] (";
-	c->getSpecialCargos()->print();
-	cout << ") {";
-	c->getVIPCargos()->PrintPQ();
-	cout << "} " << endl;
+	int normal = c->getNormalCargos()->getSize();
+	int special = c->getSpecialCargos()->getSize();
+	int vip = c->getVIPCargos()->getSize();
+	int total = normal + special + vip;
+
+	cout << total <<  " Waiting Cargos: ";
+	if (normal) {
+		cout << '[';
+		c->getNormalCargos()->PrintLL();
+		cout << "] ";
+	}
+	if (special) {
+		cout << '(';
+		c->getSpecialCargos()->print();
+		cout << ") ";
+	}
+	if (vip) {
+		cout << '{';
+		c->getVIPCargos()->PrintPQ();
+		cout << "} ";
+	}
+	cout << endl;
 	for (int i = 0; i < 50; i++)
 		cout << "-";
 	cout << endl;
 }
 void UI::printCheckUpTrucks() 
 {
-	cout << "In-Checkup Trucks: [";
-	c->getInCheckupNormalTrucks()->print();
-	cout << "] (";
-	c->getInCheckupSpecialTrucks()->print();
-	cout << ") {";
-	c->getInCheckupVIPTrucks()->print();
-	cout << "} " << endl;
+	int normal = c->getInCheckupNormalTrucks()->getSize();
+	int special = c->getInCheckupSpecialTrucks()->getSize();
+	int vip = c->getInCheckupVIPTrucks()->getSize();
+	int total = normal + special + vip;
+
+	cout << total <<  " In-Checkup Trucks: ";
+	if (normal) {
+		cout << '[';
+		c->getInCheckupNormalTrucks()->print();
+		cout << "] ";
+	}
+	if (special) {
+		cout << '(';
+		c->getInCheckupSpecialTrucks()->print();
+		cout << ") ";
+	}
+	if (vip) {
+		cout << '{';
+		c->getInCheckupVIPTrucks()->print();
+		cout << "} ";
+	}
+	cout << endl;
 	for (int i = 0; i < 50; i++)
 		cout << "-";
 	cout << endl;
@@ -40,13 +70,28 @@ void UI::printCheckUpTrucks()
 
 void UI::printEmptyTrucks() 
 {
-	cout << "Empty Trucks: [";
-	c->getNormalTrucks()->print();
-	cout << "] (";
-	c->getSpecialTrucks()->print();
-	cout << ") {";
-	c->getVIPTrucks()->print();
-	cout << "} " << endl;
+	int normal = c->getNormalTrucks()->getSize();
+	int special = c->getSpecialTrucks()->getSize();
+	int vip = c->getVIPTrucks()->getSize();
+	int total = normal + special + vip;
+
+	cout << total << " Empty Trucks: ";
+	if (normal) {
+		cout << '[';
+		c->getNormalTrucks()->print();
+		cout << "] ";
+	}
+	if (special) {
+		cout << '(';
+		c->getSpecialTrucks()->print();
+		cout << ") ";
+	}
+	if (vip) {
+		cout << '{';
+		c->getVIPTrucks()->print();
+		cout << "} ";
+	}
+	cout << endl;
 	for (int i = 0; i < 50; i++)
 		cout << "-";
 	cout << endl;
@@ -112,15 +157,28 @@ void UI::InteractiveMode(int day, int hour)
 
 void UI::printDeliveredCargos() 
 {
-	cout << "Delivered Cargos: {";
-	c->getDeliveredVIPCargos()->print();
-	cout << "} ";
-	cout << "[";
-	c->getDeliveredNormalCargos()->print();
-	cout << "] ";
-	cout << "(";
-	c->getDeliveredSpecialCargos()->print();
-	cout << ") \n";
+	int delivered_normal = c->getDeliveredNormalCargos()->getSize();
+	int delivered_special = c->getDeliveredSpecialCargos()->getSize();
+	int delivered_vip = c->getDeliveredVIPCargos()->getSize();
+	int total = delivered_normal + delivered_special + delivered_vip;
+
+	cout << total << " Delivered Cargos: ";
+	if (delivered_normal) {
+		cout << '{';
+		c->getDeliveredVIPCargos()->print();
+		cout << "} ";
+	}
+	if (delivered_special) {
+		cout << "[";
+		c->getDeliveredNormalCargos()->print();
+		cout << "] ";
+	}
+	if (delivered_vip) {
+		cout << "(";
+		c->getDeliveredSpecialCargos()->print();
+		cout << ")";
+	}
+	cout << endl;
 	for (int i = 0; i < 50; i++)
 		cout << "-";
 	cout << endl;
@@ -128,7 +186,8 @@ void UI::printDeliveredCargos()
 
 void UI::printMovingCargos() 
 {
-	cout << "Moving Cargos: ";
+	int total = c->getMovingTrucks()->getSize();
+	cout << total << " Moving Cargos: ";
 	c->getMovingTrucks()->print();
 	cout << endl;
 	for (int i = 0; i < 50; i++)
@@ -138,7 +197,8 @@ void UI::printMovingCargos()
 
 void UI::printLoadingTrucks() 
 {
-	cout << "Loading Trucks: ";
+	int total = c->getLoadingTrucks()->getSize();
+	cout << total << " Loading Trucks: ";
 	c->getLoadingTrucks()->print(); 
 	cout << endl;
 	for (int i = 0; i < 50; i++)
