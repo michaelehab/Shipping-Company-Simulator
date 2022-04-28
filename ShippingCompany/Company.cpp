@@ -197,7 +197,7 @@ Queue<Cargo*>* Company::getDeliveredSpecialCargos() const {
 	return DeliveredSpecialCargos;
 }
 
-LinkedList<Cargo*>* Company::getNormalCargos() const {
+LinkedList<Cargo*>* Company::getNormalCargos() {
 	return NormalCargos;
 }
 Queue<Cargo*>* Company::getDeliveredNormalCargos() const {

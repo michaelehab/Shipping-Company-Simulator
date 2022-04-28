@@ -113,5 +113,5 @@ int Cargo::getPriority() const {
 	// Cargos with higher cost have the highest priority
 	// Cargos with far delivery distance have less priority
 	// Cargos with far preparation time have the least priority
-	return 20 * Cost + 10 * Del_dis + 2 * day;
+	return (20 * Cost) + (10 * Del_dis) + (4 * day);
 }

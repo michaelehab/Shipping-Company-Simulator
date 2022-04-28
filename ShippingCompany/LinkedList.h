@@ -130,6 +130,7 @@ T LinkedList<T>::Remove(const int& value) {
 	Node<T>* prev = NULL;
 	if (ptr != NULL && *(ptr->getItem()) == value) {
 		Head = ptr->getNext();
+		count--;
 		return ptr->getItem();
 	}
 	while (ptr != NULL && !(*(ptr->getItem()) == value))

@@ -12,6 +12,7 @@ CancelEvent::CancelEvent(int id, int day, int hour, char Etype, Company* ptr)
 bool CancelEvent::Execute()
 {
 	LinkedList<Cargo*>* list = c->getNormalCargos();
+	// Remove the cargo from the linked list and get its pointer
 	Cargo* car= list->Remove(this->getID());
 	if (car) 
 	{

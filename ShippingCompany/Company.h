@@ -79,7 +79,7 @@ public:
 	Queue<Cargo*>* getSpecialCargos() const;
 	Queue<Cargo*>* getDeliveredSpecialCargos() const;
 
-	LinkedList<Cargo*>* getNormalCargos() const;
+	LinkedList<Cargo*>* getNormalCargos();
 	Queue<Cargo*>* getDeliveredNormalCargos() const;
 
 	Queue<Truck*>* getNormalTrucks() const;

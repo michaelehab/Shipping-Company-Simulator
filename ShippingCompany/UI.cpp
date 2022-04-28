@@ -17,7 +17,7 @@ void UI::printWaitingCargos()
 	int vip = c->getVIPCargos()->getSize();
 	int total = normal + special + vip;
 
-	cout << total <<  " Waiting Cargos: ";
+	cout << total << " Waiting Cargos: ";
 	if (normal) {
 		cout << '[';
 		c->getNormalCargos()->PrintLL();
