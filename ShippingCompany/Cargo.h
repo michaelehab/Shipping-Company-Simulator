@@ -12,6 +12,11 @@ class Cargo
 	char cargo_type;
 	double Del_dis;
 	int ID;
+	int TID; // Truck ID
+	bool autoPromoted;
+	int waitingTime;
+	int CDT_day;
+	int CDT_hour;
 public:
 	Cargo(int id, int prep, int LT, double dis, char carg_T , double cos , int h , int d );
 	Cargo();

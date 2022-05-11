@@ -188,7 +188,7 @@ void UI::printMovingCargos()
 {
 	int total = c->getMovingTrucks()->getSize();
 	cout << total << " Moving Cargos: ";
-	c->getMovingTrucks()->print();
+	c->getMovingTrucks()->PrintPQ();
 	cout << endl;
 	for (int i = 0; i < 50; i++)
 		cout << "-";

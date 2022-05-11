@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 using namespace std;
-#include "Queue.h"
+#include "PriorityQueue.h"
 #include "Cargo.h"
 
 class Truck{
@@ -11,7 +11,15 @@ class Truck{
 	int checkupTime; // The truck maintenance (checkup) time
 	int speed; // The truck speed
 	int DI = 0; // Delivery Interval
-	Queue<Cargo*> loadedCargos; // Queue contains pointers to the loaded cargos
+	int J; // Number of journeys before checkup
+	PriorityQueue<Cargo*> loadedCargos; // Queue contains pointers to the loaded cargos
+	int totalDeliveredCargos = 0; // NOTE : increment if checkDelivery returns a cargo
+	int totalJourneys = 0;
+	// Start point of active time
+	int load_d; // the day it started loading cargos
+	int load_h; // the hour it started loading cargos
+
+	int activeTime;
 public:
 	Truck(int, char, int, int, int); // Constructor
 	void printLoadedCargos() const; // Prints the loaded cargos
@@ -28,7 +36,7 @@ public:
 	void setDI(int&); // Sets the delivery interval
 	void setID(int&); // Sets the truck ID
 	int getID() const; // Returns the truck ID
-	Cargo* unloadCargo(); // Dequeues the first cargo and returns a ptr to it
+	Cargo* unloadCargo(int d, int h); // Dequeues the first cargo and returns a ptr to it
 	void loadCargo(Cargo*); // Loads a cargo to the truck
 	bool operator ==(const int&);
 	friend ostream& operator << (ostream& out, const Truck& c);

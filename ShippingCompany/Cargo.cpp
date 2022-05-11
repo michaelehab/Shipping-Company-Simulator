@@ -11,6 +11,7 @@ Cargo::Cargo(int id,int prep,int LT,double dis,char carg_T, double cos, int h, i
 	set_H(h);
 	set_D(d);
 	setID(id);
+	this->autoPromoted = false;
 }
 
 bool Cargo::operator ==(const int& a) {

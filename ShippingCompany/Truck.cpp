@@ -9,6 +9,7 @@ Truck::Truck(int id, char t, int tc, int checktime, int s) {
 	setTC(tc);
 	setCheckupTime(checktime);
 	setSpeed(s);
+	this->activeTime = 0;
 }
 
 bool Truck::operator ==(const int& a) {
@@ -93,30 +94,32 @@ bool Truck::belongsTo(char& c) {
 }
 
 void Truck::printLoadedCargos() const {
-	if (loadedCargos.IsEmpty()) return;
+	if (loadedCargos.isEmpty()) return;
 	if (type == 'N') {
 		cout << '[';
-		loadedCargos.print();
+		loadedCargos.PrintPQ();
 		cout << ']';
 	}
 	else if (type == 'V') {
 		cout << '{';
-		loadedCargos.print();
+		loadedCargos.PrintPQ();
 		cout << '}';
 	}
 	else if (type == 'S') {
 		cout << '(';
-		loadedCargos.print();
+		loadedCargos.PrintPQ();
 		cout << ')';
 	}
 }
 
-Cargo* Truck::unloadCargo() {
+Cargo* Truck::unloadCargo(int d, int h) {
 	Cargo* tmp;
-	if(loadedCargos.dequeue(tmp)) return tmp;
+	if(loadedCargos.pop(tmp)) return tmp;
+	// if(loadedCargos->getSize() == 0) activeTime += (d - load_d) + (h - load_h);
 	return 0;
 }
 
 void Truck::loadCargo(Cargo * c) {
-	loadedCargos.enqueue(c);
+	// NOTE : priority is CDT ascending to be changed!
+	loadedCargos.push(c, c->getPriority());
 }

@@ -40,7 +40,7 @@ class Company {
 	Queue<Truck*>* InCheckupNormalTrucks;
 
 	Queue<Truck*>* LoadingTrucks;
-	Queue<Truck*>* MovingTrucks;
+	PriorityQueue<Truck*>* MovingTrucks;
 
 	UI* ui;
 
@@ -92,7 +92,7 @@ public:
 	Queue<Truck*>* getInCheckupVIPTrucks() const;
 
 	Queue<Truck*>* getLoadingTrucks() const;
-	Queue<Truck*>* getMovingTrucks() const;
+	PriorityQueue<Truck*>* getMovingTrucks() const;
 
 	bool getSimulationStatus() const;
 };
