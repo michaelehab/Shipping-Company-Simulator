@@ -38,7 +38,7 @@ public:
 	int get_h();
 	int getPriority() const;
 	void setWaitingTime(int,int);
-	void getWaitingTime(int,int);
+	void getWaitingTime(int&,int&);
 	bool operator ==(const int&);
 	friend ostream& operator << (ostream& out, const Cargo& c);
 };

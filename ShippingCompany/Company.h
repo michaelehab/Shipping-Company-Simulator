@@ -99,12 +99,12 @@ public:
 	bool getSimulationStatus() const;
 
 	// Loading Cargo related functions
-	void handleLoadingRule();
-	void handleVIPLoading();
-	void handleNormalLoading();
+	void handleLoadingRule(int currentDay,int currentHr );
+	void handleVIPLoading(int currentDay, int currentHr);
+	void handleNormalLoading(int currentDay, int currentHr);
 	void LoadVIPCargo();
 	void LoadNormalCargo();
-	void moveTrucktoLoading(Truck*);
+	void moveTrucktoLoading(Truck*,int,int);
 	
 };
 

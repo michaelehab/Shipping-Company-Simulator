@@ -30,6 +30,7 @@ public:
 	void setTC(int&); // Sets the truck capacity
 	int getCheckupTime() const; // Returns the truck maintenance (checkup) time
 	void setCheckupTime(int&); // Sets the truck maintenance (checkup) time
+	void setLoadTime(int, int); //sets the loading day and hour
 	int getSpeed() const; // Returns the truck speed
 	void setSpeed(int&); // Sets the truck speed
 	int getDI() const; // Returns the delivery interval

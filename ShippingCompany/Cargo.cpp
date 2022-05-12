@@ -122,7 +122,7 @@ void Cargo::setWaitingTime(int d, int hr)
 	waitingTime_day = d;
 	waitingTime_hour = hr;
 }
-void Cargo::getWaitingTime(int d, int hr)
+void Cargo::getWaitingTime(int &d, int& hr)
 {
 	d = waitingTime_day;
 	hr = waitingTime_hour;

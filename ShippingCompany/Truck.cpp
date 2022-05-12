@@ -86,6 +86,11 @@ void Truck::setDI(int& n) {
 void Truck::setID(int& id) {
 	ID = id;
 }
+void Truck::setLoadTime(int d, int h)
+{
+	load_d = d;
+	load_h = h;
+}
 
 // Utility 
 

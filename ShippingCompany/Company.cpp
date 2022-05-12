@@ -365,7 +365,7 @@ void Company::simulate_day()
 					Events->peek(e);
 					e->getEt(d, h);
 				}
-				handleLoadingRule();
+				handleLoadingRule(day,i);
 				/*if (countts == 5)
 				{
 					Cargo* car = NULL;
@@ -398,12 +398,12 @@ void Company::simulate_day()
 	}
 }
 
-void Company::handleLoadingRule()
+void Company::handleLoadingRule(int currentDay, int currentHr)
 {
-	handleVIPLoading();
-	handleNormalLoading();
+	handleVIPLoading(currentDay, currentHr);
+	handleNormalLoading(currentDay,currentHr);
 }
-void Company::handleVIPLoading()
+void Company::handleVIPLoading(int currentDay, int currentHr)
 {
 	Truck* t;
 	VIPTrucks->peek(t); // gets the first truck in the priorityQueue to get its TC
@@ -411,10 +411,10 @@ void Company::handleVIPLoading()
 	{
 		LoadVIPCargo();
 		VIPTrucks->dequeue(t);
-		moveTrucktoLoading(t);
+		moveTrucktoLoading(t, currentDay,currentHr);
 	}
 }
-void Company::handleNormalLoading()
+void Company::handleNormalLoading(int currentDay, int currentHr)
 {
 	Truck* t;
 	NormalTrucks->peek(t);
@@ -422,7 +422,7 @@ void Company::handleNormalLoading()
 	{
 		LoadNormalCargo();
 		NormalTrucks->dequeue(t);
-		moveTrucktoLoading(t);
+		moveTrucktoLoading(t, currentDay, currentHr);
 	}
 }
 void Company::LoadVIPCargo()
@@ -485,8 +485,9 @@ void Company::LoadNormalCargo()
 		}
 	}
 }
-void Company::moveTrucktoLoading(Truck* t)
+void Company::moveTrucktoLoading(Truck* t,int load_d,int load_h)
 {
+	t->setLoadTime(load_d, load_h);
 	if (t->getType() == 'V')
 		loadingTrucks[0] = t;
 	else if (t->getType() == 'N')
