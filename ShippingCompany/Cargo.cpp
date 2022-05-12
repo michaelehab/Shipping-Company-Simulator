@@ -11,7 +11,7 @@ Cargo::Cargo(int id,int prep,int LT,double dis,char carg_T, double cos, int h, i
 	set_H(h);
 	set_D(d);
 	setID(id);
-	this->autoPromoted = false;
+	autoPromoted = false;
 }
 
 bool Cargo::operator ==(const int& a) {
@@ -24,7 +24,8 @@ ostream& operator << (ostream& out, const Cargo& c)
 	return out;
 }
 
-Cargo::Cargo()
+Cargo::
+Cargo()
 {
 
 }
@@ -115,4 +116,14 @@ int Cargo::getPriority() const {
 	// Cargos with far delivery distance have less priority
 	// Cargos with far preparation time have the least priority
 	return (20 * Cost) + (10 * Del_dis) + (4 * day);
+}
+void Cargo::setWaitingTime(int d, int hr)
+{
+	waitingTime_day = d;
+	waitingTime_hour = hr;
+}
+void Cargo::getWaitingTime(int d, int hr)
+{
+	d = waitingTime_day;
+	hr = waitingTime_hour;
 }

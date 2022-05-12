@@ -58,8 +58,13 @@ Company::Company()
 	NormalTrucks = new Queue<Truck*>;
 	InCheckupNormalTrucks = new Queue<Truck*>;
 
-	LoadingTrucks = new Queue<Truck*>;
+	//LoadingTrucks = new Queue<Truck*>;
 	MovingTrucks = new PriorityQueue<Truck*>;
+
+	loadingTrucks = new Truck * [3];
+
+	for (int i = 0; i < 3; i++)
+		loadingTrucks[i] = NULL;
 
 	simMode = 1;
 	loadFile();
@@ -226,9 +231,8 @@ Queue<Truck*>* Company::getVIPTrucks() const {
 Queue<Truck*>* Company::getInCheckupVIPTrucks() const {
 	return InCheckupVIPTrucks;
 }
-
-Queue<Truck*>* Company::getLoadingTrucks() const {
-	return LoadingTrucks;
+Truck** Company::getLoadingTrucks() const {
+	return loadingTrucks;
 }
 PriorityQueue<Truck*>* Company::getMovingTrucks() const {
 	return MovingTrucks;
@@ -240,14 +244,14 @@ bool Company::getSimulationStatus() const
 
 void Company::simulate_day()
 {
-	/* 
+	/*
 	EVERY DAY : EVERY HOUR
 
 	DAY : OFF HOURS
 	handleReturningTrucks();
 	handleInCheckupTrucks();
-	
-	
+
+
 	DAY : WORKING HOURS
 		checkEvent();
 
@@ -274,7 +278,7 @@ void Company::simulate_day()
 		loadingTrucks[1] indicates the truck loading Normal type
 		loadingTrucks[2] indicates the truck loading special type
 		if loadingTrucks[i] == null this means that we can load this type again.
-		
+
 
 		loadingTruckstoMoving(){
 			for i = 0 to 2:
@@ -293,7 +297,7 @@ void Company::simulate_day()
 				LoadSpecialCargo();
 			};
 		}
-	
+
 		checkAutoPromotion(){
 			// If truck -> (d + autoP) == current time
 			PromoteNormalCargo();
@@ -336,7 +340,7 @@ void Company::simulate_day()
 			}
 		};
 
-		ui->printbymode();	
+		ui->printbymode();
 
 		AFTER END OF DAYS
 		generateOutputFile();
@@ -361,9 +365,10 @@ void Company::simulate_day()
 					Events->peek(e);
 					e->getEt(d, h);
 				}
-				if (countts == 5)
+				handleLoadingRule();
+				/*if (countts == 5)
 				{
-					Cargo* car=NULL;
+					Cargo* car = NULL;
 					if (NormalCargos->pop(car))
 						DeliveredNormalCargos->enqueue(car);
 					car = NULL;
@@ -374,14 +379,15 @@ void Company::simulate_day()
 						DeliveredVIPCargos->enqueue(car);
 					car = NULL;
 					countts = 0;
-				}
-				countts++;
-				ui->printbyMode(day,i);
+				}*/
+
+				/*countts++;*/
+				ui->printbyMode(day, i);
 
 				if (Events->IsEmpty() && SpecialCargos->IsEmpty() && VIPCargos->isEmpty() && NormalCargos->isEmpty())
 				{
 					simMode = 0;  // the simulation ended
-					ui->printbyMode(day,i); //to activate the silentmode function if it was chosen
+					ui->printbyMode(day, i); //to activate the silentmode function if it was chosen
 					break;
 				}
 
@@ -392,7 +398,105 @@ void Company::simulate_day()
 	}
 }
 
+void Company::handleLoadingRule()
+{
+	handleVIPLoading();
+	handleNormalLoading();
+}
+void Company::handleVIPLoading()
+{
+	Truck* t;
+	VIPTrucks->peek(t); // gets the first truck in the priorityQueue to get its TC
+	if (VIPCargos->getSize() >= t->getTC() && !loadingTrucks[0])
+	{
+		LoadVIPCargo();
+		VIPTrucks->dequeue(t);
+		moveTrucktoLoading(t);
+	}
+}
+void Company::handleNormalLoading()
+{
+	Truck* t;
+	NormalTrucks->peek(t);
+	if (NormalCargos->getSize() >= t->getTC() && !loadingTrucks[1])
+	{
+		LoadNormalCargo();
+		NormalTrucks->dequeue(t);
+		moveTrucktoLoading(t);
+	}
+}
+void Company::LoadVIPCargo()
+{
+	Truck* t;
+	Cargo* c;
+	if (VIPTrucks->getSize())
+	{
+		VIPTrucks->peek(t);
+		int TC = t->getTC();
+		while (TC--)  //To load all the TC cargos to the truck
+		{
+			VIPCargos->pop(c);
+			t->loadCargo(c);
+		}
+	}
+	else if (NormalTrucks->getSize())
+	{
+		NormalTrucks->peek(t);
+		int TC = t->getTC();
+		while (TC--)  //To load all the TC cargos to the truck
+		{
+			NormalCargos->pop(c);
+			t->loadCargo(c);
+		}
+	}
+	else if (SpecialTrucks->getSize())
+	{
+		SpecialTrucks->peek(t);
+		int TC = t->getTC();
+		while (TC--)  //To load all the TC cargos to the truck
+		{
+			SpecialCargos->dequeue(c);
+			t->loadCargo(c);
+		}
+	}
+}
+void Company::LoadNormalCargo()
+{
+	Truck* t;
+	Cargo* c;
+	if (NormalTrucks->getSize())
+	{
+		NormalTrucks->peek(t);
+		int TC = t->getTC();
+		while (TC--)  //To load all the TC cargos to the truck
+		{
+			NormalCargos->pop(c);
+			t->loadCargo(c);
+		}
+	}
+	else if (VIPTrucks->getSize())
+	{
+		VIPTrucks->peek(t);
+		int TC = t->getTC();
+		while (TC--)  //To load all the TC cargos to the truck
+		{
+			VIPCargos->pop(c);
+			t->loadCargo(c);
+		}
+	}
+}
+void Company::moveTrucktoLoading(Truck* t)
+{
+	if (t->getType() == 'V')
+		loadingTrucks[0] = t;
+	else if (t->getType() == 'N')
+		loadingTrucks[1] = t;
+	else if(t->getType() == 'S')
+		loadingTrucks[2] = t;
+		
+}
+
 /*
-	TODO : 
+	TODO :
 	Company Destructor : Empty all lists
 */

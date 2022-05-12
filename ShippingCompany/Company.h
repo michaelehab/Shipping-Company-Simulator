@@ -39,8 +39,9 @@ class Company {
 	Queue<Truck*>* NormalTrucks;
 	Queue<Truck*>* InCheckupNormalTrucks;
 
-	Queue<Truck*>* LoadingTrucks;
+	//Queue<Truck*>* LoadingTrucks;
 	PriorityQueue<Truck*>* MovingTrucks;
+	Truck** loadingTrucks;
 
 	UI* ui;
 
@@ -91,9 +92,19 @@ public:
 	Queue<Truck*>* getVIPTrucks() const;
 	Queue<Truck*>* getInCheckupVIPTrucks() const;
 
-	Queue<Truck*>* getLoadingTrucks() const;
+	Truck** getLoadingTrucks() const;
+	
 	PriorityQueue<Truck*>* getMovingTrucks() const;
 
 	bool getSimulationStatus() const;
+
+	// Loading Cargo related functions
+	void handleLoadingRule();
+	void handleVIPLoading();
+	void handleNormalLoading();
+	void LoadVIPCargo();
+	void LoadNormalCargo();
+	void moveTrucktoLoading(Truck*);
+	
 };
 

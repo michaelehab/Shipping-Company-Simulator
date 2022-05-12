@@ -10,7 +10,7 @@ UI::UI(Company* comp)
 	c = comp;
 	interactiveModeflag = 1;
 }
-void UI::printWaitingCargos() 
+void UI::printWaitingCargos()
 {
 	int normal = c->getNormalCargos()->getSize();
 	int special = c->getSpecialCargos()->getSize();
@@ -38,14 +38,14 @@ void UI::printWaitingCargos()
 		cout << "-";
 	cout << endl;
 }
-void UI::printCheckUpTrucks() 
+void UI::printCheckUpTrucks()
 {
 	int normal = c->getInCheckupNormalTrucks()->getSize();
 	int special = c->getInCheckupSpecialTrucks()->getSize();
 	int vip = c->getInCheckupVIPTrucks()->getSize();
 	int total = normal + special + vip;
 
-	cout << total <<  " In-Checkup Trucks: ";
+	cout << total << " In-Checkup Trucks: ";
 	if (normal) {
 		cout << '[';
 		c->getInCheckupNormalTrucks()->print();
@@ -68,7 +68,7 @@ void UI::printCheckUpTrucks()
 
 }
 
-void UI::printEmptyTrucks() 
+void UI::printEmptyTrucks()
 {
 	int normal = c->getNormalTrucks()->getSize();
 	int special = c->getSpecialTrucks()->getSize();
@@ -149,13 +149,13 @@ void UI::InteractiveMode(int day, int hour)
 		else
 			interactiveModeflag = 0;
 	}
-	else 
+	else
 	{
 		cout << "Simulation ends, Output file created" << endl;
 	}
 }
 
-void UI::printDeliveredCargos() 
+void UI::printDeliveredCargos()
 {
 	int delivered_normal = c->getDeliveredNormalCargos()->getSize();
 	int delivered_special = c->getDeliveredSpecialCargos()->getSize();
@@ -184,7 +184,7 @@ void UI::printDeliveredCargos()
 	cout << endl;
 }
 
-void UI::printMovingCargos() 
+void UI::printMovingCargos()
 {
 	int total = c->getMovingTrucks()->getSize();
 	cout << total << " Moving Cargos: ";
@@ -195,18 +195,24 @@ void UI::printMovingCargos()
 	cout << endl;
 }
 
-void UI::printLoadingTrucks() 
+void UI::printLoadingTrucks()
 {
-	int total = c->getLoadingTrucks()->getSize();
+	int total = 0;
+	Truck** t = c->getLoadingTrucks();  //gets the loadingTrucks pointer to pointers
+	for (int i = 0; i < 3; i++)
+		if (t[i])
+			total++;
 	cout << total << " Loading Trucks: ";
-	c->getLoadingTrucks()->print(); 
+	for (int i = 0; i < 3; i++)
+		if (t[i])
+			cout << t[i]<<" ";
 	cout << endl;
 	for (int i = 0; i < 50; i++)
 		cout << "-";
 	cout << endl;
 }
 
-void UI::printday() 
+void UI::printday()
 {
 	printWaitingCargos();
 	printLoadingTrucks();
@@ -215,13 +221,13 @@ void UI::printday()
 	printCheckUpTrucks();
 	printDeliveredCargos();
 }
-void UI::printbyMode(int day,int hour) 
+void UI::printbyMode(int day, int hour)
 {
-	
+
 	if (mode == 1)
-		InteractiveMode(day,hour);
+		InteractiveMode(day, hour);
 	else if (mode == 2)
-		StepByStepMode(day,hour);
+		StepByStepMode(day, hour);
 	else if (mode == 3)
 		silentMode();
 

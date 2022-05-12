@@ -14,7 +14,8 @@ class Cargo
 	int ID;
 	int TID; // Truck ID
 	bool autoPromoted;
-	int waitingTime;
+	int waitingTime_day;
+	int waitingTime_hour;
 	int CDT_day;
 	int CDT_hour;
 public:
@@ -36,6 +37,8 @@ public:
 	int get_d();
 	int get_h();
 	int getPriority() const;
+	void setWaitingTime(int,int);
+	void getWaitingTime(int,int);
 	bool operator ==(const int&);
 	friend ostream& operator << (ostream& out, const Cargo& c);
 };
