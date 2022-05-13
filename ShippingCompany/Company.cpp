@@ -364,8 +364,8 @@ void Company::simulate_day()
 					Events->peek(e);
 					e->getEt(d, h);
 				}
-				handleLoadingRule(day,i);
 				loadingTruckstoMoving(day, i);
+				handleLoadingRule(day,i);
 				/*if (countts == 5)
 				{
 					Cargo* car = NULL;
