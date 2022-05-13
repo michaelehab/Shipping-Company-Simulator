@@ -102,8 +102,10 @@ public:
 	void handleLoadingRule(int currentDay,int currentHr );
 	void handleVIPLoading(int currentDay, int currentHr);
 	void handleNormalLoading(int currentDay, int currentHr);
-	void LoadVIPCargo();
-	void LoadNormalCargo();
+	void handleSpecialLoading(int currentDay, int currentHr);
+	void LoadVIPCargos();
+	void LoadNormalCargos();
+	void LoadSpecialCargos();
 	void moveTrucktoLoading(Truck*,int,int);
 	
 };

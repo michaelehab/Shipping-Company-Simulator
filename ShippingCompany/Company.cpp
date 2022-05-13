@@ -63,8 +63,7 @@ Company::Company()
 
 	loadingTrucks = new Truck * [3];
 
-	for (int i = 0; i < 3; i++)
-		loadingTrucks[i] = NULL;
+	for (int i = 0; i < 3; i++) loadingTrucks[i] = NULL;
 
 	simMode = 1;
 	loadFile();
@@ -74,7 +73,7 @@ Company::Company()
 }
 
 void Company::loadFile() {
-	ifstream inputFile("input2.txt");
+	ifstream inputFile("input1.txt");
 	if (!inputFile) {
 		return;
 	}
@@ -402,6 +401,7 @@ void Company::handleLoadingRule(int currentDay, int currentHr)
 {
 	handleVIPLoading(currentDay, currentHr);
 	handleNormalLoading(currentDay,currentHr);
+	handleSpecialLoading(currentDay, currentHr);
 }
 void Company::handleVIPLoading(int currentDay, int currentHr)
 {
@@ -409,7 +409,7 @@ void Company::handleVIPLoading(int currentDay, int currentHr)
 	VIPTrucks->peek(t); // gets the first truck in the priorityQueue to get its TC
 	if (VIPCargos->getSize() >= t->getTC() && !loadingTrucks[0])
 	{
-		LoadVIPCargo();
+		LoadVIPCargos();
 		VIPTrucks->dequeue(t);
 		moveTrucktoLoading(t, currentDay,currentHr);
 	}
@@ -420,12 +420,23 @@ void Company::handleNormalLoading(int currentDay, int currentHr)
 	NormalTrucks->peek(t);
 	if (NormalCargos->getSize() >= t->getTC() && !loadingTrucks[1])
 	{
-		LoadNormalCargo();
+		LoadNormalCargos();
 		NormalTrucks->dequeue(t);
 		moveTrucktoLoading(t, currentDay, currentHr);
 	}
 }
-void Company::LoadVIPCargo()
+void Company::handleSpecialLoading(int currentDay, int currentHr)
+{
+	Truck* t;
+	SpecialTrucks->peek(t);
+	if (SpecialCargos->getSize() >= t->getTC() && !loadingTrucks[2])
+	{
+		LoadSpecialCargos();
+		SpecialTrucks->dequeue(t);
+		moveTrucktoLoading(t, currentDay, currentHr);
+	}
+}
+void Company::LoadVIPCargos()
 {
 	Truck* t;
 	Cargo* c;
@@ -460,7 +471,7 @@ void Company::LoadVIPCargo()
 		}
 	}
 }
-void Company::LoadNormalCargo()
+void Company::LoadNormalCargos()
 {
 	Truck* t;
 	Cargo* c;
@@ -485,16 +496,27 @@ void Company::LoadNormalCargo()
 		}
 	}
 }
+void Company::LoadSpecialCargos()
+{
+	Truck* t;
+	Cargo* c;
+	if (SpecialTrucks->getSize())
+	{
+		SpecialTrucks->peek(t);
+		int TC = t->getTC();
+		while (TC--)  //To load all the TC cargos to the truck
+		{
+			SpecialCargos->dequeue(c);
+			t->loadCargo(c);
+		}
+	}
+}
 void Company::moveTrucktoLoading(Truck* t,int load_d,int load_h)
 {
 	t->setLoadTime(load_d, load_h);
-	if (t->getType() == 'V')
-		loadingTrucks[0] = t;
-	else if (t->getType() == 'N')
-		loadingTrucks[1] = t;
-	else if(t->getType() == 'S')
-		loadingTrucks[2] = t;
-		
+	if (t->getType() == 'V') loadingTrucks[0] = t;
+	else if (t->getType() == 'N') loadingTrucks[1] = t;
+	else if(t->getType() == 'S') loadingTrucks[2] = t;
 }
 
 /*

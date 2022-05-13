@@ -198,14 +198,12 @@ void UI::printMovingCargos()
 void UI::printLoadingTrucks()
 {
 	int total = 0;
-	Truck** t = c->getLoadingTrucks();  //gets the loadingTrucks pointer to pointers
+	Truck* * t = c->getLoadingTrucks();  //gets the loadingTrucks pointer to pointers
 	for (int i = 0; i < 3; i++)
-		if (t[i])
-			total++;
+		if (t[i]) total++;
 	cout << total << " Loading Trucks: ";
 	for (int i = 0; i < 3; i++)
-		if (t[i])
-			cout << t[i]<<" ";
+		if (t[i]) cout << t[i] << " ";
 	cout << endl;
 	for (int i = 0; i < 50; i++)
 		cout << "-";

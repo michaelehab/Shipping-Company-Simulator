@@ -126,5 +126,5 @@ Cargo* Truck::unloadCargo(int d, int h) {
 
 void Truck::loadCargo(Cargo * c) {
 	// NOTE : priority is CDT ascending to be changed!
-	loadedCargos.push(c, c->getPriority());
+	loadedCargos.push(c, 1);
 }
