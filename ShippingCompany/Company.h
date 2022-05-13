@@ -108,5 +108,6 @@ public:
 	void LoadSpecialCargos();
 	void moveTrucktoLoading(Truck*,int,int);
 	
+	void loadingTruckstoMoving(int d, int h);
 };
 

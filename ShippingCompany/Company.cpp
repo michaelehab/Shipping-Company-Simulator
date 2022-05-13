@@ -365,6 +365,7 @@ void Company::simulate_day()
 					e->getEt(d, h);
 				}
 				handleLoadingRule(day,i);
+				loadingTruckstoMoving(day, i);
 				/*if (countts == 5)
 				{
 					Cargo* car = NULL;
@@ -440,6 +441,7 @@ void Company::LoadVIPCargos()
 {
 	Truck* t;
 	Cargo* c;
+	int maxLoadTime = 0;
 	if (VIPTrucks->getSize())
 	{
 		VIPTrucks->peek(t);
@@ -448,7 +450,9 @@ void Company::LoadVIPCargos()
 		{
 			VIPCargos->pop(c);
 			t->loadCargo(c);
+			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
 		}
+		t->setMaxCargoLoad(maxLoadTime);
 	}
 	else if (NormalTrucks->getSize())
 	{
@@ -458,7 +462,9 @@ void Company::LoadVIPCargos()
 		{
 			NormalCargos->pop(c);
 			t->loadCargo(c);
+			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
 		}
+		t->setMaxCargoLoad(maxLoadTime);
 	}
 	else if (SpecialTrucks->getSize())
 	{
@@ -468,13 +474,16 @@ void Company::LoadVIPCargos()
 		{
 			SpecialCargos->dequeue(c);
 			t->loadCargo(c);
+			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
 		}
+		t->setMaxCargoLoad(maxLoadTime);
 	}
 }
 void Company::LoadNormalCargos()
 {
 	Truck* t;
 	Cargo* c;
+	int maxLoadTime = 0;
 	if (NormalTrucks->getSize())
 	{
 		NormalTrucks->peek(t);
@@ -483,7 +492,9 @@ void Company::LoadNormalCargos()
 		{
 			NormalCargos->pop(c);
 			t->loadCargo(c);
+			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
 		}
+		t->setMaxCargoLoad(maxLoadTime);
 	}
 	else if (VIPTrucks->getSize())
 	{
@@ -493,13 +504,16 @@ void Company::LoadNormalCargos()
 		{
 			VIPCargos->pop(c);
 			t->loadCargo(c);
+			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
 		}
+		t->setMaxCargoLoad(maxLoadTime);
 	}
 }
 void Company::LoadSpecialCargos()
 {
 	Truck* t;
 	Cargo* c;
+	int maxLoadTime = 0;
 	if (SpecialTrucks->getSize())
 	{
 		SpecialTrucks->peek(t);
@@ -508,7 +522,9 @@ void Company::LoadSpecialCargos()
 		{
 			SpecialCargos->dequeue(c);
 			t->loadCargo(c);
+			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
 		}
+		t->setMaxCargoLoad(maxLoadTime);
 	}
 }
 void Company::moveTrucktoLoading(Truck* t,int load_d,int load_h)
@@ -519,6 +535,15 @@ void Company::moveTrucktoLoading(Truck* t,int load_d,int load_h)
 	else if(t->getType() == 'S') loadingTrucks[2] = t;
 }
 
+void Company::loadingTruckstoMoving(int d, int h) {
+	for (int i = 0; i < 3; i++) {
+		if (loadingTrucks[i] && loadingTrucks[i]->checkDepartmentTime(d, h)) {
+			// TODO : Truck Priority
+			MovingTrucks->push(loadingTrucks[i], 1);
+			loadingTrucks[i] = nullptr;
+		}
+	}
+}
 /*
 	TODO :
 	Company Destructor : Empty all lists

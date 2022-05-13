@@ -92,6 +92,10 @@ void Truck::setLoadTime(int d, int h)
 	load_h = h;
 }
 
+void Truck::setMaxCargoLoad(int& time) {
+	maxCargoLoad = time;
+}
+
 // Utility 
 
 bool Truck::belongsTo(char& c) {
@@ -127,4 +131,14 @@ Cargo* Truck::unloadCargo(int d, int h) {
 void Truck::loadCargo(Cargo * c) {
 	// NOTE : priority is CDT ascending to be changed!
 	loadedCargos.push(c, 1);
+}
+
+bool Truck::checkDepartmentTime(int d, int h) {
+	int dep_d = load_d, dep_h = load_h;
+	dep_h += maxCargoLoad;
+	while (dep_h >= 24) {
+		dep_h -= 24;
+		dep_d++;
+	}
+	return (d == dep_d && h == dep_h);
 }
