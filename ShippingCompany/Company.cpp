@@ -282,10 +282,11 @@ void Company::simulate_day()
 
 		checkMaxWRule(){
 			checkNormalMaxW(){
-				LoadNormalCargo(); // If waiting >= MaxW
+				// If (24 * d + h) - (24 * c->get_d() + c->get_h()) >= MaxW
+				LoadMaxWNormalCargo();
 			};
 			checkSpecialMaxW(){
-				LoadSpecialCargo();
+				LoadMaxWSpecialCargo();
 			};
 		}
 
@@ -390,34 +391,37 @@ void Company::handleLoadingRule(int currentDay, int currentHr)
 void Company::handleVIPLoading(int currentDay, int currentHr)
 {
 	Truck* t;
-	VIPTrucks->peek(t); // gets the first truck in the priorityQueue to get its TC
-	if (VIPCargos->getSize() >= t->getTC() && !loadingTrucks[0])
-	{
-		LoadVIPCargos();
-		VIPTrucks->dequeue(t);
-		moveTrucktoLoading(t, currentDay,currentHr);
+	if (VIPTrucks->peek(t)) {
+		if (VIPCargos->getSize() >= t->getTC() && !loadingTrucks[0])
+		{
+			LoadVIPCargos();
+			VIPTrucks->dequeue(t);
+			moveTrucktoLoading(t, currentDay,currentHr);
+		}
 	}
 }
 void Company::handleNormalLoading(int currentDay, int currentHr)
 {
 	Truck* t;
-	NormalTrucks->peek(t);
-	if (NormalCargos->getSize() >= t->getTC() && !loadingTrucks[1])
-	{
-		LoadNormalCargos();
-		NormalTrucks->dequeue(t);
-		moveTrucktoLoading(t, currentDay, currentHr);
+	if (NormalTrucks->peek(t)) {
+		if (NormalCargos->getSize() >= t->getTC() && !loadingTrucks[1])
+		{
+			LoadNormalCargos();
+			NormalTrucks->dequeue(t);
+			moveTrucktoLoading(t, currentDay, currentHr);
+		}
 	}
 }
 void Company::handleSpecialLoading(int currentDay, int currentHr)
 {
 	Truck* t;
-	SpecialTrucks->peek(t);
-	if (SpecialCargos->getSize() >= t->getTC() && !loadingTrucks[2])
-	{
-		LoadSpecialCargos();
-		SpecialTrucks->dequeue(t);
-		moveTrucktoLoading(t, currentDay, currentHr);
+	if (SpecialTrucks->peek(t)) {
+		if (SpecialCargos->getSize() >= t->getTC() && !loadingTrucks[2])
+		{
+			LoadSpecialCargos();
+			SpecialTrucks->dequeue(t);
+			moveTrucktoLoading(t, currentDay, currentHr);
+		}
 	}
 }
 void Company::LoadVIPCargos()

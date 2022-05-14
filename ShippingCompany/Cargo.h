@@ -14,12 +14,13 @@ class Cargo
 	int ID;
 	int TID; // Truck ID
 	bool autoPromoted;
+	// Statistics
 	int waitingTime_day;
 	int waitingTime_hour;
 	int CDT_day;
 	int CDT_hour;
 public:
-	Cargo(int id, int prep, int LT, double dis, char carg_T , double cos , int h , int d );
+	Cargo(int id, int prep, int LT, int dis, char carg_T , double cos , int h , int d );
 	Cargo();
 	void SetCargoT(char T);
 	void set_cost(double c);

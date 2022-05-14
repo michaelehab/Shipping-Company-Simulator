@@ -1,13 +1,13 @@
 #include "Cargo.h"
 #include<iostream>
 using namespace std;
-Cargo::Cargo(int id,int prep,int LT,double dis,char carg_T, double cos, int h, int d)
+Cargo::Cargo(int id,int prep,int LT,int dis,char carg_T, double cos, int h, int d)
 {
 	SetCargoT(carg_T);
-	set_cost( cos);
-	set_LoadTime( LT);
-	setDel_dis( dis);
-	set_prepTime( prep);
+	set_cost(cos);
+	set_LoadTime(LT);
+	setDel_dis(dis);
+	set_prepTime(prep);
 	set_H(h);
 	set_D(d);
 	setID(id);
