@@ -107,7 +107,9 @@ public:
 	void LoadNormalCargos();
 	void LoadSpecialCargos();
 	void moveTrucktoLoading(Truck*,int,int);
-	
+	void movingTrucktoCheckUp(Truck* x);
+	void movingTrucktoReady(Truck* x);
+	void handleReturningTrucks();
 	void loadingTruckstoMoving(int d, int h);
 };
 

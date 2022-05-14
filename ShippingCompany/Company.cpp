@@ -366,6 +366,7 @@ void Company::simulate_day()
 				}
 				loadingTruckstoMoving(day, i);
 				handleLoadingRule(day,i);
+				handleReturningTrucks();
 				/*if (countts == 5)
 				{
 					Cargo* car = NULL;
@@ -535,7 +536,62 @@ void Company::moveTrucktoLoading(Truck* t,int load_d,int load_h)
 	else if(t->getType() == 'S') loadingTrucks[2] = t;
 }
 
-void Company::loadingTruckstoMoving(int d, int h) {
+void Company::movingTrucktoCheckUp(Truck* x)
+{
+	
+	MovingTrucks->pop(x);
+	
+	if (x->getType() == 'N')
+	{
+		InCheckupNormalTrucks->enqueue(x);
+		x->setCheckupTime(normalCheckupDuration);
+	}
+	else if (x->getType() == 'V')
+	{
+		InCheckupVIPTrucks->enqueue(x);
+		x->setCheckupTime(VIPCheckupDuration);
+	}
+	else
+	{
+		InCheckupSpecialTrucks->enqueue(x);
+		x->setCheckupTime(specialCheckupDuration);
+	}
+}
+void Company::movingTrucktoReady(Truck* x)
+{
+	
+	MovingTrucks->pop(x);
+
+	if (x->getType() == 'N')
+	{
+		NormalTrucks->enqueue(x);
+	}
+	else if (x->getType() == 'V')
+	{
+		VIPTrucks->enqueue(x);
+	}
+	else
+	{
+		SpecialTrucks->enqueue(x);
+	}
+}
+
+void Company::handleReturningTrucks() {
+	if (!MovingTrucks->isEmpty())
+	{
+		Truck* x;
+		MovingTrucks->pop(x);
+		if (x == nullptr)
+			return;
+		if (x->gettotalJourneys() % J == 0)
+			movingTrucktoCheckUp(x); // increment totalJourneys
+		else
+			movingTrucktoReady(x); // increment totalJourneys
+	}
+};
+
+void Company::loadingTruckstoMoving(int d, int h) 
+{
 	for (int i = 0; i < 3; i++) {
 		if (loadingTrucks[i] && loadingTrucks[i]->checkDepartmentTime(d, h)) {
 			// TODO : Truck Priority

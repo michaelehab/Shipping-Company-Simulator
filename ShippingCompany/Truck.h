@@ -27,6 +27,8 @@ public:
 	void setType(char&); // Sets the truck type
 	bool belongsTo(char&); // Checks if the truck belongs to a specific type
 	int getTC() const; // Returns the truck capacity
+	int gettotalJourneys();
+	int getJ();
 	void setTC(int&); // Sets the truck capacity
 	int getCheckupTime() const; // Returns the truck maintenance (checkup) time
 	void setCheckupTime(int&); // Sets the truck maintenance (checkup) time

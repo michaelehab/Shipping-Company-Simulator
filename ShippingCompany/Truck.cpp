@@ -40,6 +40,16 @@ int Truck::getTC() const {
 	return TC;
 }
 
+int Truck::gettotalJourneys()
+{
+	return totalJourneys;
+}
+
+int Truck::getJ()
+{
+	return J;
+}
+
 int Truck::getCheckupTime() const {
 	return checkupTime;
 }
