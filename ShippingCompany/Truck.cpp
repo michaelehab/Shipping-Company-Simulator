@@ -140,6 +140,7 @@ Cargo* Truck::unloadCargo(int d, int h) {
 	Cargo* tmp;
 	if (loadedCargos.pop(tmp)) {
 		tmp->setCDT(d, h);
+		tmp->setWaitingTime(dep_d - tmp->get_d(), abs(dep_h - tmp->get_h()));
 		if (loadedCargos.getSize() == 0) {
 			activeTime += (d - load_d) + (h - load_h);
 			lastUnloadTime = 0;
