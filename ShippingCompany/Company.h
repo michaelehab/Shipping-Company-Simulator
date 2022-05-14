@@ -114,5 +114,11 @@ public:
 	void inCheckupSpecialToReady(int, int);
 	void handleInCheckupTrucks(int, int);
 	void deliverCargos(int, int);
+	bool checkNormalMaxW(Cargo* c, int d, int h);
+	bool checkSpecialMaxW(Cargo* c, int d, int h);
+	void checkMaxWRule(Cargo* c, int d, int h);
+	void PromoteNormalCargo(Cargo* c);
+	void checkAutoPromotion(int, int);
+
 };
 

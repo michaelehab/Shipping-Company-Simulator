@@ -362,7 +362,7 @@ void Company::simulate_day()
 				handleInCheckupTrucks(day, i);
 				handleReturningTrucks(day, i);
 				handleLoadingRule(day,i);
-
+				checkAutoPromotion(day, i);
 				if (Events->IsEmpty() && SpecialCargos->IsEmpty() && VIPCargos->isEmpty() && NormalCargos->isEmpty())
 				{
 					simMode = 0;  // the simulation ended
@@ -667,7 +667,48 @@ void Company::deliverCargos(int d, int h) {
 		tmp.dequeue(t);
 		MovingTrucks->push(t, -1 * t->getPriority());
 	}
-};
+}
+bool Company::checkNormalMaxW(Cargo * c,int d, int h)
+{
+	if ((24 * d + h) - (24 * c->get_d() + c->get_h()) >= maxW )
+	{
+	LoadNormalCargos();
+	return true;
+
+	}
+	else return false;
+}
+bool Company::checkSpecialMaxW(Cargo* c, int d, int h)
+{
+
+	if ((24 * d + h) - (24 * c->get_d() + c->get_h()) >= maxW)
+	{
+		LoadSpecialCargos();
+		return true;
+
+	}
+	else return false;
+
+}
+void Company::checkMaxWRule(Cargo* c, int d, int h) {
+	if (c->getCargoT() == 'N')
+		checkNormalMaxW(c, d, h);
+	else if (c->getCargoT() == 'S')
+		checkSpecialMaxW(c, d, h);
+}
+void Company::checkAutoPromotion(int d, int h)
+{
+	Cargo* c;
+	if (c->get_d()+autoP == 24*d+h)
+		PromoteNormalCargo(c); 
+}
+void Company::PromoteNormalCargo(Cargo* c) {
+	int p = c->getPriority();
+	c->SetCargoT('V');
+	// Add to VIP Cargos Priority Queue in Company Class
+	VIPCargos->push(c, p);
+}
+;
 /*
 	TODO :
 	Company Destructor : Empty all lists
