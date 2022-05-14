@@ -18,6 +18,10 @@ class Truck{
 	// Start point of active time
 	int load_d; // the day it started loading cargos
 	int load_h; // the hour it started loading cargos
+	int dep_d; // the day it started its journey
+	int dep_h; // the hour it started its journey
+	int arrival_d; // the day it gets back to the company
+	int arrival_h; // the hour it gets back to the company
 	int maxCargoLoad; // The max time a cargo takes to be loaded on the truck
 	int activeTime;
 public:
@@ -36,16 +40,21 @@ public:
 	int getSpeed() const; // Returns the truck speed
 	void setSpeed(int&); // Sets the truck speed
 	int getDI() const; // Returns the delivery interval
-	void setDI(int&); // Sets the delivery interval
+	void setDI(double &, int&); // Sets the delivery interval
 	void setID(int&); // Sets the truck ID
 	int getID() const; // Returns the truck ID
+	int getArrivalTime() const;
 	void setMaxCargoLoad(int&); // Sets the max load time of the truck
 	Cargo* unloadCargo(int d, int h); // Dequeues the first cargo and returns a ptr to it
 	void loadCargo(Cargo*); // Loads a cargo to the truck
+	void calcDepartmentTime(int, int);
+	void calcArrivalTime(int, int);
+	bool checkArrivalTime(int, int);
+	bool checkDepartmentTime(int, int);
+	void incrementJourneys();
 	bool operator ==(const int&);
 	friend ostream& operator << (ostream& out, const Truck& c);
 	friend ostream& operator << (ostream& out, const Truck* c);
-	bool checkDepartmentTime(int d, int h);
 	//~Truck(); No dynamic allocation so we'll use default destructor
 };
 

@@ -33,7 +33,7 @@ PriorityQueue<T>::PriorityQueue()
 template <typename T>
 bool PriorityQueue<T>::isEmpty() const
 {
-	return (frontPtr == nullptr);
+	return (count == 0);
 }
 
 

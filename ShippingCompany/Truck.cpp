@@ -66,6 +66,10 @@ int Truck::getID() const {
 	return ID;
 }
 
+int Truck::getArrivalTime() const {
+	return arrival_d * 24 + arrival_h;
+}
+
 // Setters
 
 void Truck::setType(char& c) {
@@ -89,8 +93,9 @@ void Truck::setSpeed(int& n) {
 	speed = (n >= 0) ? n : 0;
 }
 
-void Truck::setDI(int& n) {
-	DI = (n >= 0) ? n : 0;
+void Truck::setDI(double& maxDeliveryDist, int& sumUnloadTime) {
+	// Assuming that the truck takes the same time to come back.
+	DI = 2 * (maxDeliveryDist / speed) + sumUnloadTime;
 }
 
 void Truck::setID(int& id) {
@@ -143,12 +148,34 @@ void Truck::loadCargo(Cargo * c) {
 	loadedCargos.push(c, 1);
 }
 
-bool Truck::checkDepartmentTime(int d, int h) {
-	int dep_d = load_d, dep_h = load_h;
+void Truck::calcDepartmentTime(int d, int h) {
+	dep_d = load_d;
+	dep_h = load_h;
 	dep_h += maxCargoLoad;
 	while (dep_h >= 24) {
 		dep_h -= 24;
 		dep_d++;
 	}
-	return (d == dep_d && h == dep_h);
+}
+
+void Truck::calcArrivalTime(int d, int h) {
+	arrival_d = dep_d;
+	arrival_h = dep_h;
+	arrival_h += getDI();
+	while (arrival_h >= 24) {
+		arrival_h -= 24;
+		arrival_d++;
+	}
+}
+
+bool Truck::checkDepartmentTime(int d, int h) {
+	return (d >= dep_d && h >= dep_h);
+}
+
+bool Truck::checkArrivalTime(int d, int h) {
+	return (d >= arrival_d && h >= arrival_h);
+}
+
+void Truck::incrementJourneys() {
+	this->totalJourneys++;
 }

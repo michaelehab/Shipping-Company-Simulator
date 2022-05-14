@@ -365,8 +365,9 @@ void Company::simulate_day()
 					e->getEt(d, h);
 				}
 				loadingTruckstoMoving(day, i);
+				handleInCheckupTrucks(day, i);
+				handleReturningTrucks(day, i);
 				handleLoadingRule(day,i);
-				handleReturningTrucks();
 				/*if (countts == 5)
 				{
 					Cargo* car = NULL;
@@ -383,7 +384,6 @@ void Company::simulate_day()
 				}*/
 
 				/*countts++;*/
-				ui->printbyMode(day, i);
 
 				if (Events->IsEmpty() && SpecialCargos->IsEmpty() && VIPCargos->isEmpty() && NormalCargos->isEmpty())
 				{
@@ -394,6 +394,11 @@ void Company::simulate_day()
 
 
 			}
+			else {
+				handleReturningTrucks(day, i);
+				handleInCheckupTrucks(day, i);
+			}
+			ui->printbyMode(day, i);
 		}
 		day++;
 	}
@@ -443,6 +448,8 @@ void Company::LoadVIPCargos()
 	Truck* t;
 	Cargo* c;
 	int maxLoadTime = 0;
+	int sumUnloadTime = 0;
+	double maxDeliveryDist = 0;
 	if (VIPTrucks->getSize())
 	{
 		VIPTrucks->peek(t);
@@ -452,8 +459,11 @@ void Company::LoadVIPCargos()
 			VIPCargos->pop(c);
 			t->loadCargo(c);
 			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
+			sumUnloadTime += c->get_LoadTime();
+			maxDeliveryDist = max(maxDeliveryDist, c->getDel_dis());
 		}
 		t->setMaxCargoLoad(maxLoadTime);
+		t->setDI(maxDeliveryDist, sumUnloadTime);
 	}
 	else if (NormalTrucks->getSize())
 	{
@@ -464,8 +474,11 @@ void Company::LoadVIPCargos()
 			NormalCargos->pop(c);
 			t->loadCargo(c);
 			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
+			sumUnloadTime += c->get_LoadTime();
+			maxDeliveryDist = max(maxDeliveryDist, c->getDel_dis());
 		}
 		t->setMaxCargoLoad(maxLoadTime);
+		t->setDI(maxDeliveryDist, sumUnloadTime);
 	}
 	else if (SpecialTrucks->getSize())
 	{
@@ -476,8 +489,11 @@ void Company::LoadVIPCargos()
 			SpecialCargos->dequeue(c);
 			t->loadCargo(c);
 			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
+			sumUnloadTime += c->get_LoadTime();
+			maxDeliveryDist = max(maxDeliveryDist, c->getDel_dis());
 		}
 		t->setMaxCargoLoad(maxLoadTime);
+		t->setDI(maxDeliveryDist, sumUnloadTime);
 	}
 }
 void Company::LoadNormalCargos()
@@ -485,6 +501,8 @@ void Company::LoadNormalCargos()
 	Truck* t;
 	Cargo* c;
 	int maxLoadTime = 0;
+	int sumUnloadTime = 0;
+	double maxDeliveryDist = 0;
 	if (NormalTrucks->getSize())
 	{
 		NormalTrucks->peek(t);
@@ -494,8 +512,11 @@ void Company::LoadNormalCargos()
 			NormalCargos->pop(c);
 			t->loadCargo(c);
 			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
+			sumUnloadTime += c->get_LoadTime();
+			maxDeliveryDist = max(maxDeliveryDist, c->getDel_dis());
 		}
 		t->setMaxCargoLoad(maxLoadTime);
+		t->setDI(maxDeliveryDist, sumUnloadTime);
 	}
 	else if (VIPTrucks->getSize())
 	{
@@ -506,8 +527,11 @@ void Company::LoadNormalCargos()
 			VIPCargos->pop(c);
 			t->loadCargo(c);
 			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
+			sumUnloadTime += c->get_LoadTime();
+			maxDeliveryDist = max(maxDeliveryDist, c->getDel_dis());
 		}
 		t->setMaxCargoLoad(maxLoadTime);
+		t->setDI(maxDeliveryDist, sumUnloadTime);
 	}
 }
 void Company::LoadSpecialCargos()
@@ -515,6 +539,9 @@ void Company::LoadSpecialCargos()
 	Truck* t;
 	Cargo* c;
 	int maxLoadTime = 0;
+	int sumUnloadTime = 0;
+	double maxDeliveryDist = 0;
+
 	if (SpecialTrucks->getSize())
 	{
 		SpecialTrucks->peek(t);
@@ -524,13 +551,17 @@ void Company::LoadSpecialCargos()
 			SpecialCargos->dequeue(c);
 			t->loadCargo(c);
 			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
+			sumUnloadTime += c->get_LoadTime();
+			maxDeliveryDist = max(maxDeliveryDist, c->getDel_dis());
 		}
 		t->setMaxCargoLoad(maxLoadTime);
+		t->setDI(maxDeliveryDist, sumUnloadTime);
 	}
 }
 void Company::moveTrucktoLoading(Truck* t,int load_d,int load_h)
 {
 	t->setLoadTime(load_d, load_h);
+	t->calcDepartmentTime(load_d, load_h);
 	if (t->getType() == 'V') loadingTrucks[0] = t;
 	else if (t->getType() == 'N') loadingTrucks[1] = t;
 	else if(t->getType() == 'S') loadingTrucks[2] = t;
@@ -538,30 +569,21 @@ void Company::moveTrucktoLoading(Truck* t,int load_d,int load_h)
 
 void Company::movingTrucktoCheckUp(Truck* x)
 {
-	
-	MovingTrucks->pop(x);
-	
 	if (x->getType() == 'N')
 	{
 		InCheckupNormalTrucks->enqueue(x);
-		x->setCheckupTime(normalCheckupDuration);
 	}
 	else if (x->getType() == 'V')
 	{
 		InCheckupVIPTrucks->enqueue(x);
-		x->setCheckupTime(VIPCheckupDuration);
 	}
-	else
+	else if (x->getType() == 'S')
 	{
 		InCheckupSpecialTrucks->enqueue(x);
-		x->setCheckupTime(specialCheckupDuration);
 	}
 }
 void Company::movingTrucktoReady(Truck* x)
 {
-	
-	MovingTrucks->pop(x);
-
 	if (x->getType() == 'N')
 	{
 		NormalTrucks->enqueue(x);
@@ -570,23 +592,22 @@ void Company::movingTrucktoReady(Truck* x)
 	{
 		VIPTrucks->enqueue(x);
 	}
-	else
+	else if(x->getType() == 'S')
 	{
 		SpecialTrucks->enqueue(x);
 	}
 }
 
-void Company::handleReturningTrucks() {
-	if (!MovingTrucks->isEmpty())
+void Company::handleReturningTrucks(int d, int h) {
+	Truck* x;
+	while (MovingTrucks->peek(x) && x->checkArrivalTime(d, h))
 	{
-		Truck* x;
-		MovingTrucks->pop(x);
-		if (x == nullptr)
-			return;
-		if (x->gettotalJourneys() % J == 0)
-			movingTrucktoCheckUp(x); // increment totalJourneys
-		else
-			movingTrucktoReady(x); // increment totalJourneys
+		if (MovingTrucks->pop(x)) {
+			if (x->gettotalJourneys() % J == 0)
+				movingTrucktoCheckUp(x);
+			else
+				movingTrucktoReady(x);
+		}
 	}
 };
 
@@ -594,11 +615,52 @@ void Company::loadingTruckstoMoving(int d, int h)
 {
 	for (int i = 0; i < 3; i++) {
 		if (loadingTrucks[i] && loadingTrucks[i]->checkDepartmentTime(d, h)) {
-			// TODO : Truck Priority
-			MovingTrucks->push(loadingTrucks[i], 1);
+			loadingTrucks[i]->calcArrivalTime(d, h);
+			// Priority is the time the truck comes back to the company (Ascending :-1)
+			MovingTrucks->push(loadingTrucks[i], -1 * (24 * d + h + loadingTrucks[i]->getDI()));
+			loadingTrucks[i]->incrementJourneys();
 			loadingTrucks[i] = nullptr;
 		}
 	}
+}
+
+void Company::inCheckupVIPToReady(int d, int h) {
+	Truck* t;
+	if (InCheckupVIPTrucks->peek(t)) {
+		while (t->getArrivalTime() + t->getCheckupTime() == d * 24 + h) {
+			InCheckupVIPTrucks->dequeue(t);
+			VIPTrucks->enqueue(t);
+			if (!InCheckupVIPTrucks->peek(t)) break;
+		}
+	}
+}
+
+void Company::inCheckupNormalToReady(int d, int h) {
+	Truck* t;
+	if (InCheckupNormalTrucks->peek(t)) {
+		while (t->getArrivalTime() + t->getCheckupTime() == d * 24 + h) {
+			InCheckupNormalTrucks->dequeue(t);
+			NormalTrucks->enqueue(t);
+			if(!InCheckupNormalTrucks->peek(t)) break;
+		}
+	}
+}
+
+void Company::inCheckupSpecialToReady(int d, int h) {
+	Truck* t;
+	if (InCheckupSpecialTrucks->peek(t)) {
+		while (t->getArrivalTime() + t->getCheckupTime() == d * 24 + h) {
+			InCheckupSpecialTrucks->dequeue(t);
+			SpecialTrucks->enqueue(t);
+			if (!InCheckupSpecialTrucks->peek(t)) break;
+		}
+	}
+}
+
+void Company::handleInCheckupTrucks(int d, int h) {
+	inCheckupVIPToReady(d, h);
+	inCheckupNormalToReady(d, h);
+	inCheckupSpecialToReady(d, h);
 }
 /*
 	TODO :

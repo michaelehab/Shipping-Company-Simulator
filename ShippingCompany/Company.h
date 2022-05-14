@@ -109,7 +109,11 @@ public:
 	void moveTrucktoLoading(Truck*,int,int);
 	void movingTrucktoCheckUp(Truck* x);
 	void movingTrucktoReady(Truck* x);
-	void handleReturningTrucks();
+	void handleReturningTrucks(int, int);
 	void loadingTruckstoMoving(int d, int h);
+	void inCheckupVIPToReady(int, int);
+	void inCheckupNormalToReady(int, int);
+	void inCheckupSpecialToReady(int, int);
+	void handleInCheckupTrucks(int, int);
 };
 
