@@ -24,6 +24,7 @@ class Truck{
 	int arrival_h; // the hour it gets back to the company
 	int maxCargoLoad; // The max time a cargo takes to be loaded on the truck
 	int activeTime;
+	int lastUnloadTime = 0;
 public:
 	Truck(int, char, int, int, int); // Constructor
 	void printLoadedCargos() const; // Prints the loaded cargos
@@ -40,7 +41,7 @@ public:
 	int getSpeed() const; // Returns the truck speed
 	void setSpeed(int&); // Sets the truck speed
 	int getDI() const; // Returns the delivery interval
-	void setDI(double &, int&); // Sets the delivery interval
+	void setDI(int &, int&); // Sets the delivery interval
 	void setID(int&); // Sets the truck ID
 	int getID() const; // Returns the truck ID
 	int getArrivalTime() const;
@@ -51,6 +52,8 @@ public:
 	void calcArrivalTime(int, int);
 	bool checkArrivalTime(int, int);
 	bool checkDepartmentTime(int, int);
+	Cargo* checkDelivery(int d, int h);
+	int getPriority() const;
 	void incrementJourneys();
 	bool operator ==(const int&);
 	friend ostream& operator << (ostream& out, const Truck& c);

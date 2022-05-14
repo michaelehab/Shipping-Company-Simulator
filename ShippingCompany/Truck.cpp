@@ -93,7 +93,7 @@ void Truck::setSpeed(int& n) {
 	speed = (n >= 0) ? n : 0;
 }
 
-void Truck::setDI(double& maxDeliveryDist, int& sumUnloadTime) {
+void Truck::setDI(int& maxDeliveryDist, int& sumUnloadTime) {
 	// Assuming that the truck takes the same time to come back.
 	DI = 2 * (maxDeliveryDist / speed) + sumUnloadTime;
 }
@@ -138,14 +138,20 @@ void Truck::printLoadedCargos() const {
 
 Cargo* Truck::unloadCargo(int d, int h) {
 	Cargo* tmp;
-	if(loadedCargos.pop(tmp)) return tmp;
-	// if(loadedCargos->getSize() == 0) activeTime += (d - load_d) + (h - load_h);
-	return 0;
+	if (loadedCargos.pop(tmp)) {
+		tmp->setCDT(d, h);
+		if (loadedCargos.getSize() == 0) {
+			activeTime += (d - load_d) + (h - load_h);
+			lastUnloadTime = 0;
+		}
+		return tmp;
+	}
+	return nullptr;
 }
 
 void Truck::loadCargo(Cargo * c) {
 	// NOTE : priority is CDT ascending to be changed!
-	loadedCargos.push(c, 1);
+	loadedCargos.push(c, -1 * (c->getDel_dis() / speed + c->get_LoadTime()));
 }
 
 void Truck::calcDepartmentTime(int d, int h) {
@@ -178,4 +184,17 @@ bool Truck::checkArrivalTime(int d, int h) {
 
 void Truck::incrementJourneys() {
 	this->totalJourneys++;
+}
+
+int Truck::getPriority() const {
+	return (24 * dep_d + dep_h + this->getDI());
+}
+
+Cargo * Truck::checkDelivery(int d, int h) {
+	Cargo* c = 0;
+	if (loadedCargos.peek(c) && (dep_d * 24 + dep_h) + c->getDel_dis() / speed + c->get_LoadTime() + lastUnloadTime == 24 * d + h) {
+		lastUnloadTime = c->get_LoadTime();
+		return unloadCargo(d, h);
+	}
+	return nullptr;
 }

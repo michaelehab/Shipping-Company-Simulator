@@ -41,13 +41,11 @@ Company::Company()
 	Events = new Queue<Event*>;
 
 	VIPCargos = new PriorityQueue<Cargo*>;
-	DeliveredVIPCargos = new Queue<Cargo*>;
 
 	SpecialCargos = new Queue<Cargo*>;
-	DeliveredSpecialCargos = new Queue<Cargo*>;
 
 	NormalCargos = new LinkedList<Cargo*>;
-	DeliveredNormalCargos = new Queue<Cargo*>;
+	DeliveredCargos = new Queue<Cargo*>;
 
 	VIPTrucks = new Queue<Truck*>;
 	InCheckupVIPTrucks = new Queue<Truck*>;
@@ -192,22 +190,16 @@ Queue<Event*>* Company::getEvents() const {
 PriorityQueue<Cargo*>* Company::getVIPCargos() const {
 	return VIPCargos;
 }
-Queue<Cargo*>* Company::getDeliveredVIPCargos() const {
-	return DeliveredVIPCargos;
-}
 
 Queue<Cargo*>* Company::getSpecialCargos() const {
 	return SpecialCargos;
-}
-Queue<Cargo*>* Company::getDeliveredSpecialCargos() const {
-	return DeliveredSpecialCargos;
 }
 
 LinkedList<Cargo*>* Company::getNormalCargos() {
 	return NormalCargos;
 }
-Queue<Cargo*>* Company::getDeliveredNormalCargos() const {
-	return DeliveredNormalCargos;
+Queue<Cargo*>* Company::getDeliveredCargos() const {
+	return DeliveredCargos;
 }
 
 Queue<Truck*>* Company::getNormalTrucks() const {
@@ -364,26 +356,11 @@ void Company::simulate_day()
 					Events->peek(e);
 					e->getEt(d, h);
 				}
+				deliverCargos(day, i);
 				loadingTruckstoMoving(day, i);
 				handleInCheckupTrucks(day, i);
 				handleReturningTrucks(day, i);
 				handleLoadingRule(day,i);
-				/*if (countts == 5)
-				{
-					Cargo* car = NULL;
-					if (NormalCargos->pop(car))
-						DeliveredNormalCargos->enqueue(car);
-					car = NULL;
-					if (SpecialCargos->dequeue(car))
-						DeliveredSpecialCargos->enqueue(car);
-					car = NULL;
-					if (VIPCargos->pop(car))
-						DeliveredVIPCargos->enqueue(car);
-					car = NULL;
-					countts = 0;
-				}*/
-
-				/*countts++;*/
 
 				if (Events->IsEmpty() && SpecialCargos->IsEmpty() && VIPCargos->isEmpty() && NormalCargos->isEmpty())
 				{
@@ -449,7 +426,7 @@ void Company::LoadVIPCargos()
 	Cargo* c;
 	int maxLoadTime = 0;
 	int sumUnloadTime = 0;
-	double maxDeliveryDist = 0;
+	int maxDeliveryDist = 0;
 	if (VIPTrucks->getSize())
 	{
 		VIPTrucks->peek(t);
@@ -502,7 +479,7 @@ void Company::LoadNormalCargos()
 	Cargo* c;
 	int maxLoadTime = 0;
 	int sumUnloadTime = 0;
-	double maxDeliveryDist = 0;
+	int maxDeliveryDist = 0;
 	if (NormalTrucks->getSize())
 	{
 		NormalTrucks->peek(t);
@@ -540,7 +517,7 @@ void Company::LoadSpecialCargos()
 	Cargo* c;
 	int maxLoadTime = 0;
 	int sumUnloadTime = 0;
-	double maxDeliveryDist = 0;
+	int maxDeliveryDist = 0;
 
 	if (SpecialTrucks->getSize())
 	{
@@ -617,7 +594,7 @@ void Company::loadingTruckstoMoving(int d, int h)
 		if (loadingTrucks[i] && loadingTrucks[i]->checkDepartmentTime(d, h)) {
 			loadingTrucks[i]->calcArrivalTime(d, h);
 			// Priority is the time the truck comes back to the company (Ascending :-1)
-			MovingTrucks->push(loadingTrucks[i], -1 * (24 * d + h + loadingTrucks[i]->getDI()));
+			MovingTrucks->push(loadingTrucks[i], -1 * loadingTrucks[i]->getPriority());
 			loadingTrucks[i]->incrementJourneys();
 			loadingTrucks[i] = nullptr;
 		}
@@ -662,6 +639,31 @@ void Company::handleInCheckupTrucks(int d, int h) {
 	inCheckupNormalToReady(d, h);
 	inCheckupSpecialToReady(d, h);
 }
+
+void Company::moveCargotoDelivered(Cargo* c) {
+	DeliveredCargos->enqueue(c);
+}
+
+void Company::deliverCargos(int d, int h) {
+	int sz1 = MovingTrucks->getSize();
+	int sz2 = sz1;
+	Queue <Truck*> tmp;
+	while (sz1--) {
+		Truck* t;
+		MovingTrucks->pop(t);
+		// checkDelivery checks if the CDT of the front of the loaded cargos
+		// is d : h, it returns the pointer of this cargo and dequeue it from the truck.
+		Cargo* c = t->checkDelivery(d, h); // may increment totalDeliveredCargos
+		if (c) moveCargotoDelivered(c);
+		tmp.enqueue(t);
+	}
+
+	while (sz2--) {
+		Truck* t;
+		tmp.dequeue(t);
+		MovingTrucks->push(t, -1 * t->getPriority());
+	}
+};
 /*
 	TODO :
 	Company Destructor : Empty all lists

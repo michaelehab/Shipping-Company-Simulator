@@ -24,8 +24,7 @@ ostream& operator << (ostream& out, const Cargo& c)
 	return out;
 }
 
-Cargo::
-Cargo()
+Cargo::Cargo()
 {
 
 }
@@ -76,7 +75,7 @@ void Cargo::set_LoadTime(int LT)
 	Load_Time = (LT > 0) ? LT : 0;
 }
 
-void Cargo::setDel_dis(double dis)
+void Cargo::setDel_dis(int dis)
 {
 	Del_dis = (dis > 0) ? dis : 0;
 }
@@ -89,6 +88,11 @@ void Cargo::set_prepTime(int preT)
 void Cargo::setID(int id)
 {
 	ID = id;
+}
+
+void Cargo::setCDT(int d, int h) {
+	CDT_day = d;
+	CDT_hour = h;
 }
 
 char Cargo::getCargoT()
@@ -106,7 +110,7 @@ int  Cargo::get_LoadTime()
 	return Load_Time;
 }
 
-double Cargo::getDel_dis()
+int Cargo::getDel_dis()
 {
 	return Del_dis;
 }

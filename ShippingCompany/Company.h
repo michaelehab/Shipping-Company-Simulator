@@ -22,13 +22,12 @@ class Company {
 	Queue<Event*>* Events;
 
 	PriorityQueue<Cargo*>* VIPCargos;
-	Queue<Cargo*>* DeliveredVIPCargos;
 
 	Queue<Cargo*>* SpecialCargos;
-	Queue<Cargo*>* DeliveredSpecialCargos;
 
 	LinkedList<Cargo*>* NormalCargos;
-	Queue<Cargo*>* DeliveredNormalCargos;
+
+	Queue<Cargo*>* DeliveredCargos;
 
 	Queue<Truck*>* VIPTrucks;
 	Queue<Truck*>* InCheckupVIPTrucks;
@@ -75,13 +74,11 @@ public:
 	Queue<Event*>* getEvents() const;
 
 	PriorityQueue<Cargo*>* getVIPCargos() const;
-	Queue<Cargo*>* getDeliveredVIPCargos() const;
 
 	Queue<Cargo*>* getSpecialCargos() const;
-	Queue<Cargo*>* getDeliveredSpecialCargos() const;
 
 	LinkedList<Cargo*>* getNormalCargos();
-	Queue<Cargo*>* getDeliveredNormalCargos() const;
+	Queue<Cargo*>* getDeliveredCargos() const;
 
 	Queue<Truck*>* getNormalTrucks() const;
 	Queue<Truck*>* getInCheckupNormalTrucks() const;
@@ -107,6 +104,7 @@ public:
 	void LoadNormalCargos();
 	void LoadSpecialCargos();
 	void moveTrucktoLoading(Truck*,int,int);
+	void moveCargotoDelivered(Cargo*);
 	void movingTrucktoCheckUp(Truck* x);
 	void movingTrucktoReady(Truck* x);
 	void handleReturningTrucks(int, int);
@@ -115,5 +113,6 @@ public:
 	void inCheckupNormalToReady(int, int);
 	void inCheckupSpecialToReady(int, int);
 	void handleInCheckupTrucks(int, int);
+	void deliverCargos(int, int);
 };
 

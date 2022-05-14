@@ -157,26 +157,11 @@ void UI::InteractiveMode(int day, int hour)
 
 void UI::printDeliveredCargos()
 {
-	int delivered_normal = c->getDeliveredNormalCargos()->getSize();
-	int delivered_special = c->getDeliveredSpecialCargos()->getSize();
-	int delivered_vip = c->getDeliveredVIPCargos()->getSize();
-	int total = delivered_normal + delivered_special + delivered_vip;
+	int total = c->getDeliveredCargos()->getSize();
 
 	cout << total << " Delivered Cargos: ";
-	if (delivered_normal) {
-		cout << '{';
-		c->getDeliveredVIPCargos()->print();
-		cout << "} ";
-	}
-	if (delivered_special) {
-		cout << "[";
-		c->getDeliveredNormalCargos()->print();
-		cout << "] ";
-	}
-	if (delivered_vip) {
-		cout << "(";
-		c->getDeliveredSpecialCargos()->print();
-		cout << ")";
+	if (total) {
+		c->getDeliveredCargos()->print();
 	}
 	cout << endl;
 	for (int i = 0; i < 50; i++)

@@ -10,7 +10,7 @@ class Cargo
 	int Prep_Time;
 	double Cost;
 	char cargo_type;
-	double Del_dis;
+	int Del_dis;
 	int ID;
 	int TID; // Truck ID
 	bool autoPromoted;
@@ -24,14 +24,15 @@ public:
 	void SetCargoT(char T);
 	void set_cost(double c);
 	void set_LoadTime(int LT);
-	void setDel_dis(double dis);
+	void setDel_dis(int dis);
 	void set_prepTime(int preT);
 	void set_H(int h);
 	void set_D(int d);
+	void setCDT(int, int);
 	char getCargoT();
 	double get_cost();
 	int  get_LoadTime();
-	double getDel_dis();
+	int getDel_dis();
 	void setID(int id);
 	int getID();
 	int get_d();

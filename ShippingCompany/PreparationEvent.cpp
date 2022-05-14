@@ -56,7 +56,7 @@ bool PreparationEvent::setCtype(char c)		//sets the cargo type
 	}
 	return 0;
 }
-bool PreparationEvent::setdist(double d)		//sets the cargo distance
+bool PreparationEvent::setdist(int d)		//sets the cargo distance
 {
 	if (d > 0)
 	{
@@ -85,7 +85,7 @@ char PreparationEvent::getCtype() const     //gets the cargo type
 {
 	return Ctype;
 }
-double PreparationEvent::getdist() const     //gets the cargo distance
+int PreparationEvent::getdist() const     //gets the cargo distance
 {
 	return dist;
 }

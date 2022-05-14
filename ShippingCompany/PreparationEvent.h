@@ -6,7 +6,7 @@ class PreparationEvent :
 {
     //For preparation event
     char Ctype;  //cargo type
-    double dist; //cargo distance in km
+    int dist; //cargo distance in km
     int Ld;      //time in hours to load/unload the cargo
     double cost;  //cargo cost
 public:
@@ -16,12 +16,12 @@ public:
     bool Execute();
   
     bool setCtype(char c);		//sets the cargo type
-    bool setdist(double d);		//sets the cargo distance
+    bool setdist(int d);		//sets the cargo distance
     bool setLd(int l);			//sets the loading/unloading time of the cargo
     bool setcost(double c);  //sets the cargo cost
 
     char getCtype() const;      //gets the cargo type
-    double getdist() const;     //gets the cargo distance
+    int getdist() const;     //gets the cargo distance
     int getLd() const;			//gets the loading/unloading time of the cargo
     double getcost() const;		//gets the cargo cost
 };
