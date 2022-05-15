@@ -82,7 +82,6 @@ void LinkedList<T>::InsertBegin(const T& data){
 	if (!Head){
 		Head = ptr;
 		Tail = ptr;
-		return;
 	}
 	else{
 		ptr->setNext(Head);

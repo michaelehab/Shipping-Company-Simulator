@@ -699,8 +699,10 @@ void Company::checkMaxWRule(Cargo* c, int d, int h) {
 void Company::checkAutoPromotion(int d, int h)
 {
 	Cargo* c;
-	if (c->get_d()+autoP == 24*d+h)
-		PromoteNormalCargo(c); 
+	if (NormalCargos->pop(c)) {
+		if(c->get_d() + autoP == d) PromoteNormalCargo(c);
+		else NormalCargos->InsertBegin(c);
+	}
 }
 void Company::PromoteNormalCargo(Cargo* c) {
 	int p = c->getPriority();
