@@ -357,13 +357,13 @@ void Company::simulate_day()
 					Events->peek(e);
 					e->getEt(d, h);
 				}
+				checkMaxWRule(day, i);
 				deliverCargos(day, i);
 				loadingTruckstoMoving(day, i);
 				handleInCheckupTrucks(day, i);
 				handleReturningTrucks(day, i);
 				handleLoadingRule(day,i);
 				checkAutoPromotion(day, i);
-				checkMaxWRule(day, i);
 				if (Events->IsEmpty() && SpecialCargos->IsEmpty() && VIPCargos->isEmpty() && NormalCargos->isEmpty())
 				{
 					simMode = 0;  // the simulation ended
@@ -409,6 +409,14 @@ void Company::handleNormalLoading(int currentDay, int currentHr)
 		{
 			LoadNormalCargos();
 			NormalTrucks->dequeue(t);
+			moveTrucktoLoading(t, currentDay, currentHr);
+		}
+	}
+	else if (VIPTrucks->peek(t)) {
+		if (NormalCargos->getSize() >= t->getTC() && !loadingTrucks[0])
+		{
+			LoadNormalCargos();
+			VIPTrucks->dequeue(t);
 			moveTrucktoLoading(t, currentDay, currentHr);
 		}
 	}
@@ -506,7 +514,7 @@ void Company::LoadNormalCargos()
 		int TC = t->getTC();
 		while (TC--)  //To load all the TC cargos to the truck
 		{
-			VIPCargos->pop(c);
+			NormalCargos->pop(c);
 			t->loadCargo(c);
 			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
 			sumUnloadTime += c->get_LoadTime();
@@ -669,65 +677,103 @@ void Company::deliverCargos(int d, int h) {
 		MovingTrucks->push(t, -1 * t->getPriority());
 	}
 }
-void Company::checkNormalMaxW(int d, int h)
-{
 
+void Company::loadWaitingNormalCargos(int d, int h) {
 	Truck* t;
 	Cargo* c;
 	int maxLoadTime = 0;
 	int sumUnloadTime = 0;
 	int maxDeliveryDist = 0;
-	if (NormalCargos->isEmpty())
-		return;
 	if (NormalTrucks->getSize())
 	{
 		NormalTrucks->peek(t);
 		int TC = t->getTC();
-
-		if (TC--)//To load all the TC cargos to the truck
+		while (TC--)
 		{
-			NormalCargos->pop(c);
-			if ((24 * d + h) - (24 * c->get_d() + c->get_h()) >= maxW)
-			{
-				moveTrucktoLoading(t, d, h);
-				NormalTrucks->dequeue(t);
-
-				t->loadCargo(c);
-				maxLoadTime = max(maxLoadTime, c->get_LoadTime());
-				sumUnloadTime += c->get_LoadTime();
-				maxDeliveryDist = max(maxDeliveryDist, c->getDel_dis());
+			if (NormalCargos->pop(c)) {
+				if ((24 * d + h) - (24 * c->get_d() + c->get_h()) >= maxW) {
+					t->loadCargo(c);
+					maxLoadTime = max(maxLoadTime, c->get_LoadTime());
+					sumUnloadTime += c->get_LoadTime();
+					maxDeliveryDist = max(maxDeliveryDist, c->getDel_dis());
+				}
+				else {
+					NormalCargos->InsertBegin(c);
+					break;
+				}
 			}
-			else {
-				NormalCargos->InsertBegin(c);
-				TC++;
+			else break;
+		}
+		t->setMaxCargoLoad(maxLoadTime);
+		t->setDI(maxDeliveryDist, sumUnloadTime);
+	}
+	else if (VIPTrucks->getSize())
+	{
+		VIPTrucks->peek(t);
+		int TC = t->getTC();
+		while (TC--)  //To load all the TC cargos to the truck
+		{
+			if (NormalCargos->pop(c)) {
+				if ((24 * d + h) - (24 * c->get_d() + c->get_h()) >= maxW) {
+					t->loadCargo(c);
+					maxLoadTime = max(maxLoadTime, c->get_LoadTime());
+					sumUnloadTime += c->get_LoadTime();
+					maxDeliveryDist = max(maxDeliveryDist, c->getDel_dis());
+				}
+				else {
+					NormalCargos->InsertBegin(c);
+					break;
+				}
 			}
+			else break;
 		}
 		t->setMaxCargoLoad(maxLoadTime);
 		t->setDI(maxDeliveryDist, sumUnloadTime);
 	}
 }
-void Company::checkSpecialMaxW(int d, int h)
+
+void Company::checkNormalMaxW(int currentDay, int currentHr)
 {
+	Truck* t;
+	if (NormalTrucks->peek(t)) {
+		Cargo* c;
+		if (NormalCargos->pop(c)) {
+			NormalCargos->InsertBegin(c);
+			if ((24 * currentDay + currentHr) - (24 * c->get_d() + c->get_h()) >= maxW && !loadingTrucks[1]) {
+				loadWaitingNormalCargos(currentDay, currentHr);
+				NormalTrucks->dequeue(t);
+				moveTrucktoLoading(t, currentDay, currentHr);
+			}
+		}
+	}
+	else if (VIPTrucks->peek(t)) {
+		Cargo* c;
+		if (NormalCargos->pop(c)) {
+			NormalCargos->InsertBegin(c);
+			if ((24 * currentDay + currentHr) - (24 * c->get_d() + c->get_h()) >= maxW && !loadingTrucks[0]) {
+				loadWaitingNormalCargos(currentDay, currentHr);
+				VIPTrucks->dequeue(t);
+				moveTrucktoLoading(t, currentDay, currentHr);
+			}
+		}
+	}
+}
+
+void Company::loadWaitingSpecialCargos(int d, int h) {
 	Truck* t;
 	Cargo* c;
 	int maxLoadTime = 0;
 	int sumUnloadTime = 0;
 	int maxDeliveryDist = 0;
-	if (SpecialCargos->IsEmpty())
-		return;
+
 	if (SpecialTrucks->getSize())
 	{
 		SpecialTrucks->peek(t);
 		int TC = t->getTC();
-		SpecialCargos->peek(c);
-		if(((24 * d + h) - (24 * c->get_d() + c->get_h()) >= maxW))
-			moveTrucktoLoading(t,d,h);
-
-		if (TC-- && ((24 * d + h) - (24 * c->get_d() + c->get_h()) >= maxW))  //To load all the TC cargos to the truck
+		while (TC-- && SpecialCargos->peek(c) && (24 * d + h) - (24 * c->get_d() + c->get_h()) >= maxW)
 		{
 			SpecialCargos->dequeue(c);
 			t->loadCargo(c);
-			SpecialTrucks->dequeue(t);
 			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
 			sumUnloadTime += c->get_LoadTime();
 			maxDeliveryDist = max(maxDeliveryDist, c->getDel_dis());
@@ -735,7 +781,19 @@ void Company::checkSpecialMaxW(int d, int h)
 		t->setMaxCargoLoad(maxLoadTime);
 		t->setDI(maxDeliveryDist, sumUnloadTime);
 	}
-	
+}
+
+void Company::checkSpecialMaxW(int currentDay, int currentHr)
+{
+	Truck* t;
+	if (SpecialTrucks->peek(t)) {
+		Cargo* c;
+		if (SpecialCargos->peek(c) && (24 * currentDay + currentHr) - (24 * c->get_d() + c->get_h()) >= maxW && !loadingTrucks[2]) {
+			loadWaitingSpecialCargos(currentDay, currentHr);
+			SpecialTrucks->dequeue(t);
+			moveTrucktoLoading(t, currentDay, currentHr);
+		}
+	}
 }
 void Company::checkMaxWRule(int d, int h) {
 	checkNormalMaxW(d, h);

@@ -113,7 +113,9 @@ public:
 	void handleInCheckupTrucks(int, int);
 	void deliverCargos(int, int);
 	void checkNormalMaxW(int d, int h);
+	void loadWaitingNormalCargos(int, int);
 	void checkSpecialMaxW(int d, int h);
+	void loadWaitingSpecialCargos(int, int);
 	void checkMaxWRule(int d, int h);
 	void PromoteNormalCargo(Cargo* c);
 	void checkAutoPromotion(int, int);
