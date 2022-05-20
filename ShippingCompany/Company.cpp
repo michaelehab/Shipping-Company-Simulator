@@ -360,11 +360,11 @@ void Company::simulate_day()
 				checkMaxWRule(day, i);
 				deliverCargos(day, i);
 				loadingTruckstoMoving(day, i);
-				handleInCheckupTrucks(day, i);
-				handleReturningTrucks(day, i);
 				handleLoadingRule(day,i);
 				checkAutoPromotion(day, i);
-				if (Events->IsEmpty() && SpecialCargos->IsEmpty() && VIPCargos->isEmpty() && NormalCargos->isEmpty())
+				handleInCheckupTrucks(day, i);
+				handleReturningTrucks(day, i);
+				if (checkSimulationEnd())
 				{
 					simMode = 0;  // the simulation ended
 					ui->printbyMode(day, i); //to activate the silentmode function if it was chosen
@@ -374,6 +374,7 @@ void Company::simulate_day()
 
 			}
 			else {
+				deliverCargos(day, i);
 				handleReturningTrucks(day, i);
 				handleInCheckupTrucks(day, i);
 			}
@@ -381,6 +382,20 @@ void Company::simulate_day()
 		}
 		day++;
 	}
+}
+
+bool Company::checkSimulationEnd() {
+	return Events->IsEmpty()
+		&& SpecialCargos->IsEmpty()
+		&& VIPCargos->isEmpty()
+		&& NormalCargos->isEmpty()
+		&& MovingTrucks->isEmpty()
+		&& !loadingTrucks[0] && !loadingTrucks[1] && !loadingTrucks[2];
+		/*
+			&& InCheckupNormalTrucks->IsEmpty()
+			&& InCheckupSpecialTrucks->IsEmpty()
+			&& InCheckupVIPTrucks->IsEmpty()
+		*/
 }
 
 void Company::handleLoadingRule(int currentDay, int currentHr)
@@ -398,6 +413,22 @@ void Company::handleVIPLoading(int currentDay, int currentHr)
 			LoadVIPCargos();
 			VIPTrucks->dequeue(t);
 			moveTrucktoLoading(t, currentDay,currentHr);
+		}
+	}
+	else if (NormalTrucks->peek(t)) {
+		if (VIPCargos->getSize() >= t->getTC() && !loadingTrucks[1])
+		{
+			LoadVIPCargos();
+			NormalTrucks->dequeue(t);
+			moveTrucktoLoading(t, currentDay, currentHr);
+		}
+	}
+	else if (SpecialTrucks->peek(t)) {
+		if (VIPCargos->getSize() >= t->getTC() && !loadingTrucks[2])
+		{
+			LoadVIPCargos();
+			SpecialTrucks->dequeue(t);
+			moveTrucktoLoading(t, currentDay, currentHr);
 		}
 	}
 }
@@ -461,7 +492,7 @@ void Company::LoadVIPCargos()
 		int TC = t->getTC();
 		while (TC--)  //To load all the TC cargos to the truck
 		{
-			NormalCargos->pop(c);
+			VIPCargos->pop(c);
 			t->loadCargo(c);
 			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
 			sumUnloadTime += c->get_LoadTime();
@@ -476,7 +507,7 @@ void Company::LoadVIPCargos()
 		int TC = t->getTC();
 		while (TC--)  //To load all the TC cargos to the truck
 		{
-			SpecialCargos->dequeue(c);
+			VIPCargos->pop(c);
 			t->loadCargo(c);
 			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
 			sumUnloadTime += c->get_LoadTime();
@@ -667,6 +698,7 @@ void Company::deliverCargos(int d, int h) {
 		// checkDelivery checks if the CDT of the front of the loaded cargos
 		// is d : h, it returns the pointer of this cargo and dequeue it from the truck.
 		Cargo* c = t->checkDelivery(d, h); // may increment totalDeliveredCargos
+
 		if (c) moveCargotoDelivered(c);
 		tmp.enqueue(t);
 	}

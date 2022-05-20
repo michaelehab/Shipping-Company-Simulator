@@ -119,6 +119,6 @@ public:
 	void checkMaxWRule(int d, int h);
 	void PromoteNormalCargo(Cargo* c);
 	void checkAutoPromotion(int, int);
-	
+	bool checkSimulationEnd();
 };
 
