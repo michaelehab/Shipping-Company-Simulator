@@ -50,6 +50,15 @@ void Event::getEt(int& d, int& h) const //gets the event time
 	d = day;
 	h = hour;
 }
+
+int Event::getDay() const {
+	return day;
+}
+
+int Event::getHour() const {
+	return hour;
+}
+
 char Event::getEtype() const      //gets the event type
 {
 	return Etype;

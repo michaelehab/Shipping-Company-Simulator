@@ -92,6 +92,7 @@ public:
 	PriorityQueue<Truck*>* getMovingTrucks() const;
 
 	bool getSimulationStatus() const;
+	void checkEvents(int, int);
 
 	// Loading Cargo related functions
 	void handleLoadingRule(int currentDay,int currentHr );

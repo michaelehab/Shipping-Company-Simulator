@@ -339,48 +339,56 @@ void Company::simulate_day()
 
 	*/
 	int day = 1;   //current day
-	Event* e;
-	int d, h;		// day and hour of the event
-	int countts = 0;  //count the time steps to move the cargos from waiting cargos to delivered after 5 timesteps
+
 	while (simMode)
 	{
 		for (int i = 0; i < 25; i++)
 		{
 			if (i > 4 && i < 24)
 			{
-				Events->peek(e);
-				e->getEt(d, h);
-				while (!(Events->IsEmpty()) && d == day && h == i)
-				{
-					Events->dequeue(e);
-					e->Execute();
-					Events->peek(e);
-					e->getEt(d, h);
-				}
+				// Checks if there's an event to execute now (d:h)
+				checkEvents(day, i);
+				// Checks if there's normal/special cargos waiting more than maxW hours and handle them
 				checkMaxWRule(day, i);
+				// Checks if now (d:h) is the delivery time of any cargo and handle it
 				deliverCargos(day, i);
+				// Checks if there's any truck who finished loading to start its journey
 				loadingTruckstoMoving(day, i);
+				// Handles the loading rule for each waiting cargo and truck
 				handleLoadingRule(day,i);
+				// Checks if there's any normal cargo who needs to be auto promoted after waiting autoP days
 				checkAutoPromotion(day, i);
+				// Checks if there's any truck who finished its checkup and move it to ready empty trucks
 				handleInCheckupTrucks(day, i);
+				// Checks if there's any truck who is returning to the company now (d:h) and handle it
 				handleReturningTrucks(day, i);
+				// Checks if the simulation has already ended
 				if (checkSimulationEnd())
 				{
 					simMode = 0;  // the simulation ended
 					ui->printbyMode(day, i); //to activate the silentmode function if it was chosen
 					break;
 				}
-
-
 			}
+			// Handles Off-Working hours
 			else {
 				deliverCargos(day, i);
 				handleReturningTrucks(day, i);
 				handleInCheckupTrucks(day, i);
 			}
+			// Prints the day status to the UI using the appropriate mode selected by the user
 			ui->printbyMode(day, i);
 		}
 		day++;
+	}
+}
+
+void Company::checkEvents(int currentDay, int currentHour) {
+	Event* e;
+	while (Events->peek(e) && e->getDay() == currentDay && e->getHour() == currentHour)
+	{
+		Events->dequeue(e);
+		e->Execute();
 	}
 }
 
