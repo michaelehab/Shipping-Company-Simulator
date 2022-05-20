@@ -7,10 +7,8 @@
 #include "PriorityQueue.h"
 #include "Queue.h"
 #include "LinkedList.h"
-
 #include "Cargo.h"
 #include "Truck.h"
-
 class UI;
 class Event;
 class PreparationEvent;
@@ -114,11 +112,11 @@ public:
 	void inCheckupSpecialToReady(int, int);
 	void handleInCheckupTrucks(int, int);
 	void deliverCargos(int, int);
-	bool checkNormalMaxW(Cargo* c, int d, int h);
-	bool checkSpecialMaxW(Cargo* c, int d, int h);
-	void checkMaxWRule(Cargo* c, int d, int h);
+	void checkNormalMaxW(int d, int h);
+	void checkSpecialMaxW(int d, int h);
+	void checkMaxWRule(int d, int h);
 	void PromoteNormalCargo(Cargo* c);
 	void checkAutoPromotion(int, int);
-
+	
 };
 
