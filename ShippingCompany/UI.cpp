@@ -124,6 +124,8 @@ void UI::StepByStepMode(int day, int hour)
 	}
 	else
 	{
+		cout << "Current Time (Day:Hour): " << day << ":" << hour << endl;
+		printday(); // Prints the day after being simulated
 		cout << "Simulation ends, Output file created" << endl;
 	}
 }

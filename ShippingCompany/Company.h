@@ -129,5 +129,6 @@ public:
 	void writeAutoPromoted(int, int, ofstream&);
 	void writeAvgActiveTime(int, int, ofstream&);
 	void writeAvgUtilization(float, int, ofstream&);
+	~Company();
 };
 

@@ -901,6 +901,7 @@ void Company::generateStatistics(ofstream & file) {
 		else if (c->getCargoT() == 'S') s++;
 
 		file << c->getCDTDay() << ':' << c->getCDTHour() << " \t" << c->getID() << " \t" << c->get_d() << ':' << c->get_h() << " \t" << wait_d << ':' << wait_h << " \t" << c->getTID() << '\n';
+		delete c;
 	}
 
 	for (int i = 0; i < 50; i++) file << ".";
@@ -923,16 +924,19 @@ void Company::generateStatistics(ofstream & file) {
 		totalActiveHours += t->getActiveTime();
 		t->calcUtilization(totalSimHours);
 		totalUtilization += t->getUtilization();
+		delete t;
 	}
 	while (SpecialTrucks->dequeue(t)) {
 		totalActiveHours += t->getActiveTime();
 		t->calcUtilization(totalSimHours);
 		totalUtilization += t->getUtilization();
+		delete t;
 	}
 	while (VIPTrucks->dequeue(t)) {
 		totalActiveHours += t->getActiveTime();
 		t->calcUtilization(totalSimHours);
 		totalUtilization += t->getUtilization();
+		delete t;
 	}
 	// Printing Trucks Statistics
 	file << "Trucks: " << totalTrucks << " [N: " << numOfNormalTrucks << ", S: " << numOfSpecialTrucks << ", V:" << numOfVIPTrucks << "]\n";
@@ -966,6 +970,22 @@ void Company::writeAvgUtilization(float totalUt, int totalTrucks, ofstream& file
 	float percentage = (totalUt / float(totalTrucks)) * 100;
 	// float percentage = (totalActive / float(totalSimHours)) * 100;
 	file << "Avg Utilization: " << percentage << "% \n";
+}
+Company::~Company() {
+	// All these lists are already empty at this point
+	delete Events;
+	delete VIPCargos;
+	delete SpecialCargos;
+	delete NormalCargos;
+	delete DeliveredCargos;
+	delete VIPTrucks;
+	delete InCheckupVIPTrucks;
+	delete SpecialTrucks;
+	delete InCheckupSpecialTrucks;
+	delete NormalTrucks;
+	delete InCheckupNormalTrucks;
+	delete MovingTrucks;
+	delete loadingTrucks;
 }
 /*
 	TODO :
