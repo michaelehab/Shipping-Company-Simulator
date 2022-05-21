@@ -344,7 +344,7 @@ void Company::simulate_day()
 
 	while (simMode)
 	{
-		for (int i = 0; i < 25; i++)
+		for (int i = 0; i < 24; i++)
 		{
 			totalSimHours++;
 			if (i > 4 && i < 24)
@@ -924,6 +924,16 @@ void Company::generateStatistics(ofstream & file) {
 		t->calcUtilization(totalSimHours);
 		totalUtilization += t->getUtilization();
 	}
+	while (SpecialTrucks->dequeue(t)) {
+		totalActiveHours += t->getActiveTime();
+		t->calcUtilization(totalSimHours);
+		totalUtilization += t->getUtilization();
+	}
+	while (VIPTrucks->dequeue(t)) {
+		totalActiveHours += t->getActiveTime();
+		t->calcUtilization(totalSimHours);
+		totalUtilization += t->getUtilization();
+	}
 	// Printing Trucks Statistics
 	file << "Trucks: " << totalTrucks << " [N: " << numOfNormalTrucks << ", S: " << numOfSpecialTrucks << ", V:" << numOfVIPTrucks << "]\n";
 	writeAvgActiveTime(totalActiveHours, totalTrucks, file);
@@ -948,11 +958,13 @@ void Company::writeAutoPromoted(int totalAutoP, int totalCargos, ofstream& file)
 
 void Company::writeAvgActiveTime(int totalActive, int totalTrucks, ofstream& file) {
 	float percentage = (totalActive / float(totalTrucks)) * 100;
+	// float percentage = (totalActive / float(totalSimHours)) * 100;
 	file << "Avg Active Time: " << percentage << "% \n";
 }
 
 void Company::writeAvgUtilization(float totalUt, int totalTrucks, ofstream& file) {
 	float percentage = (totalUt / float(totalTrucks)) * 100;
+	// float percentage = (totalUt / float(totalSimHours)) * 100;
 	file << "Avg Utilization: " << percentage << "% \n";
 }
 /*
