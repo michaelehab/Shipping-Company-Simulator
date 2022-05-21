@@ -369,8 +369,8 @@ void Company::simulate_day()
 				if (checkSimulationEnd())
 				{
 					simMode = 0;  // the simulation ended
-					writeFile();
 					ui->printbyMode(day, i); //to activate the silentmode function if it was chosen
+					writeFile();
 					break;
 				}
 			}
@@ -957,8 +957,8 @@ void Company::writeAutoPromoted(int totalAutoP, int totalCargos, ofstream& file)
 }
 
 void Company::writeAvgActiveTime(int totalActive, int totalTrucks, ofstream& file) {
-	float percentage = (totalActive / float(totalTrucks)) * 100;
-	// float percentage = (totalActive / float(totalSimHours)) * 100;
+	float percentage = (totalActive / float(totalSimHours)) * 100;
+	// float percentage = (totalActive / float(totalTrucks)) * 100;
 	file << "Avg Active Time: " << percentage << "% \n";
 }
 
