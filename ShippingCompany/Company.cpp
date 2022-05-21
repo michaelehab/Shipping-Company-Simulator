@@ -964,7 +964,7 @@ void Company::writeAvgActiveTime(int totalActive, int totalTrucks, ofstream& fil
 
 void Company::writeAvgUtilization(float totalUt, int totalTrucks, ofstream& file) {
 	float percentage = (totalUt / float(totalTrucks)) * 100;
-	// float percentage = (totalUt / float(totalSimHours)) * 100;
+	// float percentage = (totalActive / float(totalSimHours)) * 100;
 	file << "Avg Utilization: " << percentage << "% \n";
 }
 /*

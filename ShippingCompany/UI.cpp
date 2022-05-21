@@ -141,16 +141,16 @@ void UI::InteractiveMode(int day, int hour)
 	if (c->getSimulationStatus())
 	{
 		cout << "Press Enter to continue." << endl;
-		if (interactiveModeflag && cin.get() == '\n')
+		if (cin.get() == '\n')
 		{
 			cout << "Current Time (Day:Hour): " << day << ":" << hour << endl;
 			printday(); // Prints the day after being simulated
 		}
-		else
-			interactiveModeflag = 0;
 	}
 	else
 	{
+		cout << "Current Time (Day:Hour): " << day << ":" << hour << endl;
+		printday(); // Prints the day after being simulated
 		cout << "Simulation ends, Output file created" << endl;
 	}
 }
