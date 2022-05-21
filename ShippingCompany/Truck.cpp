@@ -204,3 +204,12 @@ Cargo * Truck::checkDelivery(int d, int h) {
 int Truck::getActiveTime() const {
 	return activeTime;
 }
+
+void Truck::calcUtilization(int totalSimHours) {
+	if (!totalJourneys) utilization = 0;
+	else utilization = totalDeliveredCargos / float((TC * totalJourneys)) * (activeTime / float(totalSimHours));
+}
+
+float Truck::getUtilization() const{
+	return utilization;
+}

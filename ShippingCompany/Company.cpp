@@ -886,7 +886,7 @@ void Company::generateStatistics(ofstream & file) {
 
 	file << "CDT \tID \tPT \t\tWT\t\tTID \n";
 
-	int totalWaitDays = 0, totalWaitHours = 0, totalActiveTime = 0, totalAutoP = 0, totalUtilization = 0;
+	int totalWaitDays = 0, totalWaitHours = 0, totalAutoP = 0;
 	int n = 0, s = 0, v = 0;
 
 	while (DeliveredCargos->dequeue(c)) {
@@ -911,7 +911,16 @@ void Company::generateStatistics(ofstream & file) {
 	file << "Cargos: " << (n + s + v) << " [N: " << n << ", S: " << s << ", V:" << v << "]\n";
 	writeAvgWait(totalWaitDays, totalWaitHours, (n + v + s), file);
 	writeAutoPromoted(totalAutoP, (n + v + s), file);
+	int totalActiveHours = 0;
+	float totalUtilization = 0;
+	Truck* t;
+	while (NormalTrucks->dequeue(t)) {
+		totalActiveHours += t->getActiveTime();
+		t->calcUtilization(totalSimHours);
+		totalUtilization += t->getUtilization();
+	}
 	file << "Trucks: " << (numOfNormalTrucks + numOfSpecialTrucks + numOfVIPTrucks) << " [N: " << numOfNormalTrucks << ", S: " << numOfSpecialTrucks << ", V:" << numOfVIPTrucks << "]\n";
+	writeAvgActiveTime(totalActiveHours, (numOfNormalTrucks + numOfSpecialTrucks + numOfVIPTrucks), file);
 }
 
 void Company::writeAvgWait(int totalWaitD, int totalWaitH, int totalCargos, ofstream& file) {
@@ -928,6 +937,11 @@ void Company::writeAvgWait(int totalWaitD, int totalWaitH, int totalCargos, ofst
 void Company::writeAutoPromoted(int totalAutoP, int totalCargos, ofstream& file) {
 	float percentage = (totalAutoP / float(totalCargos)) * 100;
 	file << "Auto-Promoted Cargos: " << percentage << "% \n";
+}
+
+void Company::writeAvgActiveTime(int totalActive, int totalTrucks, ofstream& file) {
+	float percentage = (totalActive / float(totalTrucks)) * 100;
+	file << "Avg Active Time: " << percentage << "% \n";
 }
 /*
 	TODO :

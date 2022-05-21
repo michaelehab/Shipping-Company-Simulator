@@ -127,5 +127,6 @@ public:
 	void generateStatistics(ofstream&);
 	void writeAvgWait(int, int, int, ofstream&);
 	void writeAutoPromoted(int, int, ofstream&);
+	void writeAvgActiveTime(int, int, ofstream&);
 };
 

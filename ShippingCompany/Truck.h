@@ -25,6 +25,7 @@ class Truck{
 	int maxCargoLoad; // The max time a cargo takes to be loaded on the truck
 	int activeTime; // Active hours for the truck
 	int lastUnloadTime = 0;
+	float utilization;
 public:
 	Truck(int, char, int, int, int); // Constructor
 	void printLoadedCargos() const; // Prints the loaded cargos
@@ -56,6 +57,8 @@ public:
 	void incrementJourneys();
 	int getPriority() const;
 	int getActiveTime() const;
+	void calcUtilization(int); // Calculates the truck utilization after simulation
+	float getUtilization() const;
 	bool operator ==(const int&);
 	friend ostream& operator << (ostream& out, const Truck& c);
 	friend ostream& operator << (ostream& out, const Truck* c);
