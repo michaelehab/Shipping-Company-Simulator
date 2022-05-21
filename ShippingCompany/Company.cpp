@@ -921,6 +921,7 @@ void Company::generateStatistics(ofstream & file) {
 	}
 	file << "Trucks: " << (numOfNormalTrucks + numOfSpecialTrucks + numOfVIPTrucks) << " [N: " << numOfNormalTrucks << ", S: " << numOfSpecialTrucks << ", V:" << numOfVIPTrucks << "]\n";
 	writeAvgActiveTime(totalActiveHours, (numOfNormalTrucks + numOfSpecialTrucks + numOfVIPTrucks), file);
+	writeAvgUtilization(totalUtilization, (numOfNormalTrucks + numOfSpecialTrucks + numOfVIPTrucks), file);
 }
 
 void Company::writeAvgWait(int totalWaitD, int totalWaitH, int totalCargos, ofstream& file) {
@@ -942,6 +943,11 @@ void Company::writeAutoPromoted(int totalAutoP, int totalCargos, ofstream& file)
 void Company::writeAvgActiveTime(int totalActive, int totalTrucks, ofstream& file) {
 	float percentage = (totalActive / float(totalTrucks)) * 100;
 	file << "Avg Active Time: " << percentage << "% \n";
+}
+
+void Company::writeAvgUtilization(float totalUt, int totalTrucks, ofstream& file) {
+	float percentage = (totalUt / float(totalTrucks)) * 100;
+	file << "Avg Utilization: " << percentage << "% \n";
 }
 /*
 	TODO :
