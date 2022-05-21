@@ -882,13 +882,13 @@ bool Company::writeFile() {
 }
 
 void Company::generateStatistics(ofstream & file) {
-	Cargo* c;
-
-	file << "CDT \tID \tPT \t\tWT\t\tTID \n";
-
 	int totalWaitDays = 0, totalWaitHours = 0, totalAutoP = 0;
 	int n = 0, s = 0, v = 0;
 
+	file << "CDT \tID \tPT \t\tWT\t\tTID \n";
+
+	// Printing Delivered Cargos details and collected info needed for statistics
+	Cargo* c;
 	while (DeliveredCargos->dequeue(c)) {
 		int wait_d, wait_h;
 		c->getWaitingTime(wait_d, wait_h);
@@ -908,20 +908,26 @@ void Company::generateStatistics(ofstream & file) {
 	for (int i = 0; i < 50; i++) file << ".";
 	file << '\n';
 
-	file << "Cargos: " << (n + s + v) << " [N: " << n << ", S: " << s << ", V:" << v << "]\n";
-	writeAvgWait(totalWaitDays, totalWaitHours, (n + v + s), file);
-	writeAutoPromoted(totalAutoP, (n + v + s), file);
+	int totalCargos = (n + s + v), totalTrucks = (numOfNormalTrucks + numOfSpecialTrucks + numOfVIPTrucks);
+
+	// Printing Cargos Statistics
+	file << "Cargos: " << totalCargos << " [N: " << n << ", S: " << s << ", V:" << v << "]\n";
+	writeAvgWait(totalWaitDays, totalWaitHours, totalCargos, file);
+	writeAutoPromoted(totalAutoP, totalCargos, file);
+
 	int totalActiveHours = 0;
 	float totalUtilization = 0;
+	// Collecting info from trucks to calculate statistics
 	Truck* t;
 	while (NormalTrucks->dequeue(t)) {
 		totalActiveHours += t->getActiveTime();
 		t->calcUtilization(totalSimHours);
 		totalUtilization += t->getUtilization();
 	}
-	file << "Trucks: " << (numOfNormalTrucks + numOfSpecialTrucks + numOfVIPTrucks) << " [N: " << numOfNormalTrucks << ", S: " << numOfSpecialTrucks << ", V:" << numOfVIPTrucks << "]\n";
-	writeAvgActiveTime(totalActiveHours, (numOfNormalTrucks + numOfSpecialTrucks + numOfVIPTrucks), file);
-	writeAvgUtilization(totalUtilization, (numOfNormalTrucks + numOfSpecialTrucks + numOfVIPTrucks), file);
+	// Printing Trucks Statistics
+	file << "Trucks: " << totalTrucks << " [N: " << numOfNormalTrucks << ", S: " << numOfSpecialTrucks << ", V:" << numOfVIPTrucks << "]\n";
+	writeAvgActiveTime(totalActiveHours, totalTrucks, file);
+	writeAvgUtilization(totalUtilization, totalTrucks, file);
 }
 
 void Company::writeAvgWait(int totalWaitD, int totalWaitH, int totalCargos, ofstream& file) {
