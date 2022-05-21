@@ -62,9 +62,11 @@ class Company {
 
 	int numOfEvents;
 
-	bool simMode;		
 	//The simulation mode, if simMode=1 the simulation is working, else the simulation has ended
 	//it will be used by the silent mode to determine when to print its output
+	bool simMode;		
+
+	int totalSimHours;
 public:
 	Company();
 	void loadFile();
@@ -121,5 +123,9 @@ public:
 	void PromoteNormalCargo(Cargo* c);
 	void checkAutoPromotion(int, int);
 	bool checkSimulationEnd();
+	bool writeFile();
+	void generateStatistics(ofstream&);
+	void writeAvgWait(int, int, int, ofstream&);
+	void writeAutoPromoted(int, int, ofstream&);
 };
 

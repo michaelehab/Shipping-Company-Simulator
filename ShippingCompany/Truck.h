@@ -23,7 +23,7 @@ class Truck{
 	int arrival_d; // the day it gets back to the company
 	int arrival_h; // the hour it gets back to the company
 	int maxCargoLoad; // The max time a cargo takes to be loaded on the truck
-	int activeTime;
+	int activeTime; // Active hours for the truck
 	int lastUnloadTime = 0;
 public:
 	Truck(int, char, int, int, int); // Constructor
@@ -53,8 +53,9 @@ public:
 	bool checkArrivalTime(int, int);
 	bool checkDepartmentTime(int, int);
 	Cargo* checkDelivery(int d, int h);
-	int getPriority() const;
 	void incrementJourneys();
+	int getPriority() const;
+	int getActiveTime() const;
 	bool operator ==(const int&);
 	friend ostream& operator << (ostream& out, const Truck& c);
 	friend ostream& operator << (ostream& out, const Truck* c);

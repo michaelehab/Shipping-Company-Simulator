@@ -26,7 +26,7 @@ ostream& operator << (ostream& out, const Cargo& c)
 
 Cargo::Cargo()
 {
-
+	autoPromoted = false;
 }
 
 void Cargo::set_H(int h)
@@ -43,6 +43,13 @@ void Cargo::set_D(int d)
 	else cout << "Please enter positive number" << endl;
 }
 
+void Cargo::setTID(int id) {
+	TID = id;
+}
+
+void Cargo::setAutoPromote(bool b) {
+	autoPromoted = b;
+}
 
 int Cargo::get_d()
 {
@@ -130,4 +137,20 @@ void Cargo::getWaitingTime(int &d, int& hr)
 {
 	d = waitingTime_day;
 	hr = waitingTime_hour;
+}
+
+bool Cargo::checkAutoPromoted() const {
+	return autoPromoted;
+}
+
+int Cargo::getCDTDay() const {
+	return CDT_day;
+}
+
+int Cargo::getCDTHour() const {
+	return CDT_hour;
+}
+
+int Cargo::getTID() const {
+	return TID;
 }

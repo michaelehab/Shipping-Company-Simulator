@@ -30,6 +30,10 @@ public:
 	void set_H(int h);
 	void set_D(int d);
 	void setCDT(int, int);
+	void setTID(int);
+	void setAutoPromote(bool);
+	int getCDTDay() const;
+	int getCDTHour() const;
 	char getCargoT();
 	double get_cost();
 	int  get_LoadTime();
@@ -38,9 +42,11 @@ public:
 	int getID();
 	int get_d();
 	int get_h();
+	int getTID() const;
 	int getPriority() const;
 	void setWaitingTime(int,int);
 	void getWaitingTime(int&,int&);
+	bool checkAutoPromoted() const;
 	bool operator ==(const int&);
 	friend ostream& operator << (ostream& out, const Cargo& c);
 };

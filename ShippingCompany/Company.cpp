@@ -38,6 +38,8 @@ Company::Company()
 
 	numOfEvents = 0;
 
+	totalSimHours = 0;
+
 	Events = new Queue<Event*>;
 
 	VIPCargos = new PriorityQueue<Cargo*>;
@@ -344,6 +346,7 @@ void Company::simulate_day()
 	{
 		for (int i = 0; i < 25; i++)
 		{
+			totalSimHours++;
 			if (i > 4 && i < 24)
 			{
 				// Checks if there's an event to execute now (d:h)
@@ -366,6 +369,7 @@ void Company::simulate_day()
 				if (checkSimulationEnd())
 				{
 					simMode = 0;  // the simulation ended
+					writeFile();
 					ui->printbyMode(day, i); //to activate the silentmode function if it was chosen
 					break;
 				}
@@ -398,12 +402,10 @@ bool Company::checkSimulationEnd() {
 		&& VIPCargos->isEmpty()
 		&& NormalCargos->isEmpty()
 		&& MovingTrucks->isEmpty()
-		&& !loadingTrucks[0] && !loadingTrucks[1] && !loadingTrucks[2];
-		/*
-			&& InCheckupNormalTrucks->IsEmpty()
-			&& InCheckupSpecialTrucks->IsEmpty()
-			&& InCheckupVIPTrucks->IsEmpty()
-		*/
+		&& !loadingTrucks[0] && !loadingTrucks[1] && !loadingTrucks[2]
+		&& InCheckupNormalTrucks->IsEmpty()
+		&& InCheckupSpecialTrucks->IsEmpty()
+		&& InCheckupVIPTrucks->IsEmpty();
 }
 
 void Company::handleLoadingRule(int currentDay, int currentHr)
@@ -486,6 +488,7 @@ void Company::LoadVIPCargos()
 		while (TC--)  //To load all the TC cargos to the truck
 		{
 			VIPCargos->pop(c);
+			c->setTID(t->getID());
 			t->loadCargo(c);
 			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
 			sumUnloadTime += c->get_LoadTime();
@@ -501,6 +504,7 @@ void Company::LoadVIPCargos()
 		while (TC--)  //To load all the TC cargos to the truck
 		{
 			VIPCargos->pop(c);
+			c->setTID(t->getID());
 			t->loadCargo(c);
 			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
 			sumUnloadTime += c->get_LoadTime();
@@ -516,6 +520,7 @@ void Company::LoadVIPCargos()
 		while (TC--)  //To load all the TC cargos to the truck
 		{
 			VIPCargos->pop(c);
+			c->setTID(t->getID());
 			t->loadCargo(c);
 			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
 			sumUnloadTime += c->get_LoadTime();
@@ -539,6 +544,7 @@ void Company::LoadNormalCargos()
 		while (TC--)  //To load all the TC cargos to the truck
 		{
 			NormalCargos->pop(c);
+			c->setTID(t->getID());
 			t->loadCargo(c);
 			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
 			sumUnloadTime += c->get_LoadTime();
@@ -554,6 +560,7 @@ void Company::LoadNormalCargos()
 		while (TC--)  //To load all the TC cargos to the truck
 		{
 			NormalCargos->pop(c);
+			c->setTID(t->getID());
 			t->loadCargo(c);
 			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
 			sumUnloadTime += c->get_LoadTime();
@@ -578,6 +585,7 @@ void Company::LoadSpecialCargos()
 		while (TC--)  //To load all the TC cargos to the truck
 		{
 			SpecialCargos->dequeue(c);
+			c->setTID(t->getID());
 			t->loadCargo(c);
 			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
 			sumUnloadTime += c->get_LoadTime();
@@ -732,6 +740,7 @@ void Company::loadWaitingNormalCargos(int d, int h) {
 		{
 			if (NormalCargos->pop(c)) {
 				if ((24 * d + h) - (24 * c->get_d() + c->get_h()) >= maxW) {
+					c->setTID(t->getID());
 					t->loadCargo(c);
 					maxLoadTime = max(maxLoadTime, c->get_LoadTime());
 					sumUnloadTime += c->get_LoadTime();
@@ -755,6 +764,7 @@ void Company::loadWaitingNormalCargos(int d, int h) {
 		{
 			if (NormalCargos->pop(c)) {
 				if ((24 * d + h) - (24 * c->get_d() + c->get_h()) >= maxW) {
+					c->setTID(t->getID());
 					t->loadCargo(c);
 					maxLoadTime = max(maxLoadTime, c->get_LoadTime());
 					sumUnloadTime += c->get_LoadTime();
@@ -813,6 +823,7 @@ void Company::loadWaitingSpecialCargos(int d, int h) {
 		while (TC-- && SpecialCargos->peek(c) && (24 * d + h) - (24 * c->get_d() + c->get_h()) >= maxW)
 		{
 			SpecialCargos->dequeue(c);
+			c->setTID(t->getID());
 			t->loadCargo(c);
 			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
 			sumUnloadTime += c->get_LoadTime();
@@ -850,10 +861,74 @@ void Company::checkAutoPromotion(int d, int h)
 void Company::PromoteNormalCargo(Cargo* c) {
 	int p = c->getPriority();
 	c->SetCargoT('V');
+	c->setAutoPromote(true);
 	// Add to VIP Cargos Priority Queue in Company Class
 	VIPCargos->push(c, p);
 }
-;
+
+bool Company::writeFile() {
+	int delivered = DeliveredCargos->getSize();
+	string Text = "";
+	ofstream outFile("output.txt");
+	if (!(outFile.is_open())) return false;
+	if (!delivered) {
+		Text = "No Delivered Cargos, Check the input file.";
+		outFile << Text;
+	}
+	else generateStatistics(outFile);
+	outFile.close();
+	if (outFile.is_open()) return false;
+	return true;
+}
+
+void Company::generateStatistics(ofstream & file) {
+	Cargo* c;
+
+	file << "CDT \tID \tPT \t\tWT\t\tTID \n";
+
+	int totalWaitDays = 0, totalWaitHours = 0, totalActiveTime = 0, totalAutoP = 0, totalUtilization = 0;
+	int n = 0, s = 0, v = 0;
+
+	while (DeliveredCargos->dequeue(c)) {
+		int wait_d, wait_h;
+		c->getWaitingTime(wait_d, wait_h);
+		totalWaitDays += wait_d;
+		totalWaitHours += wait_h;
+		if (c->checkAutoPromoted()) totalAutoP++;
+
+		if (c->getCargoT() == 'N') n++;
+		else if (c->getCargoT() == 'V') v++;
+		else if (c->getCargoT() == 'S') s++;
+
+		file << c->getCDTDay() << ':' << c->getCDTHour() << " \t" << c->getID() << " \t" << c->get_d() << ':' << c->get_h() << " \t" << wait_d << ':' << wait_h << " \t" << c->getTID() << '\n';
+	}
+
+	for (int i = 0; i < 50; i++) file << ".";
+	file << '\n';
+	for (int i = 0; i < 50; i++) file << ".";
+	file << '\n';
+
+	file << "Cargos: " << (n + s + v) << " [N: " << n << ", S: " << s << ", V:" << v << "]\n";
+	writeAvgWait(totalWaitDays, totalWaitHours, (n + v + s), file);
+	writeAutoPromoted(totalAutoP, (n + v + s), file);
+	file << "Trucks: " << (numOfNormalTrucks + numOfSpecialTrucks + numOfVIPTrucks) << " [N: " << numOfNormalTrucks << ", S: " << numOfSpecialTrucks << ", V:" << numOfVIPTrucks << "]\n";
+}
+
+void Company::writeAvgWait(int totalWaitD, int totalWaitH, int totalCargos, ofstream& file) {
+	int totalWaitTime = totalWaitD * 24 + totalWaitH;
+	float avgWaitHour = (totalWaitTime / float(totalCargos));
+	int avgWaitDay = 0;
+	while (avgWaitHour >= 24) {
+		avgWaitHour -= 24;
+		avgWaitDay++;
+	}
+	file << "Cargo Avg Wait = " << avgWaitDay << ':' << avgWaitHour << '\n';
+}
+
+void Company::writeAutoPromoted(int totalAutoP, int totalCargos, ofstream& file) {
+	float percentage = (totalAutoP / float(totalCargos)) * 100;
+	file << "Auto-Promoted Cargos: " << percentage << "% \n";
+}
 /*
 	TODO :
 	Company Destructor : Empty all lists

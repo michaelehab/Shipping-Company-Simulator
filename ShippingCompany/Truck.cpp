@@ -142,7 +142,7 @@ Cargo* Truck::unloadCargo(int d, int h) {
 		tmp->setCDT(d, h);
 		tmp->setWaitingTime(dep_d - tmp->get_d(), abs(dep_h - tmp->get_h()));
 		if (loadedCargos.getSize() == 0) {
-			activeTime += (d - load_d) + (h - load_h);
+			activeTime += (d - load_d) * 24 + (h - load_h);
 			lastUnloadTime = 0;
 		}
 		return tmp;
@@ -195,7 +195,12 @@ Cargo * Truck::checkDelivery(int d, int h) {
 	Cargo* c = 0;
 	if (loadedCargos.peek(c) && (dep_d * 24 + dep_h) + c->getDel_dis() / speed + c->get_LoadTime() + lastUnloadTime == 24 * d + h) {
 		lastUnloadTime = c->get_LoadTime();
+		totalDeliveredCargos++;
 		return unloadCargo(d, h);
 	}
 	return nullptr;
+}
+
+int Truck::getActiveTime() const {
+	return activeTime;
 }
