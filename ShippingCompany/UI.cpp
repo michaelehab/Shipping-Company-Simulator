@@ -162,8 +162,19 @@ void UI::printDeliveredCargos()
 	int total = c->getDeliveredCargos()->getSize();
 
 	cout << total << " Delivered Cargos: ";
-	if (total) {
-		c->getDeliveredCargos()->print();
+	Cargo* cargo;
+	while (total--) {
+		c->getDeliveredCargos()->dequeue(cargo);
+		if (cargo->getCargoT() == 'V') {
+			cout << '{' << cargo->getID() << "} ";
+		}
+		else if (cargo->getCargoT() == 'S') {
+			cout << '(' << cargo->getID() << ") ";
+		}
+		else if (cargo->getCargoT() == 'N') {
+			cout << '[' << cargo->getID() << "] ";
+		}
+		c->getDeliveredCargos()->enqueue(cargo);
 	}
 	cout << endl;
 	for (int i = 0; i < 50; i++)
