@@ -611,9 +611,11 @@ void Company::deliverCargos(int d, int h) {
 		MovingTrucks->pop(t);
 		// checkDelivery checks if the CDT of the front of the loaded cargos
 		// is d : h, it returns the pointer of this cargo and dequeue it from the truck.
-		Cargo* c = t->checkDelivery(d, h); // may increment totalDeliveredCargos
-
-		if (c) moveCargotoDelivered(c);
+		Cargo* c = t->checkDelivery(d, h);
+		while (c) {
+			moveCargotoDelivered(c);
+			c = t->checkDelivery(d, h);
+		}
 		tmp.enqueue(t);
 	}
 

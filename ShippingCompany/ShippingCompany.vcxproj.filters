@@ -95,5 +95,8 @@
     <Text Include="checkup-test.txt">
       <Filter>Source Files</Filter>
     </Text>
+    <Text Include="loadingrule-events-test.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
