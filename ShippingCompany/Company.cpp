@@ -551,35 +551,21 @@ void Company::loadingTruckstoMoving(int d, int h)
 	for (int i = 0; i < 3; i++) {
 		if (loadingTrucks[i] && loadingTrucks[i]->checkDepartmentTime(d, h)) {
 			srand((unsigned int)time(0));
-			bool failureProbability = ((1 + (rand() % 10)) == 7);
+			// A Very Low Probability of delivery failure
+			bool failureProbability = ((1 + (rand() % 1000)) == 123);
 			if (failureProbability) {
-				if (i == 0) {
-					InCheckupVIPTrucks->enqueue(loadingTrucks[i]);
-					Cargo* c = loadingTrucks[i]->unloadCargo();
-					while (c) {
-						VIPCargos->push(c, c->getPriority());
-						c = loadingTrucks[i]->unloadCargo();
-					}
-					loadingTrucks[i] = nullptr;
+				movingTrucktoCheckUp(loadingTrucks[i]);
+				// removing all the cargos from the truck and moving it to ready
+				Cargo* c = loadingTrucks[i]->unloadCargo();
+				while (c) {
+					VIPCargos->push(c, c->getPriority());
+					c = loadingTrucks[i]->unloadCargo();
 				}
-				else if (i == 1) {
-					InCheckupNormalTrucks->enqueue(loadingTrucks[i]);
-					Cargo* c = loadingTrucks[i]->unloadCargo();
-					while (c) {
-						NormalCargos->InsertBegin(c);
-						c = loadingTrucks[i]->unloadCargo();
-					}
-					loadingTrucks[i] = nullptr;
-				}
-				else if (i == 2) {
-					InCheckupSpecialTrucks->enqueue(loadingTrucks[i]);
-					Cargo* c = loadingTrucks[i]->unloadCargo();
-					while (c) {
-						SpecialCargos->enqueue(c);
-						c = loadingTrucks[i]->unloadCargo();
-					}
-					loadingTrucks[i] = nullptr;
-				}
+				int zero = 0;
+				// resetting the truck data to spend only the checkup time
+				loadingTrucks[i]->setDI(zero, zero);
+				loadingTrucks[i]->calcArrivalTime(d, h);
+				loadingTrucks[i] = nullptr;
 			}
 			else {
 				loadingTrucks[i]->calcArrivalTime(d, h);
