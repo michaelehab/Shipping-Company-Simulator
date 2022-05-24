@@ -1,4 +1,4 @@
-# Shipping Company Simulator
+# Shipping Company Simulator - Spring 2022
 <div align = "center">
   
   ![Trucks](https://user-images.githubusercontent.com/29122581/170028682-a60b3954-15ef-472a-84f6-9eba11109cee.png)
