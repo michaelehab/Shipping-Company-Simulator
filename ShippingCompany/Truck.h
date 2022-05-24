@@ -47,7 +47,8 @@ public:
 	int getID() const; // Returns the truck ID
 	int getArrivalTime() const;
 	void setMaxCargoLoad(int&); // Sets the max load time of the truck
-	Cargo* unloadCargo(int d, int h); // Dequeues the first cargo and returns a ptr to it
+	Cargo* unloadCargo(int d, int h); // Removes a cargo to deliver it 
+	Cargo* unloadCargo(); // Dequeues the first cargo and returns a ptr to it
 	void loadCargo(Cargo*); // Loads a cargo to the truck
 	void calcDepartmentTime(int, int);
 	void calcArrivalTime(int, int);

@@ -150,6 +150,14 @@ Cargo* Truck::unloadCargo(int d, int h) {
 	return nullptr;
 }
 
+Cargo* Truck::unloadCargo() {
+	Cargo* tmp;
+	if (loadedCargos.pop(tmp)) {
+		return tmp;
+	}
+	return nullptr;
+}
+
 void Truck::loadCargo(Cargo * c) {
 	// NOTE : priority is CDT ascending to be changed!
 	loadedCargos.push(c, -1 * (c->getDel_dis() / speed + c->get_LoadTime()));
