@@ -164,6 +164,7 @@
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="checkup-test.txt" />
     <Text Include="input1.txt" />
     <Text Include="input2.txt" />
     <Text Include="maxW-test.txt" />

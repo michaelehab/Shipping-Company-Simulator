@@ -92,5 +92,8 @@
     <Text Include="maxW-test.txt">
       <Filter>Source Files</Filter>
     </Text>
+    <Text Include="checkup-test.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
