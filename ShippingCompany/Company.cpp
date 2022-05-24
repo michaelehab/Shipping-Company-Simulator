@@ -66,14 +66,15 @@ Company::Company()
 	for (int i = 0; i < 3; i++) loadingTrucks[i] = NULL;
 
 	simMode = 1;
-	loadFile();
 	ui = new UI(this);
+	loadFile();
 	ui->readMode();
 
 }
 
 void Company::loadFile() {
-	ifstream inputFile("input1.txt");
+	ui->readFileName();
+	ifstream inputFile(fileName + ".txt");
 	if (!inputFile) {
 		return;
 	}
@@ -237,109 +238,6 @@ bool Company::getSimulationStatus() const
 
 void Company::simulate_day()
 {
-	/*
-	EVERY DAY : EVERY HOUR
-
-	DAY : OFF HOURS
-	handleReturningTrucks();
-	handleInCheckupTrucks();
-
-
-	DAY : WORKING HOURS
-		checkEvent();
-
-		handleLoadingRule(){
-			handleVIPLoading(){
-				// If Ready cargos >= Truck TC && !loadingTrucks[0]
-					LoadVIPCargo(); // assign waiting time = current time - ready time;
-					moveTrucktoLoading(); // assign load_d = d, load_h = h;
-			};
-			handleNormalLoading(){
-				LoadNormalCargo(); // assign waiting time = current time - ready time;
-				moveTrucktoLoading();
-			};
-			handleSpecialLoading(){
-				LoadSpecialCargo(); // assign waiting time = current time - ready time;
-				moveTrucktoLoading();
-			};
-		}
-
-		// In case of "at the same time" == "until the load is fully completed"
-
-		// Truck * loadingTrucks = {null, null, null};
-		loadingTrucks[0] indicates the truck loading VIP type
-		loadingTrucks[1] indicates the truck loading Normal type
-		loadingTrucks[2] indicates the truck loading special type
-		if loadingTrucks[i] == null this means that we can load this type again.
-
-
-		loadingTruckstoMoving(){
-			for i = 0 to 2:
-				if(loadingTrucks[i] && loadingTrucks[i]->checkDepartmentTime(d, h)){
-					movingTrucks->enqueue(loadingTrucks[i], loadingTrucks[i]->getPriority());
-					loadingTrucks[i] = nullptr;
-				}
-		}
-
-
-		checkMaxWRule(){
-			checkNormalMaxW(){
-				// If (24 * d + h) - (24 * c->get_d() + c->get_h()) >= MaxW
-				LoadMaxWNormalCargo();
-			};
-			checkSpecialMaxW(){
-				LoadMaxWSpecialCargo();
-			};
-		}
-
-		checkAutoPromotion(){
-			// If truck -> (d + autoP) == current time
-			PromoteNormalCargo();
-		};
-
-		handleReturningTrucks(){
-			// if truck -> totalJourneys % truck -> J == 0
-				movingTrucktoCheckUp(); // increment totalJourneys
-			// else
-				movingTrucktoReady(); // increment totalJourneys
-		};
-
-		handleInCheckupTrucks(){
-			inCheckupVIPToReady();
-			inCheckupNormalToReady();
-			inCheckupSpecialToReady();
-		};
-
-		deliverCargos(){
-			int sz1 = sz2 = movingTrucks->getSize();
-			Queue <Truck*> tmp;
-			while(sz1--){
-				Truck * t;
-				movingTrucks->dequeue(t);
-
-				// checkDelivery checks if the CDT of the front of the loaded cargos
-				// is d : h, it returns the pointer of this cargo and dequeue it from the truck.
-				Cargo * c = tmp->checkDelivery(d, h); // may increment totalDeliveredCargos
-				if(c){
-					moveCargotoDelivered(c);
-				}
-
-				tmp.enqueue(t);
-			}
-
-			while(sz2--){
-				Truck * t;
-				tmp.dequeue(t);
-				movingTrucks->enqueue(t, t->getPriority());
-			}
-		};
-
-		ui->printbymode();
-
-		AFTER END OF DAYS
-		generateOutputFile();
-
-	*/
 	int day = 1;   //current day
 
 	while (simMode)
@@ -869,7 +767,7 @@ void Company::PromoteNormalCargo(Cargo* c) {
 bool Company::writeFile() {
 	int delivered = DeliveredCargos->getSize();
 	string Text = "";
-	ofstream outFile("output.txt");
+	ofstream outFile(fileName + "-output.txt");
 	if (!(outFile.is_open())) return false;
 	if (!delivered) {
 		Text = "No Delivered Cargos, Check the input file.";
@@ -971,6 +869,10 @@ void Company::writeAvgUtilization(float totalUt, int totalTrucks, ofstream& file
 	// float percentage = (totalActive / float(totalSimHours)) * 100;
 	file << "Avg Utilization: " << percentage << "% \n";
 }
+
+void Company::setFileName(string name) {
+	fileName = name;
+}
 Company::~Company() {
 	// All these lists are already empty at this point
 	delete Events;
@@ -987,7 +889,3 @@ Company::~Company() {
 	delete MovingTrucks;
 	delete loadingTrucks;
 }
-/*
-	TODO :
-	Company Destructor : Empty all lists
-*/

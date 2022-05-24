@@ -26,5 +26,6 @@ public:
 	void printLoadingTrucks() ;
 	void printday() ;
 	void printbyMode(int day, int hour) ;
+	void readFileName();
 };
 

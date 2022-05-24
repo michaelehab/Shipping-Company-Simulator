@@ -229,3 +229,10 @@ void UI::printbyMode(int day, int hour)
 
 
 }
+
+void UI::readFileName() {
+	string s;
+	cout << "Please enter the input file name: ";
+	cin >> s;
+	c->setFileName(s);
+}

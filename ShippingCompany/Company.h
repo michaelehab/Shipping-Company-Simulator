@@ -67,6 +67,8 @@ class Company {
 	bool simMode;		
 
 	int totalSimHours;
+
+	string fileName;
 public:
 	Company();
 	void loadFile();
@@ -129,6 +131,7 @@ public:
 	void writeAutoPromoted(int, int, ofstream&);
 	void writeAvgActiveTime(int, int, ofstream&);
 	void writeAvgUtilization(float, int, ofstream&);
+	void setFileName(string);
 	~Company();
 };
 
