@@ -12,7 +12,7 @@ of its trucks.
 This CLI program that simulates the operation of the cargo delivery process of a Shipping Company and calculates some related statistics.
 
 ### Cargos and Trucks
-#### Cargos
+#### 📦 Cargos
 The following pieces of information are available for each cargo:
 * Preparation (Ready) Time: the Time (day:hour) when the cargo is ready to be
 assigned to a truck.
@@ -26,7 +26,7 @@ chemical cargos,… etc
 location of the cargo.
 * Cost: The cost of delivering the cargo.
 
-#### Trucks
+#### 🚚 Trucks
 Trucks:
 At startup, the system loads (from a file) information about the available trucks. For
 each truck, the system will load the following information:
@@ -135,7 +135,7 @@ Avg Active time = 91%
 Avg utilization = 87%
 ```
 
-## Program Interface Screenshots
+## 📷 Program Interface and Screenshots
 ### Interactive Mode
 Allows user to monitor the cargos and trucks. The
 program should print an output like that shown below. In this mode, the program
