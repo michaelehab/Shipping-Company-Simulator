@@ -86,7 +86,10 @@
     <Text Include="input2.txt">
       <Filter>Source Files</Filter>
     </Text>
-    <Text Include="promotion.txt">
+    <Text Include="promotion-test.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="maxW-test.txt">
       <Filter>Source Files</Filter>
     </Text>
   </ItemGroup>
