@@ -245,41 +245,33 @@ void Company::simulate_day()
 		for (int i = 0; i < 24; i++)
 		{
 			totalSimHours++;
-			if (i > 4 && i < 24)
-			{
-				// Checks if there's an event to execute now (d:h)
-				checkEvents(day, i);
-				// Checks if there's any truck who finished its checkup and move it to ready empty trucks
-				handleInCheckupTrucks(day, i);
-				// Checks if there's any truck who is returning to the company now (d:h) and handle it
-				handleReturningTrucks(day, i);
-				// Checks if there's any normal cargo who needs to be auto promoted after waiting autoP days
-				checkAutoPromotion(day, i);
-				// Checks if there's normal/special cargos waiting more than maxW hours and handle them
-				checkMaxWRule(day, i);
-				// Handles the loading rule for each waiting cargo and truck
-				handleLoadingRule(day,i);
-				// Checks if now (d:h) is the delivery time of any cargo and handle it
-				deliverCargos(day, i);
-				// Checks if there's any truck who finished loading to start its journey
-				loadingTruckstoMoving(day, i);
-				// Checks if the simulation has already ended
-				if (checkSimulationEnd())
-				{
-					simMode = 0;  // the simulation ended
-					ui->printbyMode(day, i); //to activate the silentmode function if it was chosen
-					writeFile();
-					break;
-				}
-			}
-			// Handles Off-Working hours
-			else {
-				deliverCargos(day, i);
-				handleReturningTrucks(day, i);
-				handleInCheckupTrucks(day, i);
-			}
+			// Checks if there's an event to execute now (d:h)
+			checkEvents(day, i);
+			// Checks if there's any truck who finished its checkup and move it to ready empty trucks
+			handleInCheckupTrucks(day, i);
+			// Checks if there's any truck who is returning to the company now (d:h) and handle it
+			handleReturningTrucks(day, i);
+			// Checks if there's any normal cargo who needs to be auto promoted after waiting autoP days
+			checkAutoPromotion(day, i);
+			// Checks if there's normal/special cargos waiting more than maxW hours and handle them
+			checkMaxWRule(day, i);
+			// Handles the loading rule for each waiting cargo and truck
+			handleLoadingRule(day, i);
+			// Checks if now (d:h) is the delivery time of any cargo and handle it
+			deliverCargos(day, i);
+			// Checks if there's any truck who finished loading to start its journey
+			loadingTruckstoMoving(day, i);
 			// Prints the day status to the UI using the appropriate mode selected by the user
 			ui->printbyMode(day, i);
+
+			// Checks if the simulation has already ended
+			if (checkSimulationEnd())
+			{
+				simMode = 0;  // the simulation ended
+				ui->printbyMode(day, i); //to activate the silentmode function if it was chosen
+				writeFile();
+				break;
+			}
 		}
 		day++;
 	}
@@ -319,25 +311,31 @@ void Company::handleVIPLoading(int currentDay, int currentHr)
 	if (VIPTrucks->peek(t)) {
 		if ((number >= t->getTC() || (number && Events->getSize() == 0)) && !loadingTrucks[0])
 		{
-			LoadVIPCargos();
-			VIPTrucks->dequeue(t);
-			moveTrucktoLoading(t, currentDay,currentHr);
+			if ((currentHr > 4 && currentHr < 24) || (currentHr >= 0 && currentHr <= 4 && t->getID() % 2 == 0)) {
+				LoadVIPCargos();
+				VIPTrucks->dequeue(t);
+				moveTrucktoLoading(t, currentDay, currentHr);
+			}
 		}
 	}
 	else if (NormalTrucks->peek(t)) {
 		if ((number >= t->getTC() || (number && Events->getSize() == 0)) && !loadingTrucks[1])
 		{
-			LoadVIPCargos();
-			NormalTrucks->dequeue(t);
-			moveTrucktoLoading(t, currentDay, currentHr);
+			if ((currentHr > 4 && currentHr < 24) || (currentHr >= 0 && currentHr <= 4 && t->getID() % 2 == 0)) {
+				LoadVIPCargos();
+				NormalTrucks->dequeue(t);
+				moveTrucktoLoading(t, currentDay, currentHr);
+			}
 		}
 	}
 	else if (SpecialTrucks->peek(t)) {
 		if ((number >= t->getTC() || (number && Events->getSize() == 0)) && !loadingTrucks[2])
 		{
-			LoadVIPCargos();
-			SpecialTrucks->dequeue(t);
-			moveTrucktoLoading(t, currentDay, currentHr);
+			if ((currentHr > 4 && currentHr < 24) || (currentHr >= 0 && currentHr <= 4 && t->getID() % 2 == 0)) {
+				LoadVIPCargos();
+				SpecialTrucks->dequeue(t);
+				moveTrucktoLoading(t, currentDay, currentHr);
+			}
 		}
 	}
 }
@@ -347,17 +345,21 @@ void Company::handleNormalLoading(int currentDay, int currentHr)
 	if (NormalTrucks->peek(t)) {
 		if (NormalCargos->getSize() >= t->getTC() && !loadingTrucks[1])
 		{
-			LoadNormalCargos();
-			NormalTrucks->dequeue(t);
-			moveTrucktoLoading(t, currentDay, currentHr);
+			if ((currentHr > 4 && currentHr < 24) || (currentHr >= 0 && currentHr <= 4 && t->getID() % 2 == 0)) {
+				LoadNormalCargos();
+				NormalTrucks->dequeue(t);
+				moveTrucktoLoading(t, currentDay, currentHr);
+			}
 		}
 	}
 	else if (VIPTrucks->peek(t)) {
 		if (NormalCargos->getSize() >= t->getTC() && !loadingTrucks[0])
 		{
-			LoadNormalCargos();
-			VIPTrucks->dequeue(t);
-			moveTrucktoLoading(t, currentDay, currentHr);
+			if ((currentHr > 4 && currentHr < 24) || (currentHr >= 0 && currentHr <= 4 && t->getID() % 2 == 0)) {
+				LoadNormalCargos();
+				VIPTrucks->dequeue(t);
+				moveTrucktoLoading(t, currentDay, currentHr);
+			}
 		}
 	}
 }
@@ -367,9 +369,11 @@ void Company::handleSpecialLoading(int currentDay, int currentHr)
 	if (SpecialTrucks->peek(t)) {
 		if (SpecialCargos->getSize() >= t->getTC() && !loadingTrucks[2])
 		{
-			LoadSpecialCargos();
-			SpecialTrucks->dequeue(t);
-			moveTrucktoLoading(t, currentDay, currentHr);
+			if ((currentHr > 4 && currentHr < 24) || (currentHr >= 0 && currentHr <= 4 && t->getID() % 2 == 0)) {
+				LoadSpecialCargos();
+				SpecialTrucks->dequeue(t);
+				moveTrucktoLoading(t, currentDay, currentHr);
+			}
 		}
 	}
 }
@@ -549,7 +553,8 @@ void Company::loadingTruckstoMoving(int d, int h)
 	for (int i = 0; i < 3; i++) {
 		if (loadingTrucks[i] && loadingTrucks[i]->checkDepartmentTime(d, h)) {
 			srand(time(0));
-			bool failureProbability = ((1 + (rand() % 10)) == 7);
+			// A Very Low Probability of delivery failure
+			bool failureProbability = ((1 + (rand() % 1000)) == 123);
 			if (failureProbability) {
 				if (i == 0) {
 					InCheckupVIPTrucks->enqueue(loadingTrucks[i]);
