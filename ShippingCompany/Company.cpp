@@ -249,20 +249,20 @@ void Company::simulate_day()
 			{
 				// Checks if there's an event to execute now (d:h)
 				checkEvents(day, i);
-				// Checks if there's normal/special cargos waiting more than maxW hours and handle them
-				checkMaxWRule(day, i);
-				// Checks if now (d:h) is the delivery time of any cargo and handle it
-				deliverCargos(day, i);
-				// Checks if there's any truck who finished loading to start its journey
-				loadingTruckstoMoving(day, i);
-				// Handles the loading rule for each waiting cargo and truck
-				handleLoadingRule(day,i);
-				// Checks if there's any normal cargo who needs to be auto promoted after waiting autoP days
-				checkAutoPromotion(day, i);
 				// Checks if there's any truck who finished its checkup and move it to ready empty trucks
 				handleInCheckupTrucks(day, i);
 				// Checks if there's any truck who is returning to the company now (d:h) and handle it
 				handleReturningTrucks(day, i);
+				// Checks if there's any normal cargo who needs to be auto promoted after waiting autoP days
+				checkAutoPromotion(day, i);
+				// Checks if there's normal/special cargos waiting more than maxW hours and handle them
+				checkMaxWRule(day, i);
+				// Handles the loading rule for each waiting cargo and truck
+				handleLoadingRule(day,i);
+				// Checks if now (d:h) is the delivery time of any cargo and handle it
+				deliverCargos(day, i);
+				// Checks if there's any truck who finished loading to start its journey
+				loadingTruckstoMoving(day, i);
 				// Checks if the simulation has already ended
 				if (checkSimulationEnd())
 				{
@@ -315,8 +315,9 @@ void Company::handleLoadingRule(int currentDay, int currentHr)
 void Company::handleVIPLoading(int currentDay, int currentHr)
 {
 	Truck* t;
+	int number = VIPCargos->getSize();
 	if (VIPTrucks->peek(t)) {
-		if (VIPCargos->getSize() >= t->getTC() && !loadingTrucks[0])
+		if ((number >= t->getTC() || (number && Events->getSize() == 0)) && !loadingTrucks[0])
 		{
 			LoadVIPCargos();
 			VIPTrucks->dequeue(t);
@@ -324,7 +325,7 @@ void Company::handleVIPLoading(int currentDay, int currentHr)
 		}
 	}
 	else if (NormalTrucks->peek(t)) {
-		if (VIPCargos->getSize() >= t->getTC() && !loadingTrucks[1])
+		if ((number >= t->getTC() || (number && Events->getSize() == 0)) && !loadingTrucks[1])
 		{
 			LoadVIPCargos();
 			NormalTrucks->dequeue(t);
@@ -332,7 +333,7 @@ void Company::handleVIPLoading(int currentDay, int currentHr)
 		}
 	}
 	else if (SpecialTrucks->peek(t)) {
-		if (VIPCargos->getSize() >= t->getTC() && !loadingTrucks[2])
+		if ((number >= t->getTC() || (number && Events->getSize() == 0)) && !loadingTrucks[2])
 		{
 			LoadVIPCargos();
 			SpecialTrucks->dequeue(t);
@@ -383,9 +384,8 @@ void Company::LoadVIPCargos()
 	{
 		VIPTrucks->peek(t);
 		int TC = t->getTC();
-		while (TC--)  //To load all the TC cargos to the truck
+		while (TC-- && VIPCargos->pop(c))  //To load all the TC cargos to the truck
 		{
-			VIPCargos->pop(c);
 			c->setTID(t->getID());
 			t->loadCargo(c);
 			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
@@ -399,9 +399,8 @@ void Company::LoadVIPCargos()
 	{
 		NormalTrucks->peek(t);
 		int TC = t->getTC();
-		while (TC--)  //To load all the TC cargos to the truck
+		while (TC-- && VIPCargos->pop(c))  //To load all the TC cargos to the truck
 		{
-			VIPCargos->pop(c);
 			c->setTID(t->getID());
 			t->loadCargo(c);
 			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
@@ -415,9 +414,8 @@ void Company::LoadVIPCargos()
 	{
 		SpecialTrucks->peek(t);
 		int TC = t->getTC();
-		while (TC--)  //To load all the TC cargos to the truck
+		while (TC-- && VIPCargos->pop(c))  //To load all the TC cargos to the truck
 		{
-			VIPCargos->pop(c);
 			c->setTID(t->getID());
 			t->loadCargo(c);
 			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
@@ -883,7 +881,7 @@ Company::~Company() {
 	delete NormalCargos;
 	delete DeliveredCargos;
 	delete VIPTrucks;
-	delete InCheckupVIPTrucks;
+	delete InCheckupVIPTrucks; 
 	delete SpecialTrucks;
 	delete InCheckupSpecialTrucks;
 	delete NormalTrucks;
