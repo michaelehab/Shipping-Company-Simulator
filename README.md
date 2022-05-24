@@ -147,7 +147,7 @@ Step-By-Step Mode is identical to the interactive mode except that after
 each hour, the program waits for one second (not for user input) then resumes
 automatically.
 ### Silent Mode
-The program produces only an output file (See the “FileFormats” section). It does not print any simulation steps on the console. It just printsthe following screen
+The program produces only an output file. It does not print any simulation steps on the console. It just printsthe following screen
 
 ![silent mode](https://user-images.githubusercontent.com/29122581/170032981-2b74415b-c808-4660-a68d-6124b986f76a.png)
 
