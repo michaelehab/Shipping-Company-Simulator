@@ -103,8 +103,5 @@
     <Text Include="vip-edge-case.txt">
       <Filter>Source Files</Filter>
     </Text>
-    <Text Include="night-shift-test.txt">
-      <Filter>Source Files</Filter>
-    </Text>
   </ItemGroup>
 </Project>
