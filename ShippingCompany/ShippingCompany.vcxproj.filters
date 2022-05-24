@@ -82,10 +82,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="input1.txt" />
-    <Text Include="input2.txt">
-      <Filter>Source Files</Filter>
-    </Text>
     <Text Include="promotion-test.txt">
       <Filter>Source Files</Filter>
     </Text>

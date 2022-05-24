@@ -165,8 +165,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="checkup-test.txt" />
-    <Text Include="input1.txt" />
-    <Text Include="input2.txt" />
     <Text Include="loadingrule-events-test.txt" />
     <Text Include="maxW-test.txt" />
     <Text Include="no-suitable-trucks-test.txt" />
