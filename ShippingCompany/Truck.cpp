@@ -163,6 +163,7 @@ void Truck::calcDepartmentTime(int d, int h) {
 		dep_h -= 24;
 		dep_d++;
 	}
+	if (dep_h < 5) dep_h = 5;
 }
 
 void Truck::calcArrivalTime(int d, int h) {

@@ -97,5 +97,8 @@
     <Text Include="no-suitable-trucks-test.txt">
       <Filter>Source Files</Filter>
     </Text>
+    <Text Include="off-hours-test.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

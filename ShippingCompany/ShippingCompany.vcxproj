@@ -168,6 +168,7 @@
     <Text Include="loadingrule-events-test.txt" />
     <Text Include="maxW-test.txt" />
     <Text Include="no-suitable-trucks-test.txt" />
+    <Text Include="off-hours-test.txt" />
     <Text Include="promotion-test.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

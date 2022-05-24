@@ -287,7 +287,7 @@ void Company::simulate_day()
 
 void Company::checkEvents(int currentDay, int currentHour) {
 	Event* e;
-	while (Events->peek(e) && e->getDay() == currentDay && e->getHour() == currentHour)
+	while (Events->peek(e) && e->getDay() <= currentDay && e->getHour() <= currentHour)
 	{
 		Events->dequeue(e);
 		e->Execute();
