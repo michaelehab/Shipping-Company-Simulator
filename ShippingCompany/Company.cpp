@@ -485,7 +485,11 @@ void Company::LoadSpecialCargos()
 			SpecialCargos->dequeue(c);
 			c->setTID(t->getID());
 			t->loadCargo(c);
-			maxLoadTime = max(maxLoadTime, c->get_LoadTime());
+			maxLoadTime = max(maxLoadTime
+				
+				
+				
+				, c->get_LoadTime());
 			sumUnloadTime += c->get_LoadTime();
 			maxDeliveryDist = max(maxDeliveryDist, c->getDel_dis());
 		}
