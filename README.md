@@ -140,7 +140,8 @@ Avg utilization = 87%
 Allows user to monitor the cargos and trucks. The
 program should print an output like that shown below. In this mode, the program
 prints the current time then pauses for an input from the user (“Enter” key) to display the output of the next time.
-![image](https://user-images.githubusercontent.com/29122581/170033471-d2ab7a87-ad17-499c-823f-6952831dad91.png)
+
+![interactive mode](https://user-images.githubusercontent.com/29122581/170033471-d2ab7a87-ad17-499c-823f-6952831dad91.png)
 ### Step-By-Step Mode
 Step-By-Step Mode is identical to the interactive mode except that after
 each hour, the program waits for one second (not for user input) then resumes
@@ -148,6 +149,6 @@ automatically.
 ### Silent Mode
 The program produces only an output file (See the “FileFormats” section). It does not print any simulation steps on the console. It just printsthe following screen
 
-![image](https://user-images.githubusercontent.com/29122581/170032981-2b74415b-c808-4660-a68d-6124b986f76a.png)
+![silent mode](https://user-images.githubusercontent.com/29122581/170032981-2b74415b-c808-4660-a68d-6124b986f76a.png)
 
 NOTE: No matter what mode of operation your program is running in, the output file is produced.
