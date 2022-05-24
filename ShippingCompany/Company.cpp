@@ -263,14 +263,6 @@ void Company::simulate_day()
 				deliverCargos(day, i);
 				// Checks if there's any truck who finished loading to start its journey
 				loadingTruckstoMoving(day, i);
-				// Checks if the simulation has already ended
-				if (checkSimulationEnd())
-				{
-					simMode = 0;  // the simulation ended
-					ui->printbyMode(day, i); //to activate the silentmode function if it was chosen
-					writeFile();
-					break;
-				}
 			}
 			// Handles Off-Working hours
 			else {
@@ -278,6 +270,16 @@ void Company::simulate_day()
 				handleReturningTrucks(day, i);
 				handleInCheckupTrucks(day, i);
 			}
+
+			// Checks if the simulation has already ended
+			if (checkSimulationEnd())
+			{
+				simMode = 0;  // the simulation ended
+				ui->printbyMode(day, i); //to activate the silentmode function if it was chosen
+				writeFile();
+				break;
+			}
+
 			// Prints the day status to the UI using the appropriate mode selected by the user
 			ui->printbyMode(day, i);
 		}
@@ -548,7 +550,7 @@ void Company::loadingTruckstoMoving(int d, int h)
 {
 	for (int i = 0; i < 3; i++) {
 		if (loadingTrucks[i] && loadingTrucks[i]->checkDepartmentTime(d, h)) {
-			srand(time(0));
+			srand((unsigned int)time(0));
 			bool failureProbability = ((1 + (rand() % 10)) == 7);
 			if (failureProbability) {
 				if (i == 0) {
