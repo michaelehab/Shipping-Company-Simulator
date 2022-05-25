@@ -61,6 +61,10 @@ Company::Company()
 	//LoadingTrucks = new Queue<Truck*>;
 	MovingTrucks = new PriorityQueue<Truck*>;
 
+	// [0, 1, 2]
+	// 0 : The Truck of any type carrying VIP Cargos being loaded.
+	// 1 : The Truck of any type carrying Normal Cargos being loaded.
+	// 2 : The Truck of any type carrying Special Cargos being loaded.
 	loadingTrucks = new Truck * [3];
 
 	for (int i = 0; i < 3; i++) loadingTrucks[i] = NULL;
@@ -249,6 +253,8 @@ void Company::simulate_day()
 			{
 				// Checks if there's an event to execute now (d:h)
 				checkEvents(day, i);
+				// Checks if there's any truck who finished loading to start its journey
+				loadingTruckstoMoving(day, i);
 				// Checks if there's any truck who finished its checkup and move it to ready empty trucks
 				handleInCheckupTrucks(day, i);
 				// Checks if there's any truck who is returning to the company now (d:h) and handle it
@@ -261,8 +267,6 @@ void Company::simulate_day()
 				handleLoadingRule(day,i);
 				// Checks if now (d:h) is the delivery time of any cargo and handle it
 				deliverCargos(day, i);
-				// Checks if there's any truck who finished loading to start its journey
-				loadingTruckstoMoving(day, i);
 			}
 			// Handles Off-Working hours
 			else {
@@ -311,8 +315,8 @@ bool Company::checkSimulationEnd() {
 void Company::handleLoadingRule(int currentDay, int currentHr)
 {
 	handleVIPLoading(currentDay, currentHr);
-	handleNormalLoading(currentDay,currentHr);
 	handleSpecialLoading(currentDay, currentHr);
+	handleNormalLoading(currentDay,currentHr);
 }
 void Company::handleVIPLoading(int currentDay, int currentHr)
 {
@@ -323,23 +327,23 @@ void Company::handleVIPLoading(int currentDay, int currentHr)
 		{
 			LoadVIPCargos();
 			VIPTrucks->dequeue(t);
-			moveTrucktoLoading(t, currentDay,currentHr);
+			moveTrucktoLoading(t, currentDay,currentHr, 0);
 		}
 	}
 	else if (NormalTrucks->peek(t)) {
-		if ((number >= t->getTC() || (number && Events->getSize() == 0)) && !loadingTrucks[1])
+		if ((number >= t->getTC() || (number && Events->getSize() == 0)) && !loadingTrucks[0])
 		{
 			LoadVIPCargos();
 			NormalTrucks->dequeue(t);
-			moveTrucktoLoading(t, currentDay, currentHr);
+			moveTrucktoLoading(t, currentDay, currentHr, 0);
 		}
 	}
 	else if (SpecialTrucks->peek(t)) {
-		if ((number >= t->getTC() || (number && Events->getSize() == 0)) && !loadingTrucks[2])
+		if ((number >= t->getTC() || (number && Events->getSize() == 0)) && !loadingTrucks[0])
 		{
 			LoadVIPCargos();
 			SpecialTrucks->dequeue(t);
-			moveTrucktoLoading(t, currentDay, currentHr);
+			moveTrucktoLoading(t, currentDay, currentHr, 0);
 		}
 	}
 }
@@ -351,15 +355,15 @@ void Company::handleNormalLoading(int currentDay, int currentHr)
 		{
 			LoadNormalCargos();
 			NormalTrucks->dequeue(t);
-			moveTrucktoLoading(t, currentDay, currentHr);
+			moveTrucktoLoading(t, currentDay, currentHr, 1);
 		}
 	}
 	else if (VIPTrucks->peek(t)) {
-		if (NormalCargos->getSize() >= t->getTC() && !loadingTrucks[0])
+		if (NormalCargos->getSize() >= t->getTC() && !loadingTrucks[1])
 		{
 			LoadNormalCargos();
 			VIPTrucks->dequeue(t);
-			moveTrucktoLoading(t, currentDay, currentHr);
+			moveTrucktoLoading(t, currentDay, currentHr, 1);
 		}
 	}
 }
@@ -371,7 +375,7 @@ void Company::handleSpecialLoading(int currentDay, int currentHr)
 		{
 			LoadSpecialCargos();
 			SpecialTrucks->dequeue(t);
-			moveTrucktoLoading(t, currentDay, currentHr);
+			moveTrucktoLoading(t, currentDay, currentHr, 2);
 		}
 	}
 }
@@ -493,13 +497,12 @@ void Company::LoadSpecialCargos()
 		t->setDI(maxDeliveryDist, sumUnloadTime);
 	}
 }
-void Company::moveTrucktoLoading(Truck* t,int load_d,int load_h)
+void Company::moveTrucktoLoading(Truck* t, int load_d, int load_h, int idx)
 {
 	t->setLoadTime(load_d, load_h);
 	t->calcDepartmentTime(load_d, load_h);
-	if (t->getType() == 'V') loadingTrucks[0] = t;
-	else if (t->getType() == 'N') loadingTrucks[1] = t;
-	else if(t->getType() == 'S') loadingTrucks[2] = t;
+	// Indicates that a truck carrying this type is being loaded
+	loadingTrucks[idx] = t;
 }
 
 void Company::movingTrucktoCheckUp(Truck* x)
@@ -580,34 +583,34 @@ void Company::loadingTruckstoMoving(int d, int h)
 
 void Company::inCheckupVIPToReady(int d, int h) {
 	Truck* t;
-	if (InCheckupVIPTrucks->peek(t)) {
-		while (t->getArrivalTime() + t->getCheckupTime() == d * 24 + h) {
+	while (InCheckupVIPTrucks->peek(t)) {
+		if (t->getArrivalTime() + t->getCheckupTime() == d * 24 + h) {
 			InCheckupVIPTrucks->dequeue(t);
 			VIPTrucks->enqueue(t);
-			if (!InCheckupVIPTrucks->peek(t)) break;
 		}
+		else break;
 	}
 }
 
 void Company::inCheckupNormalToReady(int d, int h) {
 	Truck* t;
-	if (InCheckupNormalTrucks->peek(t)) {
-		while (t->getArrivalTime() + t->getCheckupTime() == d * 24 + h) {
+	while (InCheckupNormalTrucks->peek(t)) {
+		if (t->getArrivalTime() + t->getCheckupTime() == d * 24 + h) {
 			InCheckupNormalTrucks->dequeue(t);
 			NormalTrucks->enqueue(t);
-			if(!InCheckupNormalTrucks->peek(t)) break;
 		}
+		else break;
 	}
 }
 
 void Company::inCheckupSpecialToReady(int d, int h) {
 	Truck* t;
-	if (InCheckupSpecialTrucks->peek(t)) {
-		while (t->getArrivalTime() + t->getCheckupTime() == d * 24 + h) {
+	while (InCheckupSpecialTrucks->peek(t)) {
+		if (t->getArrivalTime() + t->getCheckupTime() == d * 24 + h) {
 			InCheckupSpecialTrucks->dequeue(t);
 			SpecialTrucks->enqueue(t);
-			if (!InCheckupSpecialTrucks->peek(t)) break;
 		}
+		else break;
 	}
 }
 
@@ -711,7 +714,7 @@ void Company::checkNormalMaxW(int currentDay, int currentHr)
 			if ((24 * currentDay + currentHr) - (24 * c->get_d() + c->get_h()) >= maxW && !loadingTrucks[1]) {
 				loadWaitingNormalCargos(currentDay, currentHr);
 				NormalTrucks->dequeue(t);
-				moveTrucktoLoading(t, currentDay, currentHr);
+				moveTrucktoLoading(t, currentDay, currentHr, 1);
 			}
 		}
 	}
@@ -719,10 +722,10 @@ void Company::checkNormalMaxW(int currentDay, int currentHr)
 		Cargo* c;
 		if (NormalCargos->pop(c)) {
 			NormalCargos->InsertBegin(c);
-			if ((24 * currentDay + currentHr) - (24 * c->get_d() + c->get_h()) >= maxW && !loadingTrucks[0]) {
+			if ((24 * currentDay + currentHr) - (24 * c->get_d() + c->get_h()) >= maxW && !loadingTrucks[1]) {
 				loadWaitingNormalCargos(currentDay, currentHr);
 				VIPTrucks->dequeue(t);
-				moveTrucktoLoading(t, currentDay, currentHr);
+				moveTrucktoLoading(t, currentDay, currentHr, 1);
 			}
 		}
 	}
@@ -761,7 +764,7 @@ void Company::checkSpecialMaxW(int currentDay, int currentHr)
 		if (SpecialCargos->peek(c) && (24 * currentDay + currentHr) - (24 * c->get_d() + c->get_h()) >= maxW && !loadingTrucks[2]) {
 			loadWaitingSpecialCargos(currentDay, currentHr);
 			SpecialTrucks->dequeue(t);
-			moveTrucktoLoading(t, currentDay, currentHr);
+			moveTrucktoLoading(t, currentDay, currentHr, 2);
 		}
 	}
 }

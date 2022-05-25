@@ -106,7 +106,7 @@ public:
 	void LoadVIPCargos();
 	void LoadNormalCargos();
 	void LoadSpecialCargos();
-	void moveTrucktoLoading(Truck*,int,int);
+	void moveTrucktoLoading(Truck*, int, int, int);
 	void moveCargotoDelivered(Cargo*);
 	void movingTrucktoCheckUp(Truck* x);
 	void movingTrucktoReady(Truck* x);
