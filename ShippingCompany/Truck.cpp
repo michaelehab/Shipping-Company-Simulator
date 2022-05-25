@@ -159,8 +159,7 @@ Cargo* Truck::unloadCargo() {
 }
 
 void Truck::loadCargo(Cargo * c) {
-	// NOTE : priority is CDT ascending to be changed!
-	loadedCargos.push(c, -1 * (c->getDel_dis() / speed + c->get_LoadTime()));
+	loadedCargos.push(c, -1 * c->getDel_dis());
 }
 
 void Truck::calcDepartmentTime(int d, int h) {
