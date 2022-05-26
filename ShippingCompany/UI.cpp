@@ -9,6 +9,7 @@ UI::UI(Company* comp)
 {
 	c = comp;
 	interactiveModeflag = 1;
+	mode = 1;
 }
 void UI::printWaitingCargos()
 {
@@ -219,15 +220,9 @@ void UI::printday()
 }
 void UI::printbyMode(int day, int hour)
 {
-
-	if (mode == 1)
-		InteractiveMode(day, hour);
-	else if (mode == 2)
-		StepByStepMode(day, hour);
-	else if (mode == 3)
-		silentMode();
-
-
+	if (mode == 1) InteractiveMode(day, hour);
+	else if (mode == 2) StepByStepMode(day, hour);
+	else if (mode == 3) silentMode();
 }
 
 void UI::readFileName() {
@@ -235,4 +230,8 @@ void UI::readFileName() {
 	cout << "Please enter the input file name: ";
 	cin >> s;
 	c->setFileName(s);
+}
+
+UI::~UI() {
+	delete c;
 }
