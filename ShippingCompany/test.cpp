@@ -4,6 +4,7 @@ using namespace std;
 
 int main() {
 	Company ca;
-	ca.simulate_day();
+	// Runs the Company simulation
+	ca.simulate();
 	return 0;
 }

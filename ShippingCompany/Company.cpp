@@ -246,7 +246,7 @@ bool Company::getSimulationStatus() const
 	return simMode;
 }
 
-void Company::simulate_day()
+void Company::simulate()
 {
 	int day = 1;   //current day
 
@@ -884,18 +884,24 @@ void Company::writeAvgWait(int totalWaitD, int totalWaitH, int totalCargos, ofst
 }
 
 void Company::writeAutoPromoted(int totalAutoP, int normalCargos, ofstream& file) {
-	float percentage = (totalAutoP / float(normalCargos)) * 100;
+	float percentage;
+	if (normalCargos) percentage = (totalAutoP / float(normalCargos)) * 100;
+	else percentage = 0;
 	file << "Auto-Promoted Cargos: " << percentage << "% \n";
 }
 
 void Company::writeAvgActiveTime(int totalActive, int totalTrucks, ofstream& file) {
-	float percentage = (totalActive / float(totalSimHours)) * 100;
+	float percentage;
+	if (totalSimHours) percentage = (totalActive / float(totalSimHours)) * 100;
+	else percentage = 0;
 	// float percentage = (totalActive / float(totalTrucks)) * 100;
 	file << "Avg Active Time: " << percentage << "% \n";
 }
 
 void Company::writeAvgUtilization(float totalUt, int totalTrucks, ofstream& file) {
-	float percentage = (totalUt / float(totalTrucks)) * 100;
+	float percentage;
+	if (totalTrucks) percentage = (totalUt / float(totalTrucks)) * 100;
+	else percentage = 0;
 	// float percentage = (totalActive / float(totalSimHours)) * 100;
 	file << "Avg Utilization: " << percentage << "% \n";
 }

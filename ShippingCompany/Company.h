@@ -36,7 +36,6 @@ class Company {
 	Queue<Truck*>* NormalTrucks;
 	Queue<Truck*>* InCheckupNormalTrucks;
 
-	//Queue<Truck*>* LoadingTrucks;
 	PriorityQueue<Truck*>* MovingTrucks;
 	Truck** loadingTrucks;
 
@@ -70,68 +69,72 @@ class Company {
 
 	string fileName;
 public:
-	Company();
-	void loadFile();
-	void simulate_day();
-	Queue<Event*>* getEvents() const;
+	Company(); // The Company Constructor
+	void loadFile(); // Loads the input file
+	void setFileName(string); // Sets the file name
+	void simulate(); // Runs the Company Simulation
+	Queue<Event*>* getEvents() const; // Returns the events queue
 
-	PriorityQueue<Cargo*>* getVIPCargos() const;
+	PriorityQueue<Cargo*>* getVIPCargos() const; // Returns the VIP Priority Queue
 
-	Queue<Cargo*>* getSpecialCargos() const;
+	Queue<Cargo*>* getSpecialCargos() const; // Returns the Special Cargos Queue
 
-	LinkedList<Cargo*>* getNormalCargos();
-	Queue<Cargo*>* getDeliveredCargos() const;
+	LinkedList<Cargo*>* getNormalCargos(); // Returns the Normal Cargos LinkedList
+	Queue<Cargo*>* getDeliveredCargos() const; // Returns the Delivered Cargos Queue
 
-	Queue<Truck*>* getNormalTrucks() const;
-	Queue<Truck*>* getInCheckupNormalTrucks() const;
+	Queue<Truck*>* getNormalTrucks() const; // Returns the ready normal trucks
+	Queue<Truck*>* getInCheckupNormalTrucks() const; // Returns the normal trucks in checkup
 
-	Queue<Truck*>* getSpecialTrucks() const;
-	Queue<Truck*>* getInCheckupSpecialTrucks() const;
+	Queue<Truck*>* getSpecialTrucks() const; // Returns the ready special trucks
+	Queue<Truck*>* getInCheckupSpecialTrucks() const; // Returns the special trucks in checkup
 
-	Queue<Truck*>* getVIPTrucks() const;
-	Queue<Truck*>* getInCheckupVIPTrucks() const;
+	Queue<Truck*>* getVIPTrucks() const; // Returns the ready VIP trucks
+	Queue<Truck*>* getInCheckupVIPTrucks() const; // Returns the VIP trucks in checkup
 
-	Truck** getLoadingTrucks() const;
+	Truck** getLoadingTrucks() const; // Returns the Trucks of the 3 Cargo types currently loading
 	
-	PriorityQueue<Truck*>* getMovingTrucks() const;
+	PriorityQueue<Truck*>* getMovingTrucks() const; // Returns the moving trucks priority queue
 
-	bool getSimulationStatus() const;
-	void checkEvents(int, int);
+	bool getSimulationStatus() const; // Returns the simulation status
+	void checkEvents(int, int); // Executes the events in their right time
 
-	// Loading Cargo related functions
-	void handleLoadingRule(int currentDay,int currentHr );
-	void handleVIPLoading(int currentDay, int currentHr);
-	void handleNormalLoading(int currentDay, int currentHr);
-	void handleSpecialLoading(int currentDay, int currentHr);
-	void LoadVIPCargos();
-	void LoadNormalCargos();
-	void LoadSpecialCargos();
-	void moveTrucktoLoading(Truck*, int, int, int);
-	void moveCargotoDelivered(Cargo*);
-	void movingTrucktoCheckUp(Truck* x);
-	void movingTrucktoReady(Truck* x);
-	void handleReturningTrucks(int, int);
-	void loadingTruckstoMoving(int d, int h);
-	void inCheckupVIPToReady(int, int);
-	void inCheckupNormalToReady(int, int);
-	void inCheckupSpecialToReady(int, int);
-	void handleInCheckupTrucks(int, int);
-	void deliverCargos(int, int);
-	void checkNormalMaxW(int d, int h);
-	void loadWaitingNormalCargos(int, int);
-	void checkSpecialMaxW(int d, int h);
-	void loadWaitingSpecialCargos(int, int);
-	void checkMaxWRule(int d, int h);
-	void PromoteNormalCargo(Cargo* c);
-	void checkAutoPromotion(int, int);
-	bool checkSimulationEnd();
-	bool writeFile();
-	void generateStatistics(ofstream&);
-	void writeAvgWait(int, int, int, ofstream&);
-	void writeAutoPromoted(int, int, ofstream&);
-	void writeAvgActiveTime(int, int, ofstream&);
-	void writeAvgUtilization(float, int, ofstream&);
-	void setFileName(string);
-	~Company();
+	void handleLoadingRule(int, int); // Loads the Cargos following the loading rule
+	void handleVIPLoading(int, int); // Checks if it can load VIP cargos in this hour
+	void handleNormalLoading(int, int); // Checks if it can load normal cargos in this hour
+	void handleSpecialLoading(int, int); // Checks if it can load special cargos in this hour
+	void LoadVIPCargos(); // Loads the VIP cargos following the loading rule
+	void LoadNormalCargos(); // Loads the normal cargos following the loading rule
+	void LoadSpecialCargos(); // Loads the special cargos following the loading rule
+
+	void moveTrucktoLoading(Truck*, int, int, int); // Moves a truck to the loading state
+	void loadingTruckstoMoving(int, int); // Moves a loading truck to moving state
+	void moveCargotoDelivered(Cargo*); // Moves a Cargo to the delivered state
+
+	void handleReturningTrucks(int, int); // Moves returning trucks to their right state
+	void movingTrucktoCheckUp(Truck* x); // Moves returning trucks to checkup state
+	void movingTrucktoReady(Truck* x); // Moved returning trucks to ready state
+
+	void handleInCheckupTrucks(int, int); // Moves trucks who finished checkup to ready state
+	void inCheckupVIPToReady(int, int); // Moves in checkup VIP truck to ready state
+	void inCheckupNormalToReady(int, int); // Moves in checkup normal truck to ready state
+	void inCheckupSpecialToReady(int, int); // Moves in checkup special truck to ready state
+
+	void deliverCargos(int, int); // Deliver cargos in their right time
+	void checkMaxWRule(int, int); // Loads cargos after waiting maxW hours
+	void checkNormalMaxW(int, int); // Checks if it can load waiting normal cargos in this hour
+	void loadWaitingNormalCargos(int, int); // Loads the waiting normal cargos following the maxW rule
+	void checkSpecialMaxW(int, int); // Checks if it can load waiting special cargos in this hour
+	void loadWaitingSpecialCargos(int, int); // Loads the waiting special cargos following the maxW rule
+
+	void PromoteNormalCargo(Cargo* c); // Promotes a normal cargo to VIP
+	void checkAutoPromotion(int, int); // Promotes a normal cargo after waiting autoP days
+	bool checkSimulationEnd(); // Checks if the simulation has already ended
+	bool writeFile(); // Writes the output file
+	void generateStatistics(ofstream&); // Generate the statistics in the output file
+	void writeAvgWait(int, int, int, ofstream&); // Calculates the Avg Wait and writes it in the output file
+	void writeAutoPromoted(int, int, ofstream&); // Calculates the Auto Promoted % and writes it in the output file
+	void writeAvgActiveTime(int, int, ofstream&); // Calculates the Avg active time % and writes it in the output file
+	void writeAvgUtilization(float, int, ofstream&); // Calculates the Avg utilization % and writes it in the output file
+	~Company(); // The Company Destructor
 };
 
