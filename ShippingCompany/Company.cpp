@@ -132,19 +132,21 @@ void Company::loadFile() {
 			// Converting the Day:Hour string to two separated int variables
 
 			size_t j = 0;
-			while (ET[j] != ':') {
-				d += ET[j++];
+			if (ET != "") {
+				while (ET[j] != ':') {
+					d += ET[j++];
+				}
+
+				j++;
+				while (j < ET.length()) {
+					h += ET[j++];
+				}
+
+				int day = stoi(d), hour = stoi(h);
+
+				Event* tmp = new PreparationEvent(id, day, hour, eventType, type, dist, lt, cost, this);
+				Events->enqueue(tmp);
 			}
-
-			j++;
-			while (j < ET.length()) {
-				h += ET[j++];
-			}
-
-			int day = stoi(d), hour = stoi(h);
-
-			Event* tmp = new PreparationEvent(id, day, hour, eventType, type, dist, lt, cost, this);
-			Events->enqueue(tmp);
 		}
 		else if (eventType == 'X') {
 			int id;
@@ -153,18 +155,20 @@ void Company::loadFile() {
 			inputFile >> ET >> id;
 
 			size_t j = 0;
-			while (ET[j] != ':') {
-				d += ET[j++];
-			}
+			if (ET != "") {
+				while (ET[j] != ':') {
+					d += ET[j++];
+				}
 
-			j++;
-			while (j < ET.length()) {
-				h += ET[j++];
-			}
+				j++;
+				while (j < ET.length()) {
+					h += ET[j++];
+				}
 
-			int day = stoi(d), hour = stoi(h);
-			Event* tmp = new CancelEvent(id, day, hour, eventType, this);
-			Events->enqueue(tmp);
+				int day = stoi(d), hour = stoi(h);
+				Event* tmp = new CancelEvent(id, day, hour, eventType, this);
+				Events->enqueue(tmp);
+			}
 		}
 		else if (eventType == 'P') {
 			int id;
@@ -174,18 +178,20 @@ void Company::loadFile() {
 			inputFile >> ET >> id >> extramoney;
 
 			size_t j = 0;
-			while (ET[j] != ':') {
-				d += ET[j++];
-			}
+			if (ET != "") {
+				while (ET[j] != ':') {
+					d += ET[j++];
+				}
 
-			j++;
-			while (j < ET.length()) {
-				h += ET[j++];
-			}
+				j++;
+				while (j < ET.length()) {
+					h += ET[j++];
+				}
 
-			int day = stoi(d), hour = stoi(h);
-			Event* tmp = new PromoteEvent(id, day, hour, eventType, extramoney, this);
-			Events->enqueue(tmp);
+				int day = stoi(d), hour = stoi(h);
+				Event* tmp = new PromoteEvent(id, day, hour, eventType, extramoney, this);
+				Events->enqueue(tmp);
+			}
 		}
 	}
 }
@@ -836,7 +842,7 @@ void Company::generateStatistics(ofstream & file) {
 	// Printing Cargos Statistics
 	file << "Cargos: " << totalCargos << " [N: " << n << ", S: " << s << ", V:" << v << "]\n";
 	writeAvgWait(totalWaitDays, totalWaitHours, totalCargos, file);
-	writeAutoPromoted(totalAutoP, totalCargos, file);
+	writeAutoPromoted(totalAutoP, n, file);
 
 	int totalActiveHours = 0;
 	float totalUtilization = 0;
@@ -877,8 +883,8 @@ void Company::writeAvgWait(int totalWaitD, int totalWaitH, int totalCargos, ofst
 	file << "Cargo Avg Wait = " << avgWaitDay << ':' << avgWaitHour << '\n';
 }
 
-void Company::writeAutoPromoted(int totalAutoP, int totalCargos, ofstream& file) {
-	float percentage = (totalAutoP / float(totalCargos)) * 100;
+void Company::writeAutoPromoted(int totalAutoP, int normalCargos, ofstream& file) {
+	float percentage = (totalAutoP / float(normalCargos)) * 100;
 	file << "Auto-Promoted Cargos: " << percentage << "% \n";
 }
 
