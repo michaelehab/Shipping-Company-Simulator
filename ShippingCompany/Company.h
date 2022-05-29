@@ -68,6 +68,8 @@ class Company {
 	int totalSimHours;
 
 	string fileName;
+
+	int numOfNormalCargos, numOfSpecialCargos, numOfVIPCargos;
 public:
 	Company(); // The Company Constructor
 	void loadFile(); // Loads the input file

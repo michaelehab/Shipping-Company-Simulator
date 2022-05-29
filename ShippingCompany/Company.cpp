@@ -21,6 +21,9 @@ Company::Company()
 	numOfNormalTrucks = 0;
 	numOfSpecialTrucks = 0;
 	numOfVIPTrucks = 0;
+	numOfNormalCargos = 0;
+	numOfSpecialCargos = 0;
+	numOfVIPCargos = 0;
 	speedOfNormalTrucks = 0;
 	speedOfSpecialTrucks = 0;
 	speedOfVIPTrucks = 0;
@@ -133,6 +136,11 @@ void Company::loadFile() {
 
 			size_t j = 0;
 			if (ET != "") {
+
+				if (type == 'V') numOfVIPCargos++;
+				else if (type == 'N') numOfNormalCargos++;
+				else if (type == 'S') numOfSpecialCargos++;
+
 				while (ET[j] != ':') {
 					d += ET[j++];
 				}
@@ -811,7 +819,6 @@ bool Company::writeFile() {
 
 void Company::generateStatistics(ofstream & file) {
 	int totalWaitDays = 0, totalWaitHours = 0, totalAutoP = 0;
-	int n = 0, s = 0, v = 0;
 
 	file << "CDT \tID \tPT \t\tWT\t\tTID \n";
 
@@ -824,10 +831,6 @@ void Company::generateStatistics(ofstream & file) {
 		totalWaitHours += wait_h;
 		if (c->checkAutoPromoted()) totalAutoP++;
 
-		if (c->getCargoT() == 'N') n++;
-		else if (c->getCargoT() == 'V') v++;
-		else if (c->getCargoT() == 'S') s++;
-
 		file << c->getCDTDay() << ':' << c->getCDTHour() << " \t" << c->getID() << " \t" << c->get_d() << ':' << c->get_h() << " \t" << wait_d << ':' << wait_h << " \t" << c->getTID() << '\n';
 		delete c;
 	}
@@ -837,12 +840,13 @@ void Company::generateStatistics(ofstream & file) {
 	for (int i = 0; i < 50; i++) file << ".";
 	file << '\n';
 
-	int totalCargos = (n + s + v), totalTrucks = (numOfNormalTrucks + numOfSpecialTrucks + numOfVIPTrucks);
+	int totalCargos = (numOfNormalCargos + numOfSpecialCargos + numOfVIPCargos);
+	int totalTrucks = (numOfNormalTrucks + numOfSpecialTrucks + numOfVIPTrucks);
 
 	// Printing Cargos Statistics
-	file << "Cargos: " << totalCargos << " [N: " << n << ", S: " << s << ", V:" << v << "]\n";
+	file << "Cargos: " << totalCargos << " [N: " << numOfNormalCargos << ", S: " << numOfSpecialCargos << ", V:" << numOfVIPCargos << "]\n";
 	writeAvgWait(totalWaitDays, totalWaitHours, totalCargos, file);
-	writeAutoPromoted(totalAutoP, n, file);
+	writeAutoPromoted(totalAutoP, numOfNormalCargos, file);
 
 	int totalActiveHours = 0;
 	float totalUtilization = 0;
