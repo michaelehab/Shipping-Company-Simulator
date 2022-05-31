@@ -2,6 +2,11 @@
 <div align = "center">
   
   ![Trucks](https://user-images.githubusercontent.com/29122581/170028682-a60b3954-15ef-472a-84f6-9eba11109cee.png)
+  ![GitHub stars](https://img.shields.io/github/stars/michaelehab/Shipping-Company-Simulator?style=plastic)
+  ![GitHub forks](https://img.shields.io/github/forks/michaelehab/Shipping-Company-Simulator?style=plastic)
+  ![GitHub repo size](https://img.shields.io/github/repo-size/michaelehab/Shipping-Company-Simulator?style=plastic)
+  ![GitHub top language](https://img.shields.io/github/languages/top/michaelehab/Shipping-Company-Simulator?style=plastic)
+  
   This is an educational Project for Data Structures and Algorithms course taken during Spring 2022 semester.
 </div>
 
